@@ -3,10 +3,14 @@ import Head from "next/head";
 
 // No need to use a relative path, the tsconfig.json has been configured for module aliasing! See: https://nextjs.org/docs/advanced-features/module-path-aliases
 import MyDummyComponent from "components/MyDummyComponent";
+import Header from "components/Header"; //Import the header
 
 const Home: NextPage = () => {
   return (
     <div className="container">
+      {/* Add the header component to the DOM */}
+      <Header />
+
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -194,6 +198,14 @@ const Home: NextPage = () => {
             flex-direction: column;
           }
         }
+
+        #header {
+          height: 80px;
+          width: auto;
+          position: relative;
+          display: block;
+          background-color: brown;
+        }
       `}</style>
 
       <style jsx global>{`
@@ -208,6 +220,42 @@ const Home: NextPage = () => {
 
         * {
           box-sizing: border-box;
+        }
+
+        #header {
+          height: 80px;
+          width: auto;
+          position: fixed;
+          top: 0;
+          right: 0;
+          left: 0;
+          display: flex;
+          background-color: #030926;
+        }
+
+        #headerLogo {
+          width: auto;
+          height: 100%;
+          display: inline-block;
+          padding: 0px 20px;
+          flex: 0;
+        }
+
+        #headerLogo img {
+          max-height: 80%;
+          width: auto;
+          height: auto;
+          position: relative;
+          display: block;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        #headerNav {
+          width: auto;
+          height: 100%;
+          display: inline-block;
+          flex: 1;
         }
       `}</style>
     </div>
