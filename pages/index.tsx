@@ -1,8 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-
-// No need to use a relative path, the tsconfig.json has been configured for module aliasing! See: https://nextjs.org/docs/advanced-features/module-path-aliases
-import MyDummyComponent from "components/MyDummyComponent";
+import Footer from "../components/footer";
 
 const Home: NextPage = () => {
   return (
@@ -16,12 +14,6 @@ const Home: NextPage = () => {
         <h1 className="title">
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
-        <p className="description">
-          <MyDummyComponent name="BoG dev">
-            Get started by editing <code>pages/index.tsx</code>
-          </MyDummyComponent>
-        </p>
 
         <div className="grid">
           <a href="https://nextjs.org/docs" className="card">
@@ -65,10 +57,11 @@ const Home: NextPage = () => {
         </a>
       </footer>
 
+      <Footer />
+
       <style jsx>{`
         .container {
           min-height: 100vh;
-          padding: 0 0.5rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -197,8 +190,7 @@ const Home: NextPage = () => {
       `}</style>
 
       <style jsx global>{`
-        html,
-        body {
+        html, body {
           padding: 0;
           margin: 0;
           font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
