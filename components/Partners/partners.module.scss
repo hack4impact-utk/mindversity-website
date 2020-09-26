@@ -3,19 +3,20 @@ $background:#030926;
 
 .container{
     display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-auto-rows: auto;
     width:100%;
-    grid-gap: 10px;
+    grid-gap: 20px;
     justify-items:center;
     align-items:center;
     box-shadow: 2px 3px 5px 1px rgba(0,0,0,0.2);
     border-radius: 10px;
-    background: $background;    
+    background: $background;
+    padding:1rem 0;
 }
 .partner{
-    width: 200px;
-    height: 150px;
+    width: 250px;
+    height: 200px;
     border-radius: 10px;
     display:flex;
     flex-direction:column;
@@ -24,8 +25,11 @@ $background:#030926;
     text-decoration:none;
     color:white;
     box-shadow: 2px 3px 5px 1px rgba(0,0,0,0.2);
+    padding: 0.5rem;
 
-    & > h3{
-        margin-top: 0;
+    & > img{
+        margin: 10px;
+        width: 100%;
+        height: 100%;
     }
 }
