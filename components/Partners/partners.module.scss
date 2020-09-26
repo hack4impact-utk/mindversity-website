@@ -1,0 +1,31 @@
+$background:#030926;
+
+
+.container{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: auto;
+    width:100%;
+    grid-gap: 10px;
+    justify-items:center;
+    align-items:center;
+    box-shadow: 2px 3px 5px 1px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    background: $background;    
+}
+.partner{
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items:center;
+    text-decoration:none;
+    color:white;
+    box-shadow: 2px 3px 5px 1px rgba(0,0,0,0.2);
+
+    & > h3{
+        margin-top: 0;
+    }
+}
