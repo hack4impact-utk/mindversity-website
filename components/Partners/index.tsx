@@ -5,16 +5,22 @@ const Partners: React.FC = () => {
   return (
     <section className={styles["container"]}>
       <div className={styles["partner"]}>
-        <h3>Partner #1</h3>
-        <img src="#" alt="Partner logo"></img>
+        <img
+          src="https://www.stevefund.org/wp-content/uploads/2019/03/The-Steve-Fund-logo-vertical-color.png"
+          alt="Partner logo"
+        ></img>
       </div>
       <div className={styles["partner"]}>
-        <h3>Partner #2</h3>
-        <img src="#" alt="Partner logo"></img>
+        <img
+          src="https://www.artwithimpact.org/wp-content/uploads/awi_logo_020711_0-1.png"
+          alt="Partner logo"
+        ></img>
       </div>
       <div className={styles["partner"]}>
-        <h3>Partner #3</h3>
-        <img src="#" alt="Partner logo"></img>
+        <img
+          src="https://pbs.twimg.com/profile_images/1102970449472950273/xGIOGqeH_400x400.jpg"
+          alt="Partner logo"
+        ></img>
       </div>
     </section>
   );
