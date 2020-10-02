@@ -198,14 +198,6 @@ const Home: NextPage = () => {
             flex-direction: column;
           }
         }
-
-        #header {
-          height: 80px;
-          width: auto;
-          position: relative;
-          display: block;
-          background-color: brown;
-        }
       `}</style>
 
       <style jsx global>{`

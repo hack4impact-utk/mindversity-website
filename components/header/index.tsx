@@ -15,6 +15,7 @@ import {
   HamburgerNav,
 } from "./style";
 
+//Import the icons from react-icons
 import {
   AiOutlineMenu,
   AiOutlineInstagram,
@@ -28,7 +29,7 @@ const mapIcon = {
 };
 
 const Header = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); //Control the state of the mobile navigation menu
 
   return (
     <div>
@@ -60,6 +61,7 @@ const Header = () => {
             </UpperLinkText>
           </UpperLink>
         </UpperHeader>
+
         {/* For lower (blue) portion of the header */}
         <LowerHeader>
           <LogoParent href="/">
@@ -81,6 +83,7 @@ const Header = () => {
           </NavBar>
         </LowerHeader>
       </Parent>
+
       {/* Since the header is fixed add a relative positioned spaces so nothing can go behind the header */}
       <HeaderSapcer />
     </div>
