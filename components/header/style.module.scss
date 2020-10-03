@@ -1,0 +1,167 @@
+.parent{
+    position: fixed;
+    display: block;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+.header{
+    height: 90px;
+    width: auto;
+    position: relative;
+    display: flex;
+    background-color: white;
+    z-index: 1000;
+}
+
+.headerLogo{
+    width: auto;
+    height: 100%;
+    position: relative;
+    display: inline-block;
+    padding-left: 20px;
+    flex: 0;
+}
+
+.headerLogo img{
+    max-height: 60%;
+    width: auto;
+    position: relative;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.headerNav{
+    width: auto;
+    height: 100%;
+    position: relative;
+    display: inline-block;
+    text-align: right;
+    padding-right: 40px;
+    flex: 1;
+}
+
+.navWrapper{
+    @media (min-width: 770px){
+        position: relative;
+        display: block;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    @media (max-width: 770px){
+        heigth: auto;
+        width: 0;
+        position: fixed;
+        background-color: rgba(0, 0, 0, 0.9);
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        padding-top: 100px;
+        overflow: auto;
+        z-index: 1000;
+        transition: width 0.5s ease;
+    }
+}
+
+.navBtn{
+    @media (min-width: 770px){
+        width: auto;
+        height: auto;
+        position: relative;
+        display: inline-block;
+        font-size: 20px;
+        margin-left: 20px;
+        text-decoration: none;
+        color: black;
+        transition: 0.5s ease;
+    }
+    @media (max-width: 770px){
+        color: white;
+        display: block;
+        position: relative;
+        font-size: 34px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+}
+
+.navBtn:hover{
+    cursor: pointer;
+    color: #2AB7CA;
+}
+
+.regionDrop{
+    width: auto;
+    min-width: 250px;
+    height: auto;
+    position: absolute;
+    display: block;
+    background-color: #cbeaee;
+    margin-top: 20px;
+    right: 0;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px #a5d0d6;
+    z-index: 5000;
+}
+
+.regionBtn{
+    width: auto;
+    height: auto;
+    position: relative;
+    display: block;
+    color: black;
+    padding: 10px;
+    text-align: center;
+}
+
+.regionBtn:hover{
+    cursor: pointer;
+    background-color: #85b8be;
+}
+
+.navHamButton{
+    @media (min-width: 770px){
+        display: none;
+    }
+    @media (max-width: 770px) {
+        width: auto;
+        height: auto;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        background: none;
+        border: none;
+        font-size: 30px;
+        transition: 0.5s ease;
+        z-index: 1001;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.navHamButton:hover{
+    cursor: pointer;
+    color: grey;
+}
+
+.bottomBorder{
+    height: 8px;
+    width: auto;
+    position: relative;
+    display: block;
+    background-image: linear-gradient(to right, #2AB7CA, white);
+    z-index: 998;
+}
+
+/* Since the header is fixed this invisible div goes behind the header to prevent any of the content from being covered */
+.headerContentSpacer{
+    height: 98px;
+    width: auto;
+    position: relative;
+    display: block;
+}

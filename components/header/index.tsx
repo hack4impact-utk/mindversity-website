@@ -1,91 +1,63 @@
 import React, { useState } from "react";
-import {
-  Parent,
-  UpperHeader,
-  LowerHeader,
-  NavBar,
-  NavMenu,
-  UpperLink,
-  UpperLinkFull,
-  UpperLinkText,
-  NavLink,
-  LogoParent,
-  Logo,
-  HeaderSapcer,
-  HamburgerNav,
-} from "./style";
+import style from "./style.module.scss"; //Import the main stylesheet
 
 //Import the icons from react-icons
-import {
-  AiOutlineMenu,
-  AiOutlineInstagram,
-  AiOutlineTwitter,
-} from "react-icons/ai";
-import { FaSearch, FaFacebookF, FaMapMarkerAlt } from "react-icons/fa";
+import { AiOutlineMenu } from "react-icons/ai";
+import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
 
-const mapIcon = {
-  //Give the map icon extra margin
-  marginRight: "10px",
-};
-
-const Header = () => {
+const Header: React.FC = () => {
   const [open, setOpen] = useState(false); //Control the state of the mobile navigation menu
+
+  //Create variables to control the style of the navbar
+  let mobileWidth;
+  let hamburgerColor;
+
+  //If the header prop is set to open
+  if (open) {
+    mobileWidth = "100%";
+    hamburgerColor = "white";
+  }
 
   return (
     <div>
-      <Parent>
-        {/* For the upper (black) portion of the header */}
-        <UpperHeader>
-          <UpperLink href="login">
-            <UpperLinkText>Login</UpperLinkText>
-          </UpperLink>
-          <UpperLinkFull href="https://www.facebook.com/MindVersed/">
-            <UpperLinkText>
-              <FaFacebookF />
-            </UpperLinkText>
-          </UpperLinkFull>
-          <UpperLinkFull href="https://www.instagram.com/mindversityorg/">
-            <UpperLinkText>
-              <AiOutlineInstagram />
-            </UpperLinkText>
-          </UpperLinkFull>
-          <UpperLinkFull href="https://twitter.com/MindVersity">
-            <UpperLinkText>
-              <AiOutlineTwitter />
-            </UpperLinkText>
-          </UpperLinkFull>
-          <UpperLink>
-            <UpperLinkText>
-              <FaMapMarkerAlt style={mapIcon} />
-              Select Region
-            </UpperLinkText>
-          </UpperLink>
-        </UpperHeader>
-
-        {/* For lower (blue) portion of the header */}
-        <LowerHeader>
-          <LogoParent href="/">
-            <Logo src="/mindversity-logo.png" alt="MindVersity Logo" />
-          </LogoParent>
-          <NavBar>
-            <NavMenu open={open}>
-              <NavLink href="about">Chapters</NavLink>
-              <NavLink href="resources">Resources</NavLink>
-              <NavLink href="chapters">Journal</NavLink>
-              <NavLink href="faq">FAQ</NavLink>
-              <NavLink href="search">
+      <div className={style.parent}>
+        <div className={style.header}>
+          <a className={style.headerLogo} href="/">
+            <img src="temp-logo.png" alt="MindVersity Logo"></img>
+          </a>
+          <div className={style.headerNav}>
+            <div className={style.navWrapper} style={{ width: mobileWidth }}>
+              <a className={style.navBtn} href="/chapters">
+                Chapters
+              </a>
+              <a className={style.navBtn} href="/journal">
+                Journal
+              </a>
+              <a className={style.navBtn} href="/resources">
+                Resources
+              </a>
+              <a className={style.navBtn} href="/faq">
+                FAQs
+              </a>
+              <div className={style.navBtn}>
                 <FaSearch />
-              </NavLink>
-            </NavMenu>
-            <HamburgerNav onClick={() => setOpen(!open)}>
+              </div>
+              <div className={style.navBtn}>
+                <FaMapMarkerAlt />
+              </div>
+            </div>
+            <button
+              className={style.navHamButton}
+              style={{ color: hamburgerColor }}
+              onClick={() => setOpen(!open)}
+            >
               <AiOutlineMenu />
-            </HamburgerNav>
-          </NavBar>
-        </LowerHeader>
-      </Parent>
-
-      {/* Since the header is fixed add a relative positioned spaces so nothing can go behind the header */}
-      <HeaderSapcer />
+            </button>
+          </div>
+        </div>
+        <div className={style.bottomBorder}></div>
+      </div>
+      <div className={style.headerContentSpacer}></div>
     </div>
   );
 };
