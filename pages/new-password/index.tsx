@@ -68,17 +68,33 @@ const Home: NextPage = () => {
           text-align: center;
         }
 
-        .loginContainer {
-          height: auto;
-          width: 400px;
-          position: relative;
-          display: inline-block;
-          background-color: #1e315c;
-          color: white;
-          padding: 10px 40px;
-          text-align: center;
-          top: 50%;
-          transform: translateY(-50%);
+        @media screen and (min-height: 500px) {
+          .loginContainer {
+            height: auto;
+            width: 400px;
+            position: relative;
+            display: inline-block;
+            background-color: #1e315c;
+            color: white;
+            padding: 10px 40px;
+            text-align: center;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+
+        @media screen and (max-height: 500px) {
+          .loginContainer {
+            height: auto;
+            width: 400px;
+            position: relative;
+            display: inline-block;
+            background-color: #1e315c;
+            color: white;
+            padding: 10px 40px;
+            margin: 20px 0px;
+            text-align: center;
+          }
         }
 
         .textInput {
