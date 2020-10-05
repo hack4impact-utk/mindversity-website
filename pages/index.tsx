@@ -1,5 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
+
+import Header from "components/header"; //Import the header component
 import Footer from "../components/footer";
 
 const Home: NextPage = () => {
@@ -9,6 +11,9 @@ const Home: NextPage = () => {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      {/* Add the header component */}
+      <Header />
 
       <main>
         <h1 className="title">
