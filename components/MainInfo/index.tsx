@@ -1,22 +1,31 @@
 import React from "react";
-import { Container, Image, OpeningText, Wrapper, Description } from "./style";
 import community from "./community.svg";
 import characters from "./characters.svg";
+import styles from "./maininfo.module.css";
+
 const MainInfo: React.FC = () => (
-  <Container>
-    <Wrapper>
-      <OpeningText>
+  <section className={styles["container"]}>
+    <div className={styles["wrapper"]}>
+      <header className={styles["opening-text"]}>
         <p>A national peer network.</p>
         <p>A call to action.</p>
         <p>An initiative.</p>
         <p>A change.</p>
-      </OpeningText>
-      <Image src={community} alt="An image of three characters." />
-    </Wrapper>
+      </header>
+      <img
+        src={community}
+        alt="Three characters."
+        className={styles["image"]}
+      />
+    </div>
 
-    <Wrapper>
-      <Image src={characters} alt="An image of characters hanging out." />
-      <Description>
+    <div className={styles["wrapper"]}>
+      <img
+        src={characters}
+        alt="Characters hanging out."
+        className={styles["image"]}
+      />
+      <div className={styles["description"]}>
         <h2>Welcome to MindVersity.</h2>
         <p>
           Since 2020, MindVersity has helped create supportive communities for
@@ -26,9 +35,9 @@ const MainInfo: React.FC = () => (
           they&apos;re experiencing. Feel free to reach out for additional
           information.
         </p>
-      </Description>
-    </Wrapper>
-  </Container>
+      </div>
+    </div>
+  </section>
 );
 
 export default MainInfo;

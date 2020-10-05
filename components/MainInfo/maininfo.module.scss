@@ -1,0 +1,86 @@
+@use "sass:map";
+
+//Used for breakpoints.
+$sizes : (
+    "mobile": 769px,
+    "desktop": 770px,
+);
+
+@mixin flex-col-jcc() {
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+}
+
+.container{
+    @include flex-col-jcc();
+    width: 100%;
+    min-height: 600px;
+}
+
+.wrapper{
+    width: 100%;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    position:relative;
+    min-height: 500px;
+}
+
+.image{
+    width: 50%;
+    height: 400px;
+    margin: 0px 20px;
+    align-self:center;
+}
+
+.opening-text{
+    @include flex-col-jcc();
+    text-align:center;
+    align-items: center;
+    width: 50%;
+    margin: 0 40px;
+    & > p {
+        font-weight: 600;
+        font-size: 2rem;
+        margin: 0;
+    }
+}
+
+.description{
+    @include flex-col-jcc();
+    width: 50%;
+    margin: 0px 40px;
+    & > h2 {
+        font-size: 1.8rem;
+        text-align:center;
+        margin-bottom: 0;
+    }
+    & > p {
+        font-size: 1.1rem;
+        color: hsl(0,0%, 35%);
+        line-height: 1.5;
+    }
+}
+
+
+@media only screen and (max-width: map.get($sizes, "mobile")){
+    .container{
+        & > div:nth-child(1){
+            flex-direction: column-reverse;
+            align-items:center;
+        }
+        & > div:nth-child(2){
+            flex-direction: column;
+            align-items:center;
+        }
+    }
+
+    .image, .opening-text, .description{
+        width: 80%;
+    }
+    .opening-text{
+        margin-bottom: 50px;
+    }
+
+}
