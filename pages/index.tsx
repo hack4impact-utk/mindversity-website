@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import Footer from "../components/footer";
-import MainInfo from "../components/MainInfo";
+import Footer from "components/footer";
 
 const Home: NextPage = () => {
   return (
@@ -10,7 +9,6 @@ const Home: NextPage = () => {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MainInfo />
       <main>
         <h1 className="title">
           Welcome to <a href="https://nextjs.org">Next.js!</a>

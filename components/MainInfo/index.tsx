@@ -1,7 +1,7 @@
 import React from "react";
 import community from "./community.svg";
 import characters from "./characters.svg";
-import styles from "./maininfo.module.css";
+import styles from "./maininfo.module.scss";
 
 const MainInfo: React.FC = () => (
   <section className={styles["container"]}>
