@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import Head from "next/head";
-
+import Footer from "components/footer";
 import Header from "components/header"; //Import the header component
-import Footer from "../components/footer";
+
 
 const Home: NextPage = () => {
   return (
@@ -11,10 +11,7 @@ const Home: NextPage = () => {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      {/* Add the header component */}
       <Header />
-
       <main>
         <h1 className="title">
           Welcome to <a href="https://nextjs.org">Next.js!</a>
@@ -195,7 +192,8 @@ const Home: NextPage = () => {
       `}</style>
 
       <style jsx global>{`
-        html, body {
+        html,
+        body {
           padding: 0;
           margin: 0;
           font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
