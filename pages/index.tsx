@@ -27,15 +27,6 @@ const Home: NextPage = () => {
           justify-content: center;
           align-items: center;
         }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
       `}</style>
 
       <style jsx global>{`
