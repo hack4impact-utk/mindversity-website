@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   return (
     <div className="container">
       <Head>
-        <title>MindVersity | A mental health network.</title>
+        <title>MindVersity | A peer mental health network.</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
