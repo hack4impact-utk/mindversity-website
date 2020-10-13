@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
+import { Document, model, models, Schema } from "mongoose"
 
-const { Schema } = mongoose;
 
 // var OfficerSchema = new Schema({
 //   name: {
@@ -19,12 +18,20 @@ const { Schema } = mongoose;
 //  officers: [Schema.Types.ObjectId],
 
 
-const ChapterSchema = new Schema({
+export const ChapterSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: true
   },
-});
+  region: {
+    type: String,
+    required: false
+  }
+})
 
-export default mongoose.models.Chapter ?? 
-  mongoose.model("Chapter", ChapterSchema);
+export interface IChapter extends Document{
+  name: string,
+  region?: string
+}
+
+export default models.Chapter ?? model<IChapter>('Chapter', ChapterSchema)
