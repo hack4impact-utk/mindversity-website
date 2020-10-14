@@ -13,6 +13,13 @@ const Dashboard: NextPage = () => {
 
       <Header />
 
+      <h1>Welcome to MindVersity</h1>
+      <h2>Admin Portal</h2>
+
+      <a className="dashChip" href="chapters">
+        Manage Chapters
+      </a>
+
       <style jsx>{`
         .container {
           min-height: 100vh;
@@ -20,6 +27,16 @@ const Dashboard: NextPage = () => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+        }
+
+        .dashChip{
+          width: auto;
+          height: auto;
+          position: relative;
+          display: inline-block;
+          padding: 20px;
+          border-radius: 5px;
+          border 0.1px solid black;
         }
       `}</style>
 
