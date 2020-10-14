@@ -1,58 +1,39 @@
 import React from 'react'
 import { Chapter } from 'utils/types'
-import { getChapterByName } from "server/actions/Chapter"; //"requests/chapter";
+import { getChapterByName } from "requests/Chapter"; //"server/actions/Chapter"
 
+class Test extends React.Component<Chapter> {
+  chapter: Chapter;
 
-// async function myfunc() {
-//   var chapter: Chapter;
-//   chapter =  await getChapterByName("Ohio_State");
-//   // try {
-//   //   chapter = getChapterByName("Ohio_State");
-//   // } catch (err) {
-//   //   console.error(err);
-//   // }
-//   console.log("got chapter in func: ", chapter)
-//   return chapter;
-// }
+  constructor(props: Chapter) {
+    super(props);
+    this.chapter = props;
+  }
 
-// class ChapterDisplay extends React.Component<{}, Chapter> {
-//   componentWillMount() {
-//     //init
-//   }
-
-//   render() {
-//     return (
-//       <div>
-//         {Chapter.name}
-//       </div>
-//     )
-//   }
-// }
-
-// export default ChapterDisplay;
-
-export default class Page extends React.Component<Chapter> {
-
-  static async myfunc() {
+  static async myfunc(): Promise<Chapter> {
     var chapter: Chapter;
     chapter =  await getChapterByName("Ohio_State");
-    // try {
-    //   chapter = getChapterByName("Ohio_State");
-    // } catch (err) {
-    //   console.error(err);
-    // }
+
     console.log("got chapter in func: ", chapter)
     return chapter;
   }
 
+  componentDidMount() {
+    Test.myfunc().then(ret => {
+      console.log("in then(), ret is: ", ret)
+      this.chapter = ret;
+      //this.render();
+    });
+
+  }
+
   render() {
-    let chapter: Chapter = Page.myfunc().then;
-    console.log("got chapter: ", chapter)
-    const { name } = this.props;
     return (
       <div>
-        <main>return chapter: {chapter.name}</main>
+        <main>return chapter: {this.chapter.name}</main>
       </div>
     )
   }
 }
+
+export default Test;
