@@ -18,7 +18,7 @@ import { Chapter } from "utils/types";
 export default async function handler(req: NextApiRequest, res: NextApiResponse)
 {
   const {query:{name}} = req
-
+  
   let chapterInfo: Chapter = {name: name.toString()}
 
     await getChapter(chapterInfo)
