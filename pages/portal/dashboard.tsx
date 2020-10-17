@@ -33,7 +33,6 @@ const Dashboard: NextPage = () => {
         .container{
           padding-top: 50px;
           text-align: center;
-          background-image: url("login/background.jpeg");
         }
 
         .dashChipParent{
