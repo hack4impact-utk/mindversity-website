@@ -1,41 +1,41 @@
-import styled from "styled-components";
+$background:#292b2d;
 
-export const Container = styled.div`
+.container {
   padding: 10px 20px;
-  background: rgb(41, 43, 45);
+  background: $background;
   width: 100%;
-`;
+}
 
-export const Wrapper = styled.div`
+.wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   max-width: 1500px;
   width: 100%;
   margin: 0 auto;
-`;
+}
 
-export const Row = styled.div`
+.row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   grid-gap: 10px;
-`;
+}
 
-export const Column = styled.div`
+.column {
   display: flex;
   flex-direction: column;
   text-align: left;
   margin-left: 20px;
-`;
+}
 
-export const Title = styled.p`
+.title {
   font-size: 22px;
   color: #bbc0c3;
   margin-bottom: 20px;
   font-weight: bold;
-`;
+}
 
-export const Link = styled.a`
+.link {
   color: #858d95;
   margin-bottom: 10px;
   font-size: 18px;
@@ -44,19 +44,19 @@ export const Link = styled.a`
   &:hover {
     color: #bbc0c3;
   }
-`;
+}
 
-export const Image = styled.img`
+.icon {
   width: 20px;
   height: 20px;
   margin-right: 15px;
   //line the logo up with the text
   margin-bottom: -4px;
-`;
+}
 
-export const Logo = styled.img`
+.logo {
   width: 150px;
   height: 110px;
   margin: 30px 30px 20px 0px;
   margin-top: 10px;
-`;
+}
