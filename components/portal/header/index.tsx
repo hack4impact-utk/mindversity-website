@@ -27,16 +27,16 @@ const Header: React.FC = () => {
           </div>
           <div className={style.headerNav}>
             <div className={style.navWrapper} style={{ width: mobileWidth }}>
-              <a className={style.navBtn} href="/chapters">
+              <a className={style.navBtn} href="chapters">
                 Chapters
               </a>
-              <a className={style.navBtn} href="/resources">
+              <a className={style.navBtn} href="resources">
                 Resources
               </a>
-              <a className={style.navBtn} href="/faq">
+              <a className={style.navBtn} href="faq">
                 Journal
               </a>
-              <a className={style.navBtn} href="/faq">
+              <a className={style.navBtn} href="logout">
                 Logout
               </a>
             </div>
