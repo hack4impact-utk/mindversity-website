@@ -14,19 +14,39 @@ const Dashboard: NextPage = () => {
       <Header />
 
       <h1>Welcome to MindVersity</h1>
-      <h2>Admin Portal</h2>
+      <h2>A national peer network.</h2>
 
-      <a className="dashChip" href="chapters">
-        Manage Chapters
-      </a>
+      <div className="dashChipParent">
+        <h2>What yould you like to do?</h2>
+        <a className="dashChip" href="chapters">
+          Manage Chapters
+        </a>
+        <a className="dashChip" href="resources">
+          Edit Resources
+        </a>
+        <a className="dashChip" href="journal">
+          Update Journal
+        </a>
+      </div>
 
       <style jsx>{`
-        .container {
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+        .container{
+          padding-top: 50px;
+          text-align: center;
+          background-image: url("login/background.jpeg");
+        }
+
+        .dashChipParent{
+          width: auto;
+          height: auto;
+          position: relative;
+          display: block;
+          margin-top: 50px;
+          padding: 40px;
+        }
+
+        .dashChipParent h2{
+          margin-bottom: 40px;
         }
 
         .dashChip{
@@ -34,9 +54,22 @@ const Dashboard: NextPage = () => {
           height: auto;
           position: relative;
           display: inline-block;
-          padding: 20px;
-          border-radius: 5px;
-          border 0.1px solid black;
+          padding: 20px 40px;
+          font-size: 20px;
+          border-radius: 500px;
+          border: 3px solid #2AB7CA;
+          box-shadow: 0px 5px 5px #dedede;
+          background-color: #FAFAFA;
+          color: black;
+          text-decoration: none;
+          margin: 20px;
+          transition background 0.5s ease;
+        }
+
+        .dashChip:hover{
+          background-color: #2AB7CA;
+          color: white;
+          cursor: pointer;
         }
       `}</style>
 

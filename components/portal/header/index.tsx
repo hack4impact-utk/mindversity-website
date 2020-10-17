@@ -30,9 +30,6 @@ const Header: React.FC = () => {
               <a className={style.navBtn} href="/chapters">
                 Chapters
               </a>
-              <a className={style.navBtn} href="/journal">
-                People
-              </a>
               <a className={style.navBtn} href="/resources">
                 Resources
               </a>
