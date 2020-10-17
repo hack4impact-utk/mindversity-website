@@ -2233,6 +2233,21 @@ chokidar@2.1.8, chokidar@^2.1.8:
   optionalDependencies:
     fsevents "^1.2.7"
 
+"chokidar@>=2.0.0 <4.0.0":
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.3.tgz#c1df38231448e45ca4ac588e6c79573ba6a57d5b"
+  integrity sha512-DtM3g7juCXQxFVSNPNByEC2+NImtBuxQQvWlHunpJIS5Ocr0lG306cC7FCi7cEA0fzmybPUIl4txBIobk1gGOQ==
+  dependencies:
+    anymatch "~3.1.1"
+    braces "~3.0.2"
+    glob-parent "~5.1.0"
+    is-binary-path "~2.1.0"
+    is-glob "~4.0.1"
+    normalize-path "~3.0.0"
+    readdirp "~3.5.0"
+  optionalDependencies:
+    fsevents "~2.1.2"
+
 chokidar@^3.3.0, chokidar@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.0.tgz#b30611423ce376357c765b9b8f904b9fba3c0be8"
@@ -6084,6 +6099,13 @@ readdirp@~3.4.0:
   dependencies:
     picomatch "^2.2.1"
 
+readdirp@~3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/readdirp/-/readdirp-3.5.0.tgz#9ba74c019b15d365278d2e91bb8c48d7b4d42c9e"
+  integrity sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ==
+  dependencies:
+    picomatch "^2.2.1"
+
 reflect.ownkeys@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/reflect.ownkeys/-/reflect.ownkeys-0.2.0.tgz#749aceec7f3fdf8b63f927a04809e90c5c0b3460"
@@ -6351,6 +6373,13 @@ sass-loader@8.0.2:
     neo-async "^2.6.1"
     schema-utils "^2.6.1"
     semver "^6.3.0"
+
+sass@^1.27.0:
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.27.0.tgz#0657ff674206b95ec20dc638a93e179c78f6ada2"
+  integrity sha512-0gcrER56OkzotK/GGwgg4fPrKuiFlPNitO7eUJ18Bs+/NBlofJfMxmxqpqJxjae9vu0Wq8TZzrSyxZal00WDig==
+  dependencies:
+    chokidar ">=2.0.0 <4.0.0"
 
 sax@~1.2.4:
   version "1.2.4"

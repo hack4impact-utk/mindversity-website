@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getChapter } from "server/actions/Chapter"
+import { addChapter } from "server/actions/Chapter"
 import { Chapter } from "utils/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    let chapterInfo: Chapter = req.body;
+    
+    let chapterInfo: Chapter = req.body
 
-    await getChapter(chapterInfo)
+    await addChapter(chapterInfo)
     .then((payload) => 
         res.status(200).json({
             success: true,

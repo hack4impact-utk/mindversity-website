@@ -3,10 +3,12 @@ import ChapterModel from "../models/Chapter";
 import { Chapter } from "utils/types";
 
 
-export const getChapter = async function (chapterInfo: Chapter)
-{
+// This function can be used to query a chapter by name, region, etc and can even
+// return all chapters. It expects the caller to properly specify the parameters 
+// they want to query.
+export const getChapter = async function (chapterInfo: Chapter) {
     await mongoDB()
-    console.log("connected to mongo, will do query now\n")
+    console.log("connected to mongo, will do query now")
 
     return await ChapterModel.find(chapterInfo)
     .exec()
@@ -14,54 +16,15 @@ export const getChapter = async function (chapterInfo: Chapter)
         if(chapter == null) 
             throw new Error("Chapter does not exist")
         
-        return chapter
+        return chapter;
     })
 }
 
-export const getChapterByName = async function (chapterName: string) {
-    if (chapterName == "") {
-        throw new Error("Chapter name must be provided.");
-    }
+// todo these 2 below need authentication to use
+export const addChapter = async function (chapterInfo: Chapter) {
 
-    //chapterName = "Ohio_State";
-    await mongoDB();
-    console.log("connected to mongo, will do query now\n")
-    // try {
-    //     const ret = await Chapter.findOne({"name": chapterName}).lean();
-    //     console.log(ret);
-    //     return ret;
-    // } catch (error) {
-    //     throw new Error(error.message);
-    // } 
-
-
-    return await ChapterModel.findOne({"name": chapterName})
-    .exec()
-    .then(async (chapt)=>{
-        if(chapt == null)
-            throw new Error("Chapter does not exist")
-
-        return chapt
-    })
-
-
-    // try {
-    //     return await Chapter.findOne({"name": chapterName});
-    // } catch (error) {
-    //     throw new Error(error.message);
-    // } 
 }
 
-export async function getChaptersByRegion(region: string) {
-  
-}
+export const updateChapter = async function (chapterInfo: Chapter) {
 
-export async function getAllChapters() {
-    await mongoDB();
-   
-    return await ChapterModel.find()
-    .exec()
-    .then(async (chapt)=>{
-        return chapt
-    })
 }

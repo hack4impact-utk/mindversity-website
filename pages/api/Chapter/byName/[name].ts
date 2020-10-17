@@ -3,7 +3,6 @@ import { getChapter, getChapterByName } from "server/actions/Chapter";
 import { Chapter } from "utils/types";
 //import { handleRequestWithPayloadResponse } from "utils/util";
 
-
 // @route   post api/login
 // @desc    Gets chapters by name
 // @access  Public
