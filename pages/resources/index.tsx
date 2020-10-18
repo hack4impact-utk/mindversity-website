@@ -155,6 +155,11 @@ const Resources: NextPage = () => {
             grid-template-columns: 1fr;
           }
         }
+        @media screen and (max-width: 510px) {
+          .search {
+            border-radius: 10px;
+          }
+        }
       `}</style>
     </main>
   );
