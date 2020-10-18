@@ -149,6 +149,12 @@ const Resources: NextPage = () => {
           font-size: 1.2rem;
           width: 80%;
         }
+        @media screen and (max-width: 769px) {
+          .national,
+          .mind {
+            grid-template-columns: 1fr;
+          }
+        }
       `}</style>
     </main>
   );
