@@ -27,6 +27,9 @@ const Header: React.FC = () => {
           </div>
           <div className={style.headerNav}>
             <div className={style.navWrapper} style={{ width: mobileWidth }}>
+              <a className={style.navBtn} href="dashboard">
+                Dashboard
+              </a>
               <a className={style.navBtn} href="chapters">
                 Chapters
               </a>
