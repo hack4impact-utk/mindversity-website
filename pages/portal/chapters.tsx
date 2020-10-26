@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
 
-import Header from "components/portal/header";
+import Header from "components/Portal/Header";
 
 const Dashboard: NextPage = () => {
   return (
