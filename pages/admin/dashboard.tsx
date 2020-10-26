@@ -33,6 +33,12 @@ const Dashboard: NextPage = () => {
         .container{
           padding-top: 50px;
           text-align: center;
+          min-height: 100vh;
+          background-color: #b59ccc;
+        }
+
+        h1, h2, h3{
+            color: white;
         }
 
         .dashChipParent{
@@ -56,9 +62,9 @@ const Dashboard: NextPage = () => {
           padding: 20px 40px;
           font-size: 20px;
           border-radius: 500px;
-          border: 3px solid #2AB7CA;
-          box-shadow: 0px 5px 5px #dedede;
-          background-color: #FAFAFA;
+          border: 3px solid #8c69aa;
+          box-shadow: 0px 3px 3px #8c69aa;
+          background-color: #EAE0F1;
           color: black;
           text-decoration: none;
           margin: 20px;
@@ -66,7 +72,7 @@ const Dashboard: NextPage = () => {
         }
 
         .dashChip:hover{
-          background-color: #2AB7CA;
+          background-color: #8c69aa;
           color: white;
           cursor: pointer;
         }
