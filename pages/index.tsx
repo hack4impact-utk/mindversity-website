@@ -4,6 +4,7 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import MainInfo from "components/MainInfo";
 import Partners from "components/Partners";
+import HomeChapters from "components/HomeChapters";
 
 const Home: NextPage = () => {
   return (
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
       <Header />
       <MainInfo />
       <Partners />
+      <HomeChapters />
       <Footer />
 
       <style jsx>{`
