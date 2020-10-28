@@ -3,7 +3,7 @@ import urls from 'utils/urls';
 
 export default async () => {
   if (mongoose.connections[0].readyState) return;
-    const DB_URL: string =  urls.dbUrl;
+    const DB_URL: string = urls.dbUrl;
 
     await mongoose
     .connect(DB_URL, {
