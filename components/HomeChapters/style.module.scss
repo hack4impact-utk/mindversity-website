@@ -11,7 +11,7 @@
     position: relative;
     display: block;
     text-align: left;
-    font-size: 28px;
+    font-size: 38px;
     color: #707070;
 }
 
@@ -56,10 +56,10 @@
 .cardText{
     position: relative;
     display: block;
-    text-align: left;
+    text-align: center;
     padding: 0px 20px;
     color: #503E8C;
-    font-size: 24px;
+    font-size: 34px;
     font-weight: bold;
     top: 50%;
     transform: translateY(-50%);
@@ -84,6 +84,7 @@
     color: white;
     padding: 10px 30px;
     border-radius: 15px;
+    font-size: 20px;
     text-decoration: none;
     transition: 0.5s ease;
 }
