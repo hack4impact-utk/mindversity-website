@@ -1,5 +1,11 @@
 import { ObjectID } from "mongodb";
 
+export interface User {
+    id?: ObjectID;
+    email?: string;
+    password?: string;
+}
+
 export interface Officer {
     id?: ObjectID;
     name?: string;
