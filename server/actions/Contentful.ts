@@ -1,12 +1,13 @@
 import {createClient} from "contentful-management";
+import fs from "fs";
 const client = createClient({
-    accessToken: 'dZnP7loBCYnMaIWQ-fVsm0hecMyWkMRaP_x2XOkmytA',
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
 });
 
 
 
 export async function getImageUrlByID(ID: string){
-    const asset = await client.getSpace('8ox1k5lbvsgt') //dotenv this here.
+    const asset = await client.getSpace(process.env.CONTENTFUL_SPACE) 
     .then((space) => space.getEnvironment('master'))
     .then(environment => environment.getAsset(ID))
     .then(asset => {return asset})
@@ -21,7 +22,8 @@ export async function getAssetFromImage(url: string){
 }
 //https://www.contentful.com/developers/docs/references/content-management-api/#/reference/uploads/upload-a-file/creating-an-upload-resource/console/js
 export async function uploadImage(image: any){
-    const asset = await client.getSpace('8ox1k5lbvsgt') //dotenv this here..
+    //This could be refactored using async await instead of this long promise chain
+    const asset = await client.getSpace(process.env.CONTENTFUL_SPACE) //dotenv this here..
     .then((space) => space.getEnvironment('master'))
     .then(environment => environment.createAssetFromFiles({
         fields: {
@@ -33,9 +35,9 @@ export async function uploadImage(image: any){
             },
             file: {
                 'en-US': {
-                    contentType: "image/png", //Image.type?
-                    fileName: "test.png", //Image.fileName,
-                    file: image.data,
+                    contentType: image.type, 
+                    fileName: image.name,
+                    file: fs.readFileSync(image.path),
                 },
             }
 
@@ -45,11 +47,13 @@ export async function uploadImage(image: any){
     .then((asset) => asset.publish())
     .then((payload) => {return payload})
     .catch(console.error); 
+   
 
-   if(asset == null){
+    if(asset == null){
        throw new Error("Asset not found!");
    } else {
-       return asset.fields.file.url;
+       //The url is returned without the http/https, so it's added here.
+       return {'url': "https:" + asset.fields.file['en-US'].url, 'id': asset.sys.id}
    }
 
 }
