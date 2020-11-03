@@ -1,11 +1,24 @@
-import { Mongoose } from "mongoose";
 import { ObjectID } from "mongodb";
 
+export interface Officer {
+    id?: ObjectID;
+    name?: string;
+    picture?: ContentfulImage;
+    role?: string;
+}
 
 // Keep in sync with the backend schema
 export interface Chapter {
     id?: ObjectID
     name?: string;
     region?: string;
-    memberCount?: number
+    description?: string;
+    universityLogo?: ContentfulImage;
+    campusPic?: ContentfulImage;
+    officers?: Officer[];
+}
+
+export interface ContentfulImage {
+    id: string;
+    url: string;
 }
