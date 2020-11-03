@@ -16,13 +16,13 @@ export interface Officer {
 
 // Keep in sync with the backend schema
 export interface Chapter {
-  id?: ObjectID;
-  name?: string;
-  region?: string;
-  description?: string;
-  universityLogo?: string;
-  campusPic?: string;
-  officers?: Officer[];
+    id?: ObjectID;
+    name?: string;
+    region?: string;
+    description?: string;
+    universityLogo?: ContentfulImage;
+    campusPic?: ContentfulImage;
+    officers?: Officer[];
 }
 
 export interface ContentfulImage {
