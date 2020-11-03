@@ -20,8 +20,8 @@ export interface Chapter {
     name?: string;
     region?: string;
     description?: string;
-    universityLogo?: string;
-    campusPic?: string;
+    universityLogo?: ContentfulImage;
+    campusPic?: ContentfulImage;
     officers?: Officer[];
 }
 
