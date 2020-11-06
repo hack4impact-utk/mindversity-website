@@ -29,9 +29,16 @@ export const addChapter = async function (chapterInfo: Chapter) {
     //Define a new chapter model to work with and pass in all the chapterInfo.
     const chapter = new ChapterModel(chapterInfo);
     //Saving the model uploads it to the collection.
+<<<<<<< HEAD
     await chapter.save((err:any) => {
         if(err) console.log(err);
     });
+=======
+    await chapter.save();
+
+
+    //TODO: Error handling.
+>>>>>>> Implements a basic addChapter function
 }
 
 export const updateChapter = async function (chapterInfo: Chapter) {
