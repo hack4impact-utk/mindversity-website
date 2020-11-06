@@ -39,7 +39,7 @@ export interface Chapter {
 }
 
 export interface ContentfulImage {
-    id: string;
+    assetID: string;
     url: string;
 }
 >>>>>>> 62419f5 (Testing for updateChapter)

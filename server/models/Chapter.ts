@@ -29,18 +29,26 @@ export const ChapterSchema = new Schema({
     type: String,
     required: false
   },
-  universityLogo: { 
-    type: String,
-    required: false
-  },
-  campusPic: { 
-    type: String,
-    required: false
-  },
   officers: { 
     type: [OfficerSchema],
     required: false
-  }
+  },
+  campusPic: {
+      assetID: {
+          type: String,
+      },
+      url: {
+          type: String,
+      }
+  },
+  universityLogo: {
+      assetID: {
+          type: String,
+      },
+      url: {
+          type: String,
+      }
+  },
 });
 
 export interface IChapter extends Document {
