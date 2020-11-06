@@ -19,6 +19,6 @@ export interface Chapter {
 }
 
 export interface ContentfulImage {
-    id: string;
+    assetID: string;
     url: string;
 }

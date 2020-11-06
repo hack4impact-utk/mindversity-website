@@ -13,7 +13,7 @@ const handleSubmit = async (e) => {
 const Test: NextPage = () => {
     return(
         <div>
-            <h1>Update Chapter</h1>
+            <h1>Add Chapter</h1>
             <form onSubmit={handleSubmit} className="form"> 
                 <label>Chapter Name</label>
                 <input type="text" name="name" placeholder="Chapter Name" required/>

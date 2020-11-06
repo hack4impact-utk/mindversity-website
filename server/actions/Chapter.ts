@@ -22,7 +22,15 @@ export const getChapter = async function (chapterInfo: Chapter) {
 
 // todo these 2 below need authentication to use
 export const addChapter = async function (chapterInfo: Chapter) {
+    //Connect to MongoDB.
+    await mongoDB();
+    //Define a new chapter model to work with and pass in all the chapterInfo.
+    const chapter = new ChapterModel(chapterInfo);
+    //Saving the model uploads it to the collection.
+    await chapter.save();
 
+
+    //TODO: Error handling.
 }
 
 export const updateChapter = async function (chapterInfo: Chapter) {

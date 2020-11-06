@@ -26,7 +26,27 @@ export const ChapterSchema = new Schema({
   region: {
     type: String,
     required: false
-  }
+  },
+  description: {
+      type: String,
+      required: false,
+  },
+  campusPic: {
+      assetID: {
+          type: String,
+      },
+      url: {
+          type: String,
+      }
+  },
+  universityLogo: {
+      assetID: {
+          type: String,
+      },
+      url: {
+          type: String,
+      }
+  },
 })
 
 export interface IChapter extends Document{

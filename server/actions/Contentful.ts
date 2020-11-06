@@ -40,7 +40,7 @@ export async function uploadImage(image: File){
        //Delete image from local storage before ending upload
        fs.unlinkSync(image.path);
        //The url is returned without the http/https, so it's added here.
-       return {'url': "https:" + asset.fields.file['en-US'].url, 'id': asset.sys.id}
+       return {'url': "https:" + asset.fields.file['en-US'].url, 'assetID': asset.sys.id}
    }
 
 }
