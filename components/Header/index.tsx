@@ -23,7 +23,7 @@ const Header: React.FC = () => {
       <div className={style.parent}>
         <div className={style.header}>
           <a className={style.headerLogo} href="/">
-            <img src="temp-logo.png" alt="MindVersity Logo"></img>
+            <img src="/logo.svg" alt="MindVersity Logo"></img>
           </a>
           <div className={style.headerNav}>
             <div className={style.navWrapper} style={{ width: mobileWidth }}>
@@ -39,11 +39,8 @@ const Header: React.FC = () => {
               <a className={style.navBtn} href="/faq">
                 FAQs
               </a>
-              <div className={style.navBtn}>
-                <FaSearch />
-              </div>
-              <div className={style.navBtn}>
-                <FaMapMarkerAlt />
+              <div className={style.navIcon}>
+                <FaSearch className={style.navIconSearch} />
               </div>
             </div>
             <button
@@ -51,11 +48,10 @@ const Header: React.FC = () => {
               style={{ color: hamburgerColor }}
               onClick={() => setOpen(!open)}
             >
-              <AiOutlineMenu />
+              <AiOutlineMenu className={style.navHamButtonIcon} />
             </button>
           </div>
         </div>
-        <div className={style.bottomBorder}></div>
       </div>
       <div className={style.headerContentSpacer}></div>
     </div>
