@@ -18,9 +18,12 @@ const FAQ: React.FC<Props> = ({ question, children }) => {
       >
         {question}
       </button>
+
       <div className={collapsed ? styles["collapsed"] : styles["visible"]}>
         <p>{children}</p>
       </div>
+
+      <div className={styles.bottomBorder}></div>
     </section>
   );
 };
