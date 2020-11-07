@@ -17,17 +17,28 @@
 }
 
 .headerLogo{
-    width: auto;
-    height: 100%;
-    position: relative;
-    display: inline-block;
-    padding-left: 20px;
-    flex: 0;
+    @media (min-width: 770px){
+        min-width: 30%;
+        height: 100%;
+        position: relative;
+        display: inline-block;
+        padding-left: 20px;
+        flex: 0;
+    }
+    @media (max-width: 770px){
+        min-width: 65%;
+        height: 100%;
+        position: relative;
+        display: inline-block;
+        padding-left: 20px;
+        flex: 0;
+    }
 }
 
 .headerLogo img{
-    max-height: 60%;
+    max-height: 80%;
     width: auto;
+    max-width: 250px;
     position: relative;
     display: block;
     top: 50%;
@@ -35,13 +46,24 @@
 }
 
 .headerNav{
-    width: auto;
-    height: 100%;
-    position: relative;
-    display: inline-block;
-    text-align: right;
-    padding-right: 40px;
-    flex: 1;
+    @media (min-width: 770px){
+        width: auto;
+        height: 100%;
+        position: relative;
+        display: inline-block;
+        text-align: right;
+        padding-right: 40px;
+        flex: 1;
+    }
+    @media (max-width: 770px){
+        width: auto;
+        height: 100%;
+        position: relative;
+        display: inline-block;
+        text-align: right;
+        padding-right: 20px;
+        flex: 1;
+    }
 }
 
 .navWrapper{
@@ -76,8 +98,9 @@
         font-size: 20px;
         margin-left: 20px;
         text-decoration: none;
-        color: black;
+        color: #1E315C;
         transition: 0.5s ease;
+        font-weight: bold;
     }
     @media (max-width: 770px){
         color: white;
@@ -93,7 +116,48 @@
 
 .navBtn:hover{
     cursor: pointer;
-    color: #2AB7CA;
+    color: #707070;
+}
+
+.navIcon{
+    @media (min-width: 770px){
+        width: auto;
+        height: auto;
+        position: relative;
+        display: inline-block;
+        font-size: 20px;
+        margin-left: 20px;
+        text-decoration: none;
+        color: #707070;
+        transition: 0.5s ease;
+        font-weight: bold;
+    }
+    @media (max-width: 770px){
+        color: white;
+        display: block;
+        position: relative;
+        font-size: 34px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+}
+
+.navIcon:hover{
+    cursor: pointer;
+    @media (min-width: 770px){
+        color: #1E315C;
+    }
+    @media (max-width: 770px){
+        color: #707070;
+    }
+}
+
+.navIconSearch{
+    @media (min-width: 770px){
+        margin-left: 20px;
+    }
 }
 
 .regionDrop{
@@ -138,6 +202,7 @@
         background: none;
         border: none;
         font-size: 30px;
+        color: #1E315C;
         transition: 0.5s ease;
         z-index: 1001;
         top: 50%;
@@ -150,13 +215,9 @@
     color: grey;
 }
 
-.bottomBorder{
-    height: 8px;
-    width: auto;
+.navHamButtonIcon{
     position: relative;
     display: block;
-    background-image: linear-gradient(to right, #2AB7CA, white);
-    z-index: 998;
 }
 
 /* Since the header is fixed this invisible div goes behind the header to prevent any of the content from being covered */
