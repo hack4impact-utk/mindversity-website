@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import style from "./style.module.scss";
+import { getRegion } from "utils/helpers";
 
 const HomeChapters: React.FC = () => {
+  const [region, setRegion] = React.useState("unknown");
+
+  React.useEffect(() => {
+    if (navigator) {
+      navigator.geolocation.getCurrentPosition((pos: Position) => {
+        const [lat, long] = [pos.coords.latitude, pos.coords.longitude];
+        setRegion(getRegion(lat, long));
+      });
+    }
+  });
+
   return (
     <div className={style.parentContainer}>
       <h2 className={style.title}>Chapters In Your Region</h2>
