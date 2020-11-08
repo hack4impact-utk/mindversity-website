@@ -1,3 +1,9 @@
+/**
+ * Takes in coordinates and returns the US region
+ * @param latitude
+ * @param longitude
+ * @returns {string} A string representation of the US region based on the given coordinates
+ */
 export function getRegion(latitude: number, longitude: number): string {
   if (
     longitude < -106.045228 &&
