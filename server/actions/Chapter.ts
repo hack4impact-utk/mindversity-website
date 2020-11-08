@@ -10,6 +10,8 @@ export const getChapter = async function (chapterInfo: Chapter) {
     await mongoDB()
     console.log("connected to mongo, will do query now")
 
+    if(!chapterInfo) chapterInfo = {}
+
     return await ChapterModel.find(chapterInfo)
     .exec()
     .then(async (chapter) => {

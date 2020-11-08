@@ -1,19 +1,24 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next"
+import { User } from "utils/types";
 import { verify } from "jsonwebtoken";
 
-const authenticated = (func: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) =>
+const authenticated = (role: string, func: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) =>
 {
     let secret = process.env.JWTSECRET as string
-    verify(req.cookies.auth!, secret, async function(err, decoded){
-        if(!err && decoded)
+    return verify(req.cookies.auth!, secret, async function (err, decoded: any) {
+
+        if (!err && decoded)
         {
-            return await func(req, res)
+            let dMessage = decoded as User
+
+            if((dMessage.role == role || role == "any"))
+                return await func(req, res);
         }
-        else
-        {
-            res.status(500).json({message: "Not Authenticated"})
-        }
+
+        res.setHeader("Set-Cookie", "auth=; Max-Age=0; SameSite=Lax; Path=/");
+        res.status(500).json({ message: "Not Authenticated" });
     })
+
 }
 
 export default authenticated

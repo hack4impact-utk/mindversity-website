@@ -5,7 +5,7 @@ import cookie from "cookie";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
 
-    let currentUser: User = req.body
+    let currentUser = req.body as User
 
     await login(currentUser)
     .then((jwt) => 
@@ -20,11 +20,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json({success: true})
         }
     )
-    .catch((error)=>
+    .catch((error: Error)=>{
+        res.setHeader("Set-Cookie", "auth=; Max-Age=0; SameSite=Lax; Path=/");
         res.status(400).json({
             success: false, 
             message: error.message
         })
+    }
     )
 
 }

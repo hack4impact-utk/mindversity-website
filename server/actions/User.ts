@@ -31,7 +31,8 @@ export async function login(user: User) {
         return sign(
             {
                 _id: theUser._id,
-                email: theUser.email
+                email: theUser.email,
+                role: theUser.role
             },
             secret,
             {
@@ -47,8 +48,9 @@ export async function createUser(user: User){
     if (user.email == null || user.password == null) {
         throw Error("Parameters cannot be empty")
     }
+    let isNew = await checkEmail(user.email)
 
-    if(!checkEmail(user.email))
+    if(!isNew)
     {
         throw Error("Email already used")
     }
@@ -64,12 +66,8 @@ export async function createUser(user: User){
         password: hashedPassword
     })
 
-    return newUser.save(function(err:any){
+    newUser.save(function(err:any){
         if(err) console.log(err)
-        else
-        {
-            return sign({_id: newUser._id, email: newUser.email}, secret, {expiresIn: "7d"})
-        }
     })
 }
 
@@ -80,7 +78,6 @@ export async function checkEmail(email: string)
 
     return UserModel.findOne({email: email})
     .then((user) => {
-        if(user) return true
-        else return false
+        return user.isNew
     })
 }
