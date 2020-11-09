@@ -90,6 +90,7 @@
 }
 
 .navBtn{
+    font-weight: normal;
     @media (min-width: 770px){
         width: auto;
         height: auto;
@@ -100,7 +101,6 @@
         text-decoration: none;
         color: #1E315C;
         transition: 0.5s ease;
-        font-weight: bold;
     }
     @media (max-width: 770px){
         color: white;
@@ -108,7 +108,6 @@
         position: relative;
         font-size: 34px;
         text-align: center;
-        font-weight: bold;
         text-decoration: none;
         margin-bottom: 20px;
     }
@@ -117,6 +116,34 @@
 .navBtn:hover{
     cursor: pointer;
     color: #707070;
+}
+
+.activeNavBtn {
+    font-weight: bold;
+    @media (min-width: 770px){
+        width: auto;
+        height: auto;
+        position: relative;
+        display: inline-block;
+        font-size: 20px;
+        margin-left: 20px;
+        text-decoration: none;
+        color: #1E315C;
+        transition: 0.5s ease;
+    }
+    @media (max-width: 770px){
+        color: white;
+        display: block;
+        position: relative;
+        font-size: 34px;
+        text-align: center;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+}
+
+.activeNavBtn:hover {
+    cursor: pointer;
 }
 
 .navIcon{
