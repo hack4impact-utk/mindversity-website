@@ -10,7 +10,7 @@ export interface User {
 export interface Officer {
     id?: ObjectID;
     name?: string;
-    picture?: string;
+    picture?: ContentfulImage;
     role?: string;
 }
 
@@ -23,4 +23,9 @@ export interface Chapter {
     universityLogo?: string;
     campusPic?: string;
     officers?: Officer[];
+}
+
+export interface ContentfulImage {
+    assetID: string;
+    url: string;
 }

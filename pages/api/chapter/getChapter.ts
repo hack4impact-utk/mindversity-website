@@ -4,7 +4,7 @@ import { Chapter } from "utils/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     let chapterInfo: Chapter = req.body;
-
+    console.log(chapterInfo);
     await getChapter(chapterInfo)
     .then((payload) => 
         res.status(200).json({
