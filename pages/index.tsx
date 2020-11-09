@@ -1,7 +1,12 @@
 import { NextPage } from "next";
 import Head from "next/head";
+<<<<<<< HEAD
 import Footer from "components/Footer";
 import Header from "components/Header";
+=======
+import Footer from "components/footer";
+import Header from "components/header";
+>>>>>>> 57a554a (Implements upload functionality)
 import MainInfo from "components/MainInfo";
 import Partners from "components/Partners";
 import HomeChapters from "components/HomeChapters";
