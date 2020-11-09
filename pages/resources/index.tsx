@@ -52,50 +52,6 @@ const Resources: NextPage = () => {
         <p>Podcasts</p>
       </div>
 
-      {/* <section className="search-container">
-        <figure className="search">
-          <h1>Search for Resources:</h1>
-          <input
-            className="searchbar"
-            type="search"
-            placeholder="Search"
-          ></input>
-        </figure>
-      </section>
-
-      <section className="resources">
-        <div>
-          <h1>National Resources</h1>
-          <div className="highlight-bar"></div>
-        </div>
-        <div className="national">
-          <div className="websites">
-            <h2>Websites</h2>
-            <a href="/">National Institute of Mental Health</a>
-            <a href="/">Lifeline Suicide Prevention</a>
-          </div>
-          <div className="hotlines">
-            <h2>Hotlines</h2>
-            <div>
-              <span>Suicide:</span>
-              <a href="tel:800-273-8255">800-273-8255</a>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h1>Mind Resources</h1>
-          <div className="highlight-bar"></div>
-        </div>
-        <div className="mind">
-          <div className="websites">
-            <h2>Websites</h2>
-          </div>
-          <div className="hotlines">
-            <h2>Hotlines</h2>
-          </div>
-        </div>
-      </section> */}
-
       <Footer />
       <style jsx global>{`
         html,
