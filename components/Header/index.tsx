@@ -5,8 +5,12 @@ import style from "./style.module.scss"; //Import the main stylesheet
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
 
+import { useRouter } from "next/router";
+
 const Header: React.FC = () => {
   const [open, setOpen] = useState(false); //Control the state of the mobile navigation menu
+
+  const router = useRouter(); // router to determine which link is active
 
   //Create variables to control the style of the navbar
   let mobileWidth;
@@ -27,16 +31,42 @@ const Header: React.FC = () => {
           </a>
           <div className={style.headerNav}>
             <div className={style.navWrapper} style={{ width: mobileWidth }}>
-              <a className={style.navBtn} href="/chapters">
+              <a
+                className={
+                  router.pathname == "/chapters"
+                    ? style.activeNavBtn
+                    : style.navBtn
+                }
+                href="/chapters"
+              >
                 Chapters
               </a>
-              <a className={style.navBtn} href="/journal">
+              <a
+                className={
+                  router.pathname == "/journal"
+                    ? style.activeNavBtn
+                    : style.navBtn
+                }
+                href="/journal"
+              >
                 Journal
               </a>
-              <a className={style.navBtn} href="/resources">
+              <a
+                className={
+                  router.pathname == "/resources"
+                    ? style.activeNavBtn
+                    : style.navBtn
+                }
+                href="/resources"
+              >
                 Resources
               </a>
-              <a className={style.navBtn} href="/faq">
+              <a
+                className={
+                  router.pathname == "/faq" ? style.activeNavBtn : style.navBtn
+                }
+                href="/faq"
+              >
                 FAQs
               </a>
               <div className={style.navIcon}>

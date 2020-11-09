@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import Header from "components/header";
-import Footer from "components/footer";
+import Header from "components/Header";
+import Footer from "components/Footer";
 
 const Resources: NextPage = () => {
   return (
@@ -11,153 +11,142 @@ const Resources: NextPage = () => {
       </Head>
       <Header />
 
-      <section className="search-container">
-        <figure className="search">
-          <h1>Search for Resources:</h1>
-          <input
-            className="searchbar"
-            type="search"
-            placeholder="Search"
-          ></input>
-        </figure>
-      </section>
+      <div className="heroContainer">
+        <div className="textContainer">
+          <h1>Resources</h1>
+          <p>Description of page content goes here</p>
+        </div>
+      </div>
 
-      <section className="resources">
-        <div>
-          <h1>National Resources</h1>
-          <div className="highlight-bar"></div>
+      <div className="contentContainer">
+        <div className="nationalResources">
+          <h2>National Resources</h2>
+          <p>
+            <a href="tel:800-273-8255">Lifeline Suicide Prevention</a>
+          </p>
+          <p>
+            <a href="https://www.nimh.nih.gov/index.shtml">
+              National Institute of Mental Health
+            </a>
+          </p>
+          <p>Hotlines</p>
+          <p>Websites</p>
         </div>
-        <div className="national">
-          <div className="websites">
-            <h2>Websites</h2>
-            <a href="/">National Institute of Mental Health</a>
-            <a href="/">Lifeline Suicide Prevention</a>
-          </div>
-          <div className="hotlines">
-            <h2>Hotlines</h2>
-            <div>
-              <span>Suicide:</span>
-              <a href="tel:800-273-8255">800-273-8255</a>
-            </div>
-          </div>
+
+        <div className="immediateHelp">
+          <h2>Immediate Help Resources</h2>
+          <p>
+            <a href="tel:800-273-8255">Help ###</a>
+          </p>
+          <p>
+            <a href="tel:">Help ###</a>
+          </p>
+          <p>Hotlines</p>
+          <p>Websites</p>
         </div>
-        <div>
-          <h1>Mind Resources</h1>
-          <div className="highlight-bar"></div>
-        </div>
-        <div className="mind">
-          <div className="websites">
-            <h2>Websites</h2>
-          </div>
-          <div className="hotlines">
-            <h2>Hotlines</h2>
-          </div>
-        </div>
-      </section>
+      </div>
+
+      <div className="mindversityResources">
+        <h2>MindVersity Resources</h2>
+        <p>Articles</p>
+        <p>Podcasts</p>
+      </div>
 
       <Footer />
-      <style jsx>{`
-        .search-container {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .search {
-          background: url("/resources/search.jpg");
-          width: 80%;
-          height: 350px;
-          background-size: 100% 350px;
-          background-repeat: no-repeat;
-          filter: opacity(0.8);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          position: relative;
-          border-radius: 250px;
-        }
-        .searchbar {
-          width: 50%;
-          border-radius: 30px;
-          border: 1px solid #000;
-          padding: 0.5rem;
-        }
-        .resources {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .resources h1 {
-          font-size: 2.5rem;
-          margin-bottom: 0;
-          position: relative;
-        }
-        .highlight-bar {
-          width: 100%;
-          height: 5px;
-          background: radial-gradient(
-            50% 50% at 50% 50%,
-            #2ab7ca 0%,
-            rgba(34, 123, 173, 0) 100%
-          );
-          transform: matrix(1, 0, 0, -1, 0, 0);
+      <style jsx global>{`
+        html,
+        body {
+          padding: 0;
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+            sans-serif;
         }
 
-        .national,
-        .mind {
-          width: 80%;
-          display: grid;
-          grid-template-columns: 0.6fr 0.4fr;
-          grid-gap: 20px;
-          align-content: center;
+        * {
+          box-sizing: border-box;
         }
-        .websites {
-          background: linear-gradient(
-            180deg,
-            rgba(42, 183, 202, 0.33) 0%,
-            rgba(42, 183, 202, 0.1419) 99.99%,
-            rgba(42, 183, 202, 0.33) 100%
-          );
-          border-radius: 64px;
-          display: flex;
-          flex-direction: column;
-          margin: 20px;
-          align-items: center;
+      `}</style>
+      <style jsx>{`
+        .heroContainer {
+          width: 100%;
+          height: 15vh;
+          position: relative;
+          display: block;
+          text-align: center;
+          margin-bottom: 20px;
         }
-        .hotlines {
-          background: linear-gradient(
-            180deg,
-            rgba(235, 87, 87, 0.324) 57.81%,
-            rgba(235, 87, 87, 0) 100%
-          );
-          border-radius: 64px;
-          display: flex;
-          margin: 20px;
-          flex-direction: column;
-          align-items: center;
+        .textContainer {
+          position: relative;
+          display: block;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        .textContainer > h1 {
+          color: #8c69aa;
+          font-size: 36px;
+          padding: 0px 20px;
+        }
+        .textContainer > p {
+          margin-top: 0px;
+          position: relative;
+          display: block;
+          font-size:18px;
+          top: 50%;
+          transform: translateY(-50%);
+          padding: 0 20px;
         }
         h2 {
-          margin-bottom: 10px;
+          color: #503E8C;
+          font-size: 28px;
+          font-weight: normal;
         }
-        span {
-          margin-right: 10px;
-          font-size: 1.2rem;
+        .contentContainer{
+          width: 80vw;
+          position: relative;
+          margin-left: -40vw;
+          left: 50%;
+          display:flex;
+          justify-content: space-between;
         }
-        a {
+        .nationalResources {
+          width: 60%;
+          padding: 20px 20px;
+        }
+        .immediateHelp {
+          width 350px;
+          background-color:#E7D8F2;
+          padding: 20px 20px;
+        }
+        .immediateHelp > h2 {
+          font-weight: bold;
+        }
+        .mindversityResources {
+          width: 80vw;
+          position: relative;
+          margin-left: -40vw;
+          left: 50%;
+          padding: 20px 20px;
+        }
+        a, p {
           text-decoration: none;
           color: black;
-          font-size: 1.2rem;
-          width: 80%;
-        }
-        @media screen and (max-width: 769px) {
-          .national,
-          .mind {
-            grid-template-columns: 1fr;
-          }
+          font-size: 1.15rem;
+          margin: 40px 0;
         }
         @media screen and (max-width: 510px) {
-          .search {
-            border-radius: 10px;
+          .contentContainer {
+            flex-wrap: wrap;
+            width: 100vw;
+            left: 0;
+            margin-left: 0;
+          }
+          .nationalResources,
+          .mindversityResources,
+          .immediateHelp {
+            width: 100%;
+            left:0;
+            margin-left: 0;
           }
         }
       `}</style>
