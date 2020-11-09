@@ -1,9 +1,10 @@
-$color: #36bbcd; //Color used in the header's bottom bar.
+$color: #503E8C; //Main Purple color
 
 //Holds the question and when click will display the answer.
 .accordion{
     width: 100%;
-    padding: 0.5rem;
+    padding: 20px 20px;
+    padding-right: 80px;
     text-align:left;
     background:white;
     border: none;
@@ -14,13 +15,16 @@ $color: #36bbcd; //Color used in the header's bottom bar.
     display:flex;
     flex-direction:row;
     align-items:center;
+    outline: none;
+    color: $color;
     &:after{
-        content: '\25B6'; //Unicode for right-facing triangle
+        content: '\002B'; //code for plus sign
         position:absolute;
         width:20px;
         height:20px;
         right:0;
-        font-size: 12px;
+        font-size: 24px;
+        padding-right: 20px;
         color: $color;
         transition: 0.2s ease;
     }
@@ -30,22 +34,30 @@ $color: #36bbcd; //Color used in the header's bottom bar.
 //When the accordion is clicked, the triangle is rotated downwards.
 .active{
     &::after{
-        transform: rotate(90deg);
-        transform-origin: center left;
+        content: '\2212'; //code for minus sign
     }
 }
 
 .visible{
-    max-height: 35px;
-    transition: max-height 0.2s ease-out;
+    max-height: auto;
     & > p{
-        padding: 0.5rem;
+        padding: 0px 80px;
+        padding-bottom: 20px;
         margin: 0;
     }
 }
 
 .collapsed{
-    max-height:0;
-    transition: max-height 0.2s ease-in;
-    overflow:hidden;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.bottomBorder{
+    width: auto;
+    height: 2px;
+    position: relative;
+    display: block;
+    background-color: #E3E3E3;
+    margin-right: 20px;
+    margin-left: 40px;
 }
