@@ -1,86 +1,144 @@
-@use "sass:map";
-
-//Used for breakpoints.
-$sizes : (
-    "mobile": 769px,
-    "desktop": 770px,
-);
-
-@mixin flex-col-jcc() {
-    display: flex;
-    flex-direction: column;
-    justify-content:center;
-}
-
 .container{
-    @include flex-col-jcc();
     width: 100%;
-    min-height: 600px;
+    height: auto;
+    position: relative;
+    display: block;
 }
 
-.wrapper{
+.hero{
     width: 100%;
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-    position:relative;
-    min-height: 500px;
-}
-
-.image{
-    width: 50%;
-    height: 400px;
-    margin: 0px 20px;
-    align-self:center;
-}
-
-.opening-text{
-    @include flex-col-jcc();
-    text-align:center;
+    height: 500px;
+    position: relative;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    width: 50%;
-    margin: 0 40px;
-    & > p {
-        font-weight: 600;
-        font-size: 2rem;
+    overflow: hidden;
+    img{
+        width: auto;
+        height: auto;
+        flex-shrink: 0;;
+        min-height: 100%;
+        min-width: 100%;
+        position: absolute;
+        display: block;
+        top: 35%;
+        transform: translateY(-35%);
+    }
+}
+
+.heroOverlay{
+    width: auto;
+    height: auto;
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(215, 215, 215, 0.70);
+    z-index: 500;
+}
+
+.heroText{
+    height: auto;
+    width: auto;
+    position: relative;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    padding: 20px;
+    h1{
+        font-size: 44px;
+        color: #8C69AA;
         margin: 0;
+        padding: 0;
+    }
+    h2{
+        font-size: 24px;
     }
 }
 
-.description{
-    @include flex-col-jcc();
-    width: 50%;
-    margin: 0px 40px;
-    & > h2 {
-        font-size: 1.8rem;
-        text-align:center;
-        margin-bottom: 0;
+.aboutParent{
+    width: auto;
+    height: auto;
+    position: relative;
+    padding: 60px;
+    background-color: white;
+    @media (min-width: 860px){
+        display: flex;
     }
-    & > p {
-        font-size: 1.1rem;
-        color: hsl(0,0%, 35%);
-        line-height: 1.5;
+    @media (max-width: 860px){
+        display: block;
     }
 }
 
-
-@media only screen and (max-width: map.get($sizes, "mobile")){
-    .container{
-        & > div:nth-child(1){
-            flex-direction: column-reverse;
-            align-items:center;
-        }
-        & > div:nth-child(2){
-            flex-direction: column;
-            align-items:center;
-        }
+.aboutCol{
+    height: auto;
+    width: auto;
+    position: relative;
+    h2{
+        font-size: 38px;
+        margin-top: 0;
+        padding-top: 0;
     }
-
-    .image, .opening-text, .description{
-        width: 80%;
+    @media (min-width: 860px){
+        display: inline-block;
+        flex: 1;
     }
-    .opening-text{
-        margin-bottom: 50px;
+    @media (max-width: 860px){
+        display: block;
+        padding-top: 80px;
     }
+}
 
+.aboutText{
+    position: relative;
+    display: block;
+    color: #707070;
+    @media (min-width: 860px){
+        max-width: 500px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    @media (max-width: 860px){
+        text-align: center;
+        top: 20%;
+        transform: translateY(-20%);
+    }
+}
+
+.aboutBackgroundCol{
+    @media (min-width: 860px){  
+        padding: 40px;  
+        height: auto;
+        max-width: 50%;
+    }
+    @media (max-width: 860px){    
+        height: 300px;
+        width: auto;
+        text-align: center;
+    }
+    img{
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        position: relative;
+        display: inline-block;
+    }
+}
+
+.quoteParent{
+    width: auto;
+    height: auto;
+    position: relative;
+    display: flex;
+    padding: 80px 10%;
+    background-color: white;
+    font-size: 34px;
+    font-weight: bold;
+    color: #707070;
 }
