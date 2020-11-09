@@ -1,6 +1,5 @@
 import { ObjectID } from "mongodb";
 
-<<<<<<< HEAD
 export interface User {
     id?: ObjectID;
     email?: string;
@@ -11,13 +10,7 @@ export interface User {
 export interface Officer {
     id?: ObjectID;
     name?: string;
-    picture?: string;
-=======
-export interface Officer {
-    id?: ObjectID;
-    name?: string;
     picture?: ContentfulImage;
->>>>>>> 62419f5 (Testing for updateChapter)
     role?: string;
 }
 
@@ -27,14 +20,8 @@ export interface Chapter {
     name?: string;
     region?: string;
     description?: string;
-<<<<<<< HEAD
     universityLogo?: string;
     campusPic?: string;
-    officers?: Officer[];
-}
-=======
-    universityLogo?: ContentfulImage;
-    campusPic?: ContentfulImage;
     officers?: Officer[];
 }
 
@@ -42,4 +29,3 @@ export interface ContentfulImage {
     assetID: string;
     url: string;
 }
->>>>>>> 62419f5 (Testing for updateChapter)
