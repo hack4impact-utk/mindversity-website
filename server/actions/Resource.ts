@@ -72,22 +72,21 @@ export const deleteResource = async function (
   resource: Resource
 ): Promise<boolean> {
   await mongoDB();
+  let deleted = false;
 
   if (resource.id) {
-    return ResourceModel.findByIdAndDelete(resource.id, function (err: Error) {
-      if (err) {
-        console.log(err);
-        return false;
+    await ResourceModel.findByIdAndDelete(resource.id).then(
+      (resource: Resource) => {
+        if (resource) deleted = true;
       }
-      return true;
-    });
+    );
   } else {
-    return ResourceModel.findOneAndDelete(resource, function (err: Error) {
-      if (err) {
-        console.log(err);
-        return false;
+    await ResourceModel.findOneAndDelete(resource).then(
+      (resource: Resource) => {
+        if (resource) deleted = true;
       }
-      return true;
-    });
+    );
   }
+
+  return deleted;
 };
