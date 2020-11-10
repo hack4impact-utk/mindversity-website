@@ -6,10 +6,16 @@ import { Resource } from "utils/types";
  * Adds the given resource to the database
  * @param resource New Resource to add to DB
  */
-export const addResource = async function (resource: Resource): Promise<void> {
+export const addResource = async function (
+  resource: Resource
+): Promise<boolean> {
   await mongoDB();
 
-  await ResourceModel.create(resource);
+  if (await ResourceModel.create(resource)) {
+    return true;
+  }
+
+  return false;
 };
 
 /**
