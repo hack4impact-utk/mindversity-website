@@ -14,10 +14,10 @@ export default auth("admin", async function handler(
 
     if (added) res.status(200).json({ success: true });
     else res.status(400).json({ success: false });
-  } catch (error) {
+  } catch (err) {
     res.status(400).json({
       success: false,
-      message: error as Error,
+      message: err as Error,
     });
   }
 });
