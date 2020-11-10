@@ -31,7 +31,8 @@ export interface ContentfulImage {
 }
 
 export interface Resource {
-  name: string;
-  category: string;
-  link: string;
+  id?: ObjectID;
+  name?: string;
+  category?: string;
+  link?: string;
 }
