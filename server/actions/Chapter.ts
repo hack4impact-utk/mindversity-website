@@ -29,18 +29,61 @@ export const addChapter = async function (chapterInfo: Chapter) {
     //Define a new chapter model to work with and pass in all the chapterInfo.
     const chapter = new ChapterModel(chapterInfo);
     //Saving the model uploads it to the collection.
-<<<<<<< HEAD
     await chapter.save((err:any) => {
         if(err) console.log(err);
     });
-=======
-    await chapter.save();
-
-
-    //TODO: Error handling.
->>>>>>> Implements a basic addChapter function
 }
 
 export const updateChapter = async function (chapterInfo: Chapter) {
 
 }
+
+
+
+
+
+
+/*
+My changes
+
+
+import mongoDB from "../index";
+import ChapterSchema from "../models/Chapter";
+import OfficerSchema from "../models/Officer";
+import { Chapter, Officer } from "utils/types";
+
+
+// This function can be used to query a chapter by name, region, etc and can even
+// return all chapters. It expects the caller to properly specify the parameters 
+// they want to query.
+export const getChapter = async function (chapterInfo: Chapter) {
+    await mongoDB();
+    console.log("connected to mongo, will do query now");
+
+    let chapterName = chapterInfo.name;
+    let chapters: Chapter[] = await ChapterSchema.find(chapterInfo).lean();
+    let officers: Officer[] = await OfficerSchema.find({chapter: chapterName}).lean();
+    let returnChapter: Chapter = chapters[0];
+    returnChapter.officers = officers;
+    
+    return returnChapter;
+}
+
+// todo these 2 below need authentication to use
+export const addChapter = async function (chapterInfo: Chapter) {
+    //Connect to MongoDB.
+    await mongoDB();
+    //Define a new chapter model to work with and pass in all the chapterInfo.
+    const chapter = new ChapterSchema(chapterInfo);
+    //Saving the model uploads it to the collection.
+    await chapter.save();
+
+
+    //TODO: Error handling.
+}
+
+export const updateChapter = async function (chapterInfo: Chapter) {
+
+}
+
+*/

@@ -1,20 +1,5 @@
 import { Document, model, models, Schema } from "mongoose"
-import { Officer } from "utils/types";
-
-const OfficerSchema = new Schema({
-  name: {
-    type: String,
-    required: false
-  },
-  picture: {
-    type: String,
-    required: false
-  },
-  role: {
-    type: String,
-    required: false
-  }
-});
+import ContentfulImageSchema from "./ContentfulImage"
 
 export const ChapterSchema = new Schema({
   name: {
@@ -30,21 +15,13 @@ export const ChapterSchema = new Schema({
       required: false,
   },
   campusPic: {
-      assetID: {
-          type: String,
-      },
-      url: {
-          type: String,
-      }
+    type: ContentfulImageSchema,
+    required: false,
   },
   universityLogo: {
-      assetID: {
-          type: String,
-      },
-      url: {
-          type: String,
-      }
-  },
+    type: ContentfulImageSchema,
+    required: false,
+  }
 })
 
 export interface IChapter extends Document {
