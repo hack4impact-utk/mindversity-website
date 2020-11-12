@@ -17,11 +17,15 @@ export const OfficerSchema = new Schema({
   },
   chapter: {
     type: String,
-    requied: false,
+    required: false,
+  },
+  bio: {
+    type: String,
+    required: false,
   }
 });
 
-export interface IOfficer extends Document{
+export interface IOfficer extends Document {
     name?: string;
     picture?: ContentfulImage;
     role?: string;

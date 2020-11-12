@@ -4,7 +4,8 @@ import ContentfulImageSchema from "./ContentfulImage"
 export const ChapterSchema = new Schema({
   name: {
     type: String,
-    required: false
+    required: false,
+    unique: true
   },
   region: {
     type: String,
@@ -30,7 +31,6 @@ export interface IChapter extends Document {
   description?: string;
   universityLogo?: string;
   campusPic?: string;
-  officers?: Officer[];
 }
 
 export default models.Chapter ?? model<IChapter>('Chapter', ChapterSchema)

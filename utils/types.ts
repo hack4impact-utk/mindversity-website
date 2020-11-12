@@ -1,24 +1,25 @@
 import { ObjectID } from "mongodb";
 
+// Keep these in sync with the backend schema
+
 export interface User {
-    id?: ObjectID;
+    _id?: ObjectID;
     email?: string;
     password?: string;
     role?: string;
 }
 
 export interface Officer {
-    id?: ObjectID;
+    _id?: ObjectID;
     name?: string;
     picture?: ContentfulImage;
     role?: string;
     chapter?: string;
-    // bio
+    bio?: string;
 }
 
-// Keep in sync with the backend schema
 export interface Chapter {
-    id?: ObjectID;
+    _id?: ObjectID;
     name?: string;
     region?: string;
     city?: string;
@@ -26,7 +27,6 @@ export interface Chapter {
     description?: string;
     universityLogo?: ContentfulImage;
     campusPic?: ContentfulImage;
-    officers?: Officer[]; //only use for return and not query
 }
 
 export interface ContentfulImage {

@@ -4,7 +4,7 @@ import {File} from "formidable";
 
 
 const client = createClient({
-    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+    accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN
 });
 
 
@@ -35,7 +35,7 @@ export async function uploadImage(image: File){
     
     if(asset == null){
        throw new Error("Asset creation unsuccessful.");
-   } else {
+    } else {
        
        //Delete image from local storage before ending upload
        fs.unlinkSync(image.path);
