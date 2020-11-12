@@ -30,16 +30,15 @@ ChapterPage.getInitialProps = async ( context: NextPageContext ) => {
   chapterQuery.name = context.query.name as string;
 
   var chapter: Chapter = new Object;
-  // var chapters: Chapter[] = await getChapter(chapterQuery);
-  // if (chapters.length === 1) {
-  //   chapter = chapters[0];
-  // }
-  // else {
-  //   // TODO route to an error page
-  //   throw new Error(errors.GENERIC_ERROR);
-  // }
+  var chapters: Chapter[] = await getChapter(chapterQuery);
+  if (chapters.length === 1) {
+    chapter = chapters[0];
+  }
+  else {
+    // TODO route to an error page
+    throw new Error(errors.GENERIC_ERROR);
+  }
 
-  chapter = await getChapter(chapterQuery);
   return {
       chapter: chapter,
   }
