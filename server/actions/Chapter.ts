@@ -20,15 +20,6 @@ export const getChapters = async function (chapterInfo: Chapter) {
         
         return chapters;
     })
-
-    // old way of merging officers into the chapter
-    // let chapterName = chapterInfo.name;
-    // let chapters: Chapter[] = await ChapterSchema.find(chapterInfo).lean();
-    // let officers: Officer[] = await OfficerSchema.find({chapter: chapterName}).lean();
-    // let returnChapter: Chapter = chapters[0];
-    // returnChapter.officers = officers;
-    // 
-    // return returnChapter;
 }
 
 // todo these 2 below need authentication to use
@@ -44,9 +35,10 @@ export const addChapter = async function (chapterInfo: Chapter) {
 }
 
 export const updateChapter = async function (chapterInfo: Chapter) {
-
+    // will update by _id or chapterName
 }
 
 export const deleteChapter = async function (chapterInfo: Chapter) {
-
+    // will delete by _id or chapterName
+    // also need to delete all officers with that chapterName
 }
