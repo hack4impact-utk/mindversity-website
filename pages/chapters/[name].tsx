@@ -1,6 +1,6 @@
 import Footer from "components/Footer";
 import ChapterComp from "components/Chapter";
-import { getChapter } from "requests/Chapter";
+import { getChapters } from "requests/Chapter";
 import { Chapter } from 'utils/types';
 import { NextPage, NextPageContext } from 'next';
 import errors from 'utils/errors';
@@ -17,7 +17,7 @@ const ChapterPage: NextPage<Props> = ({ chapter }) => {
     <div>
       <p> hello from the main page </p>
       <ChapterComp chapter={chapter}/>
-      <Footer />
+      <Footer/>
     </div>
   );
 };
@@ -30,7 +30,7 @@ ChapterPage.getInitialProps = async ( context: NextPageContext ) => {
   chapterQuery.name = context.query.name as string;
 
   var chapter: Chapter = new Object;
-  var chapters: Chapter[] = await getChapter(chapterQuery);
+  var chapters: Chapter[] = await getChapters(chapterQuery);
   if (chapters.length === 1) {
     chapter = chapters[0];
   }
@@ -40,7 +40,7 @@ ChapterPage.getInitialProps = async ( context: NextPageContext ) => {
   }
 
   return {
-      chapter: chapter,
+    chapter: chapter,
   }
 }
 

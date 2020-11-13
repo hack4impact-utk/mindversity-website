@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getOfficers } from "server/actions/Officer";
-import { Officer } from "utils/types";
+import { getChapters } from "server/actions/Chapter"
+import { Chapter } from "utils/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    let officerInfo: Officer = req.body;
-    
-    await getOfficers(officerInfo)
+    let chapterInfo: Chapter = req.body;
+    console.log(chapterInfo);
+    await getChapters(chapterInfo)
     .then((payload) => 
         res.status(200).json({
             success: true,

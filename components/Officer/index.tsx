@@ -1,16 +1,21 @@
 import React from 'react';
+import { deleteOfficer } from 'requests/Officer';
 import { Officer } from 'utils/types'
 
 interface Props {
   officer: Officer;
 }
 
-
-const updateOfficer = async (officer: Officer) => {
-  console.log(officer);
-  // go to a page/popup a component below to edit the current officer
+const updateOfficerHandler = async (officer: Officer) => {
+  // todo go to a page/popup a component below to edit the current officer
   // send updated officer info to updateOfficer backend
 };
+
+const deleteOfficerHandler = async (officer: Officer) => {
+  console.log("deleting officer._id:", officer._id);
+  deleteOfficer(officer);
+};
+
 
 const OfficerComp: React.FC<Props> = ({ officer }) => {
   return (
@@ -21,7 +26,8 @@ const OfficerComp: React.FC<Props> = ({ officer }) => {
       <p> officer chapter: { officer?.chapter } </p>
       <p> officer bio: { officer?.bio } </p>
       <p> officer _id: { officer?._id } </p>
-      <button onClick={() => updateOfficer(officer)}> Update </button>
+      <button onClick={() => updateOfficerHandler(officer)}> Update </button>
+      <button onClick={() => deleteOfficerHandler(officer)}> Delete </button>
     </>
   );
 };
