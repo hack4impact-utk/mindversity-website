@@ -2,8 +2,8 @@
 import fetch from "isomorphic-unfetch";
 import { Chapter } from 'utils/types'
 
-export const getChapter = (chapter: Chapter) =>
-  fetch("http://localhost:3000/api/chapter/getChapter", {
+export const getChapters = (chapter: Chapter) =>
+  fetch("http://localhost:3000/api/chapter/getChapters", {
     method: "POST",
     mode: "same-origin",
     headers: {

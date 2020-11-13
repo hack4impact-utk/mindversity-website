@@ -1,18 +1,18 @@
 import { NextPage } from "next";
-import { addOfficers } from "requests/Officer";
+import { addOfficer } from "requests/Officer";
 import { Officer } from "utils/types"
 
 const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    var officer: Officer = await addOfficers(formData);
+    var officer: Officer = await addOfficer(formData);
 };
 
 const Test: NextPage = () => {
     return(
         <div>
             <h1>Add Officer</h1>
-            <form onSubmit={handleSubmit} className="form"> 
+            <form onSubmit={handleSubmit} className="form">
                 <label>Officer Name</label>
                 <input type="text" name="name" placeholder="Officer Name" defaultValue="Kemal Fidan" required/>
                 <textarea name="role" placeholder="Vice-President" defaultValue="El Presidente" required/>

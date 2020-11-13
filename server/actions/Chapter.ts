@@ -5,8 +5,8 @@ import { Chapter } from "utils/types";
 
 // This function can be used to query a chapter by name, region, etc and can even
 // return all chapters. It expects the caller to properly specify the parameters 
-// they want to query.
-export const getChapter = async function (chapterInfo: Chapter) {
+// they want to query. Returns an array of chapters that match the query.
+export const getChapters = async function (chapterInfo: Chapter) {
     await mongoDB();
     console.log("connected to mongo, will do query now");
 

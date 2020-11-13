@@ -12,8 +12,8 @@ export const ChapterSchema = new Schema({
     required: false
   },
   description: {
-      type: String,
-      required: false,
+    type: String,
+    required: false,
   },
   campusPic: {
     type: ContentfulImageSchema,
