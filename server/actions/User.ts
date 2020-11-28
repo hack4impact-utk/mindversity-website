@@ -26,9 +26,9 @@ export async function login(user: User): Promise<string> {
     if (!apparentUser || !apparentUser.password)
         throw new Error("Invalid Username or Password");
 
-    await compare(user.password, apparentUser.password, (err, same) => {
-        if (err || !same) throw new Error("Invalid Username or Password");
-    });
+    const same = await compare(user.password, apparentUser.password);
+
+    if (!same) throw new Error("Invalid Username or Password");
 
     const secret: Secret = process.env.JWTSECRET as string;
 
@@ -104,9 +104,9 @@ export async function resetPassword(
 
     if (!userToReset || !userToReset.resetKey) throw new Error("Invalid User");
 
-    await compare(resetKey, userToReset.resetKey, (err, same) => {
-        if (err || !same) throw new Error("Invalid User");
-    });
+    const same = await compare(resetKey, userToReset.resetKey);
+
+    if (!same) throw new Error("Invalid User");
 
     const hashedPassword = await hash(newPassword, 10);
 
@@ -134,7 +134,7 @@ export async function sendForgotPasswordEmail(email: string): Promise<boolean> {
         const doubleHash = await hash(randomHash, 10);
 
         existingUser.resetKey = doubleHash;
-        console.log(randomHash);
+
         await existingUser.save();
 
         const transporter = createTransport({
