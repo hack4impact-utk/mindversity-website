@@ -1,4 +1,4 @@
-import { Document, model, Schema } from "mongoose";
+import { Document, model, models, Model, Schema } from "mongoose";
 
 export const UserSchema = new Schema({
     email: {
@@ -28,4 +28,5 @@ export interface User {
 
 export interface UserDocument extends User, Document {}
 
-export default model<UserDocument>("User", UserSchema);
+export default (models.User as Model<UserDocument, Record<string, unknown>>) ||
+    model<UserDocument>("User", UserSchema);

@@ -92,6 +92,7 @@ export async function checkEmail(email: string): Promise<UserDocument | null> {
  * @param newPassword The new password that the user wants to use
  */
 export async function resetPassword(
+    email: string,
     resetKey: string,
     newPassword: string
 ): Promise<void> {
@@ -99,9 +100,13 @@ export async function resetPassword(
 
     await mongoDB();
 
-    const userToReset = await UserModel.findOne({ resetKey: resetKey });
+    const userToReset = await UserModel.findOne({ email: email });
 
-    if (!userToReset) throw new Error("Invalid User");
+    if (!userToReset || !userToReset.resetKey) throw new Error("Invalid User");
+
+    await compare(resetKey, userToReset.resetKey, (err, same) => {
+        if (err || !same) throw new Error("Invalid User");
+    });
 
     const hashedPassword = await hash(newPassword, 10);
 
@@ -124,25 +129,13 @@ export async function sendForgotPasswordEmail(email: string): Promise<boolean> {
     const existingUser = await checkEmail(email);
 
     if (existingUser) {
-        let randomHash = randomBytes(16).toString("hex");
+        const randomHash = randomBytes(16).toString("hex");
 
-        let doubleHash = await hash(randomHash, 10);
-
-        //Check that hash does not already exist on other user
-        while (UserModel.findOne({ resetKey: doubleHash }) != undefined) {
-            randomHash = randomBytes(16).toString("hex");
-            doubleHash = await hash(randomHash, 10);
-        }
+        const doubleHash = await hash(randomHash, 10);
 
         existingUser.resetKey = doubleHash;
-
-        await UserModel.findByIdAndUpdate(
-            { _id: existingUser._id as ObjectID },
-            existingUser,
-            { upsert: false, useFindAndModify: false }
-        );
-
-        existingUser.resetKey = "";
+        console.log(randomHash);
+        await existingUser.save();
 
         const transporter = createTransport({
             service: "gmail",
@@ -158,7 +151,7 @@ export async function sendForgotPasswordEmail(email: string): Promise<boolean> {
             from: "mvpassreset@gmail.com",
             to: email,
             subject: "MindVersity Admin Password Reset",
-            text: `Click this link to reset your MindVeristy Admin password:\n${baseURL}/${urls.pages.newPassword}?key=${randomHash}`,
+            text: `Click this link to reset your MindVeristy Admin password:\n${baseURL}/${urls.pages.newPassword}?email=${email}&key=${randomHash}`,
         };
 
         transporter.sendMail(mailOptions, function (err) {

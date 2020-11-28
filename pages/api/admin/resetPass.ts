@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { resetPassword } from "server/actions/User";
 
 interface resetTokens {
+    email: string;
     resetKey: string;
     newPassword: string;
 }
@@ -13,7 +14,11 @@ export default async function handler(
     const resetData = req.body as resetTokens;
 
     try {
-        await resetPassword(resetData.resetKey, resetData.newPassword);
+        await resetPassword(
+            resetData.email,
+            resetData.resetKey,
+            resetData.newPassword
+        );
         res.status(200).json({ success: true, message: "Password Reset" });
     } catch (_err) {
         const err = _err as Error;
