@@ -46,7 +46,7 @@ export async function login(user: User): Promise<string> {
 }
 
 /**
- * @Adds a new user to the database
+ * Adds a new user to the database
  * @param user The user to be created and added to the database
  */
 export async function createUser(user: User): Promise<void> {
