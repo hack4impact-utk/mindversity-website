@@ -1,5 +1,5 @@
 module.exports = {
   arrowParens: "avoid",
-  tabWidth: 2,
+  tabWidth: 4,
   trailingComma: "es5",
 };

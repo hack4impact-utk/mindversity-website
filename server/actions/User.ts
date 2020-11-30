@@ -1,83 +1,165 @@
 import mongoDB from "../index";
+import { ObjectID } from "mongodb";
 import { User } from "utils/types";
-import UserModel from "server/models/User";
+import UserModel, { UserDocument } from "server/models/User";
 import { hash, compare } from "bcrypt";
 import { Secret, sign } from "jsonwebtoken";
+import { randomBytes } from "crypto";
+import urls from "utils/urls";
+import { createTransport } from "nodemailer";
 
-export async function login(user: User) {
-    
+/**
+ * Logs the user in
+ * @param user The User that is attempting to login
+ * @returns signed JWT
+ * @throws Invalid Username or Password: if no credentials match
+ */
+export async function login(user: User): Promise<string> {
     if (user.email == null || user.password == null) {
-        throw Error("Parameters cannot be empty")
+        throw new Error("Parameters cannot be empty");
     }
 
-    await mongoDB()
+    await mongoDB();
 
-    return UserModel.findOne({email: user.email})
-    .then((gottenUser)=>{
-        if(gottenUser){
-            return compare(user.password, gottenUser.password).then((result)=>{
-                if(result) return Promise.resolve(gottenUser)
+    const apparentUser = await UserModel.findOne({ email: user.email });
 
-                return Promise.reject(
-                    new Error("Password does not match")
-                )
-            })
+    if (!apparentUser || !apparentUser.password)
+        throw new Error("Invalid Username or Password");
+
+    const same = await compare(user.password, apparentUser.password);
+
+    if (!same) throw new Error("Invalid Username or Password");
+
+    const secret: Secret = process.env.JWTSECRET as string;
+
+    return sign(
+        {
+            _id: apparentUser._id as ObjectID,
+            email: apparentUser.email,
+            role: apparentUser.role,
+        },
+        secret,
+        {
+            expiresIn: "7d",
         }
-    })
-    .then((theUser)=>{
-
-        const secret: Secret = process.env.JWTSECRET as string
-
-        return sign(
-            {
-                _id: theUser._id,
-                email: theUser.email,
-                role: theUser.role
-            },
-            secret,
-            {
-                expiresIn: "7d"
-            }
-        )
-    })
-
+    );
 }
 
-export async function createUser(user: User){
-
+/**
+ * Adds a new user to the database
+ * @param user The user to be created and added to the database
+ */
+export async function createUser(user: User): Promise<void> {
     if (user.email == null || user.password == null) {
-        throw Error("Parameters cannot be empty")
+        throw Error("Parameters cannot be empty");
     }
-    let isNew = await checkEmail(user.email)
+    const isNew = await checkEmail(user.email);
 
-    if(!isNew)
-    {
-        throw Error("Email already used")
+    if (!isNew) {
+        throw Error("Email already used");
     }
 
-    await mongoDB()
-    const secret = process.env.JWTSECRET as string
+    await mongoDB();
 
-    const {email, password} = user
-    const hashedPassword = await hash(password, 10)
+    const { email, password } = user;
+    const hashedPassword = await hash(password, 10);
 
     const newUser = new UserModel({
         email,
-        password: hashedPassword
-    })
+        password: hashedPassword,
+        role: user.role ?? "",
+    });
 
-    newUser.save(function(err:any){
-        if(err) console.log(err)
-    })
+    await newUser.save(function (err: Error) {
+        if (err) console.log(err);
+    });
 }
 
+/**
+ * Checks if the given email is already in use
+ * @param email check against database for exisiting value
+ * @returns The UserDocument of the user with the given email, or null if it does not exisit
+ */
+export async function checkEmail(email: string): Promise<UserDocument | null> {
+    await mongoDB();
 
-export async function checkEmail(email: string)
-{
-    await mongoDB()
+    return UserModel.findOne({ email: email });
+}
 
-    return UserModel.findOne({email: email})
-    .then((user) => {
-        return user.isNew
-    })
+/**
+ * Changes the password on the user with the reset Key
+ * @param resetKey The key sent in the email to the user to reset a password
+ * @param newPassword The new password that the user wants to use
+ */
+export async function resetPassword(
+    email: string,
+    resetKey: string,
+    newPassword: string
+): Promise<void> {
+    if (!resetKey || !newPassword) throw new Error("Invalid User");
+
+    await mongoDB();
+
+    const userToReset = await UserModel.findOne({ email: email });
+
+    if (!userToReset || !userToReset.resetKey) throw new Error("Invalid User");
+
+    const same = await compare(resetKey, userToReset.resetKey);
+
+    if (!same) throw new Error("Invalid User");
+
+    const hashedPassword = await hash(newPassword, 10);
+
+    userToReset.password = hashedPassword;
+    userToReset.resetKey = "";
+
+    await userToReset.save();
+}
+
+/**
+ * Sends the reset password URL with resetKey to user's email address
+ * @param email User's email to send reset Key
+ * @returns Whether the email was sent or not
+ */
+export async function sendForgotPasswordEmail(email: string): Promise<boolean> {
+    if (!email) throw new Error("No Email Provided");
+
+    await mongoDB();
+
+    const existingUser = await checkEmail(email);
+
+    if (existingUser) {
+        const randomHash = randomBytes(16).toString("hex");
+
+        const doubleHash = await hash(randomHash, 10);
+
+        existingUser.resetKey = doubleHash;
+
+        await existingUser.save();
+
+        const transporter = createTransport({
+            service: "gmail",
+            auth: {
+                user: "mvpassreset@gmail.com",
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+
+        const baseURL = urls.baseUrl ?? "http://localhost:3000";
+
+        const mailOptions = {
+            from: "mvpassreset@gmail.com",
+            to: email,
+            subject: "MindVersity Admin Password Reset",
+            text: `Click this link to reset your MindVeristy Admin password:\n${baseURL}/${urls.pages.newPassword}?email=${email}&key=${randomHash}`,
+        };
+
+        transporter.sendMail(mailOptions, function (err) {
+            if (err) console.log(err);
+        });
+
+        return true;
+    }
+
+    return false;
 }
