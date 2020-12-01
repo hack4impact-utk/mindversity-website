@@ -9,7 +9,20 @@ interface Props {
 const OfficerCarouselComp: React.FC<Props> = ({ officers }) => {
   return (
     <div className={styles.container}>
-      <p>Officers: Test { JSON.stringify(officers) }</p>
+      <div className={styles.imgContainer}>
+        <img src={officers[0].picture?.url} />
+        <img src={officers[0].picture?.url} />
+      </div>
+      <div className={styles.infoContainer}>
+        <h1>{officers[0].name}</h1>
+        <h2>{officers[0].role}</h2>
+        <p>{officers[0].bio}</p>
+
+        <div className={styles.btnContainer}>
+          <button className={styles.active}></button>
+          <button></button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -53,11 +53,10 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers }) => {
         </div>
         <div className="chapterOfficerParent bodySection">
           <h2>Meet the Team</h2>
-          {/* <OfficerCarouselComp /> */}
+          <OfficerCarouselComp officers={officers} />
         </div>
       </div>
       
-      <OfficerCarouselComp officers={officers}/>
       <ChapterComp chapter={chapter}/>
       
       <Footer />
