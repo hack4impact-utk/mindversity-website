@@ -1,8 +1,10 @@
 import Header from "components/Header";
 import Footer from "components/Footer";
 import ChapterComp from "components/Chapter";
+import OfficerCarouselComp from "components/OfficerCarousel";
 import { getChapters } from "requests/Chapter";
-import { Chapter } from 'utils/types';
+import { getOfficers } from "requests/Officer";
+import { Chapter, Officer } from 'utils/types';
 import { NextPage, NextPageContext } from 'next';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import errors from 'utils/errors';
@@ -12,10 +14,11 @@ import Head from "next/head";
 // We can get that param with useRouter(), but its also given in the context
 
 interface Props {
-  chapter: Chapter;
+  chapter: Chapter,
+  officers: Officer[],
 }
 
-const ChapterPage: NextPage<Props> = ({ chapter }) => {
+const ChapterPage: NextPage<Props> = ({ chapter, officers }) => {
 
   //Replace any underscores in the chapter name with spaces
   var cleanName = chapter.name?.replace(/_/g, " ");
@@ -50,9 +53,11 @@ const ChapterPage: NextPage<Props> = ({ chapter }) => {
         </div>
         <div className="chapterOfficerParent bodySection">
           <h2>Meet the Team</h2>
+          {/* <OfficerCarouselComp /> */}
         </div>
       </div>
-
+      
+      <OfficerCarouselComp officers={officers}/>
       <ChapterComp chapter={chapter}/>
       
       <Footer />
@@ -193,8 +198,19 @@ ChapterPage.getInitialProps = async ( context: NextPageContext ) => {
     throw new Error(errors.GENERIC_ERROR);
   }
 
+  let officerQuery: Officer = new Object;
+  officerQuery.chapter = chapter.name;
+
+  var officers: Officer[] = await getOfficers(officerQuery);
+  if (!(officers.length > 0))
+  {
+    // TODO route to an error page
+    throw new Error(errors.GENERIC_ERROR);
+  }
+
   return {
       chapter: chapter,
+      officers: officers
   }
 }
 
