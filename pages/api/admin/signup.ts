@@ -1,22 +1,21 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import { createUser } from "server/actions/User"
-import { User } from 'utils/types'
-import cookie from "cookie";
+import { NextApiRequest, NextApiResponse } from "next";
+import { createUser } from "server/actions/User";
+import { User } from "utils/types";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse){
-    let newUser = req.body as User
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse
+): Promise<void> {
+    const newUser = req.body as User;
 
-    await createUser(newUser)
-    .then((payload) => 
-    res.status(200).json({
-        success: true,
-        payload
-    })
-    )
-    .catch((error: Error)=>
-    res.status(400).json({
-        success: false, 
-        message: error.message
-    })
-) 
+    try {
+        await createUser(newUser);
+        res.status(200).json({ success: true });
+    } catch (_err) {
+        const err = _err as Error;
+        res.status(400).json({
+            success: false,
+            message: err.message,
+        });
+    }
 }

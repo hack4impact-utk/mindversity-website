@@ -1,26 +1,32 @@
-import { User } from "utils/types";
-import { Document, model, models, Schema } from "mongoose"
-
+import { Document, model, models, Model, Schema } from "mongoose";
 
 export const UserSchema = new Schema({
     email: {
         type: String,
-        required: false
+        required: false,
     },
     password: {
         type: String,
-        required: false
+        required: false,
     },
     role: {
         type: String,
-        required: false
-    }
-})
+        required: false,
+    },
+    resetKey: {
+        type: String,
+        required: false,
+    },
+});
 
-export interface IUser extends Document{
-    email: string;
-    password: string;
-    role: string;
+export interface User {
+    email?: string;
+    password?: string;
+    role?: string;
+    resetKey?: string;
 }
 
-export default models.User ?? model<IUser>('User', UserSchema)
+export interface UserDocument extends User, Document {}
+
+export default (models.User as Model<UserDocument, Record<string, unknown>>) ||
+    model<UserDocument>("User", UserSchema);
