@@ -1,0 +1,129 @@
+/* Officer carousel container */
+div.container {
+  background-color: rgb(148, 144, 148);
+  width: 100%;
+  display: grid;
+  @media (min-width: 860px) { grid-template-columns: 50% 50%; }
+  @media (max-width: 860px) { grid-template-columns: repeat(auto-fill, 100%); }
+  div.imgContainer, div.infoContainer { overflow: hidden; }
+}
+/* Officer picture container */
+div.container div.imgContainer {
+  @media (min-width: 860px) { height: 475px; }
+  @media (max-width: 860px) { height: 350px; }
+  position: relative;
+  background-color: #D7D7D7;
+}
+/* Officer picture wrapper (contains picture and blurred background) */
+div.container div.imgContainer div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  /* Slide animations */
+  &.hidden {
+    opacity: 0.0;
+    animation: hideOfficer 0.1s linear forwards;
+  }
+  &.show {
+    transform: translateX(100%);
+    animation: showOfficer 0.75s ease-out forwards;
+  }
+  &.hide { animation: hideOfficer 0.75s ease-out forwards; }
+  @keyframes showOfficer {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes hideOfficer {
+    to { transform: translateX(-100%); }
+  }
+  /* General styling for both picture and background */
+  img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    opacity: 1;
+  }
+  /* Blurred officer picture to fill potential whitespace */
+  img:nth-of-type(1) {
+    width: 100%;
+    height: 100%;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+  }
+  /* Officer picture */
+  img:nth-of-type(2) {
+    width: auto;
+    height: 100%;
+  }
+}
+/* Officer information container */
+div.container div.infoContainer {
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  background-color: #E9E9E9;
+}
+/* Name, role, bio wrapper */
+div.container div.infoContainer div.wrapper {
+  width: 80%;
+  /* Slide up transition animation. */
+  animation: transitionText 0.75s ease-out forwards;
+  @keyframes transitionText {
+    0% {
+      opacity: 0.0;
+      transform: translateY(30px);
+    }
+    15% { opacity: 0.0; }
+    100% {
+      opacity: 1.0;
+      transform: translateY(0);
+    }
+  }
+  /* Name, role, bio */
+  h1, h2, p {
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    font-weight: 600;
+    @media (min-width: 860px) { padding-top: 140px; }
+    @media (max-width: 860px) { padding-top: 25px; }
+  }
+  h2 {
+    font-weight: 500;
+    font-style: italic;
+  }
+  p {
+    margin-top: 25px;
+    max-height: 175px;
+    overflow-y: auto;
+    @media (min-width: 860px) { padding-bottom: 0; }
+    @media (max-width: 860px) { margin-bottom: 70px; }
+  }
+}
+/* Carousel selectors container */
+div.container div.infoContainer div.btnContainer {
+  width: 100%;
+  height: 25px;
+  position: absolute;
+  bottom: 25px;
+  left: 0;
+  text-align: center;
+  /* Carousel selectors */
+  button {
+    width: 12.5px;
+    height: 12.5px;
+    background-color: #FFFFFF;
+    margin-right: 7.5px;
+    border: none;
+    border-radius: 50%;
+    transition: background-color 0.35s;
+  }
+  button:hover { cursor: pointer; }
+  button:focus { outline: none; }
+  button.active { background-color: #707070; }
+}
