@@ -35,8 +35,9 @@ $dark-purple: #503E8C;
     width: 100%;
     position:relative;
     height: 600px;
-    background: $light-purple;
     display:flex;
+    background-size: 100% 600px !important;
+    background-repeat: no-repeat;
     flex-direction:column;
     align-items:center;
 }
@@ -111,4 +112,15 @@ $dark-purple: #503E8C;
     color:white;
     margin:10px;
     border-radius:10px;
+}
+
+
+.error{
+    text-align:center;
+    align-self:center;
+    padding:0.5rem;
+    background:#ffafa6;
+    border-radius: 10px;
+    width:50%;
+    color: #540901;
 }
