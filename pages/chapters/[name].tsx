@@ -1,6 +1,5 @@
 import Header from "components/Header";
 import Footer from "components/Footer";
-import ChapterComp from "components/Chapter";
 import OfficerCarouselComp from "components/OfficerCarousel";
 import { getChapters } from "requests/Chapter";
 import { getOfficers } from "requests/Officer";
@@ -23,8 +22,19 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers }) => {
   //Replace any underscores in the chapter name with spaces
   var cleanName = chapter.name?.replace(/_/g, " ");
   //Make the first letter of the region name capital
-  var cleanRegion = chapter.region?.charAt(0).toUpperCase().concat(chapter.region.substr(1));
 
+  var heroStyle;
+  if(chapter.campusPic?.url){ //Add the background image to the style if the url exists in the db
+    heroStyle = {
+      backgroundImage: 'url(' + chapter.campusPic.url + ')'
+    }
+  }
+  else{ //Use placeholder gradient if no background image url exists in the db
+    heroStyle = {
+      backgroundImage: 'linear-gradient(90deg, rgba(234,224,241,1) 0%, rgba(181,156,204,1) 100%)'
+    }
+  }
+ 
   return(
     <div>
       
@@ -35,11 +45,11 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers }) => {
       
       <Header />
 
-      <div className="hero" style={{backgroundImage: "url('/rutgers-placeholder.jpg')"}}>
+      <div className="hero" style={heroStyle}>
         <div className="heroOverlay">
           <div className="heroText">
             <h1>{cleanName}</h1>
-            <h2><FaMapMarkerAlt className="locationIcon" /> {cleanRegion}</h2>
+            <h2><FaMapMarkerAlt className="locationIcon" /> {chapter.city}, {chapter.state}</h2>
           </div>
         </div>
       </div>
@@ -56,8 +66,6 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers }) => {
           <OfficerCarouselComp officers={officers} />
         </div>
       </div>
-      
-      <ChapterComp chapter={chapter}/>
       
       <Footer />
 
@@ -89,6 +97,7 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers }) => {
         top: 50%;
         transform: translateY(-50%);
         padding: 0px 40px;
+        text-align: center;
       }
 
       h1{
