@@ -42,6 +42,7 @@
     transition: background 0.5s ease;
     z-index: 1001;
     border: none;
+    outline: none;
     @media screen and (min-width: 1000px){
         display: none;
     }
