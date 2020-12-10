@@ -47,10 +47,16 @@ const Navigation: React.FC = () => {
                         </div>
                     </div>
                     <div className={style.navLowerText}>
-                        A Hack4Impact Chapter
+                        A Global Effort to Better BIPOC Student Mental Health
+                        Care.
                     </div>
                 </div>
             </div>
+            <div
+                aria-hidden="true"
+                className={open ? style["overlayOpen"] : style["overlayClosed"]}
+                onClick={() => setOpen(!open)}
+            ></div>
             <button
                 className={style.hamburgerMenu}
                 onClick={() => setOpen(!open)}
