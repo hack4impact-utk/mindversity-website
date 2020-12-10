@@ -1,170 +1,188 @@
 import { NextPage } from "next";
 import Head from "next/head";
 
+import Header from "components/Header";
+import Footer from "components/Footer";
+
 const Home: NextPage = () => {
-  return (
-    <div className="container">
-      <Head>
-        <title>Login | MindVersity</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    return (
+        <div className="container">
+            <Head>
+                <title>Login | MindVersity</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
-      <main>
-        <div className="loginWrapper">
-          <div className="loginContainer">
-            <a href="/">
-              <img src="mindversity-logo.png" alt="MindVersity Logo"></img>
-            </a>
-            <h1>Log In</h1>
-            <form action="" method="post">
-              <input
-                type="text"
-                className="textInput"
-                name=""
-                placeholder="Email"
-                id=""
-              />
-              <input
-                type="password"
-                className="textInput"
-                name=""
-                placeholder="Password"
-                id=""
-              />
-              <input type="submit" className="submitInput" value="Log In" />
-            </form>
-            <p>
-              Click <a href="password-reset">here</a> to reset your password.
-            </p>
-          </div>
+            <Header />
+
+            <main>
+                <div className="loginWrapper">
+                    <div className="loginContainer">
+                        <h1>Log In</h1>
+                        <form action="" method="post">
+                            <div className="formLabel">Email</div>
+                            <input
+                                type="text"
+                                className="textInput"
+                                name=""
+                                placeholder="username@email.com"
+                                id=""
+                            />
+                            <div className="formLabel">Password</div>
+                            <input
+                                type="password"
+                                className="textInput"
+                                name=""
+                                placeholder="password"
+                                id=""
+                            />
+                            <p className="passwordResetText">
+                                Forgot your password?{" "}
+                                <a href="/portal/password-reset">click here</a>.
+                            </p>
+                            <div className="submitInputParent">
+                                <input
+                                    type="submit"
+                                    className="submitInput"
+                                    value="Log In"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+
+            <Footer />
+
+            <style jsx>{`
+                main {
+                    height: auto;
+                    width: auto;
+                    min-height: calc(100vh - 407px);
+                    position: relative;
+                    display: block;
+                    background-color: #e0d0ee;
+                    padding: 60px;
+                }
+
+                .formLabel {
+                    padding-bottom: 5px;
+                }
+
+                h1 {
+                    margin-top: 20px;
+                    margin-bottom: 40px;
+                    font-size: 34px;
+                }
+
+                .passwordResetText {
+                    margin-top: 10px;
+                    margin-bottom: 40px;
+                    padding-left: 10px;
+                    font-size: 14px;
+                    color: #714b92;
+                }
+
+                .passwordResetText a {
+                    color: #714b92;
+                }
+
+                .loginWrapper {
+                    height: auto;
+                    width: auto;
+                    position: relative;
+                    display: block;
+                    background-color: rgba(255, 255, 255, 0);
+                    z-index: 100;
+                    text-align: center;
+                    overflow: auto;
+                }
+
+                @media screen and (min-width: 575px) {
+                    .loginContainer {
+                        height: auto;
+                        width: 400px;
+                        position: relative;
+                        display: inline-block;
+                        background-color: white;
+                        padding: 10px 40px 40px 40px;
+                        text-align: left;
+                        border-radius: 15px;
+                    }
+                }
+
+                @media screen and (max-width: 575px) {
+                    .loginContainer {
+                        height: auto;
+                        width: auto;
+                        position: relative;
+                        display: inline-block;
+                        background-color: white;
+                        padding: 10px 40px 40px 40px;
+                        text-align: left;
+                        border-radius: 15px;
+                    }
+                }
+
+                .textInput {
+                    height: auto;
+                    width: 100%;
+                    padding: 10px 15px;
+                    position: relative;
+                    display: block;
+                    border: none;
+                    font-size: 16px;
+                    margin-bottom: 15px;
+                    outline: none;
+                    border-radius: 5px;
+                    background-color: #eae0f1;
+                }
+
+                .submitInputParent {
+                    width: auto;
+                    height: auto;
+                    position: relative;
+                    display: block;
+                    text-align: center;
+                }
+
+                .submitInput {
+                    height: auto;
+                    width: auto;
+                    padding: 10px 40px;
+                    position: relative;
+                    display: inline-block;
+                    border: none;
+                    font-size: 16px;
+                    margin-top: 20px;
+                    outline: none;
+                    border-radius: 15px;
+                    background-color: #8c69aa;
+                    color: white;
+                    transition: background 0.5s ease;
+                }
+
+                .submitInput:hover {
+                    cursor: pointer;
+                    background-color: #b59ccc;
+                }
+            `}</style>
+
+            <style jsx global>{`
+                html,
+                body {
+                    padding: 0;
+                    margin: 0;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
+                        Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+                        Helvetica Neue, sans-serif;
+                }
+
+                * {
+                    box-sizing: border-box;
+                }
+            `}</style>
         </div>
-      </main>
-
-      <style jsx>{`
-        main {
-          height: 100vh;
-          width: auto;
-          position: relative;
-          display: block;
-          background-image: url("login/background.jpeg");
-        }
-
-        .loginWrapper {
-          height: auto;
-          width: auto;
-          position: fixed;
-          display: block;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background-color: rgba(255, 255, 255, 0);
-          z-index: 100;
-          text-align: center;
-          overflow: auto;
-        }
-
-        @media screen and (min-height: 500px) {
-          .loginContainer {
-            height: auto;
-            width: 400px;
-            position: relative;
-            display: inline-block;
-            background-color: #1e315c;
-            color: white;
-            padding: 10px 40px;
-            text-align: center;
-            top: 50%;
-            transform: translateY(-50%);
-          }
-        }
-
-        @media screen and (max-height: 500px) {
-          .loginContainer {
-            height: auto;
-            width: 400px;
-            position: relative;
-            display: inline-block;
-            background-color: #1e315c;
-            color: white;
-            padding: 10px 40px;
-            margin: 20px 0px;
-            text-align: center;
-          }
-        }
-
-        .textInput {
-          height: auto;
-          width: 100%;
-          padding: 15px 20px;
-          position: relative;
-          display: block;
-          border: none;
-          font-size: 16px;
-          margin-bottom: 15px;
-          outline: none;
-          border-radius: 500px;
-          background-color: #eae0f1;
-        }
-
-        .submitInput {
-          height: auto;
-          width: 100%;
-          padding: 15px;
-          position: relative;
-          display: block;
-          border: none;
-          font-size: 16px;
-          margin-top: 20px;
-          outline: none;
-          border-radius: 500px;
-          background-color: #05b2dc;
-          color: white;
-          transition: background 0.5s ease;
-        }
-
-        .submitInput:hover {
-          cursor: pointer;
-          background-color: #6be9fa;
-        }
-
-        p a {
-          color: white;
-        }
-
-        h1 {
-          margin-top: 20px;
-          margin-bottom: 20px;
-        }
-
-        img {
-          max-height: 100px;
-          margin-top: 20px;
-          width: auto;
-        }
-
-        p {
-          margin-top: 20px;
-          margin-bottom: 20px;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  );
+    );
 };
 
 export default Home;

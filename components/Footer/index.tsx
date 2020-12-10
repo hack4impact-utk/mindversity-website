@@ -33,7 +33,7 @@ export default function Footer() {
             </div>
             <div className={styles.row}>
                 <div className={styles.column}>
-                    <p>A Hack4Impact Chapter</p>
+                    <a href="/portal">Log In</a>
                 </div>
                 <div className={styles.column}>
                     <p className={styles.logo}>MindVersity</p>
