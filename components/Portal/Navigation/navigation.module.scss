@@ -1,5 +1,6 @@
 .navParent{
     width: 375px;
+    max-width: 90vw;
     height: 100%;
     position: fixed;
     top: 0;
@@ -40,6 +41,7 @@
     font-size: 20px;
     transition: background 0.5s ease;
     z-index: 1001;
+    border: none;
     @media screen and (min-width: 1000px){
         display: none;
     }

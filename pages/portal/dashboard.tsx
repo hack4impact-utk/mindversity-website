@@ -13,64 +13,78 @@ const Dashboard: NextPage = () => {
 
             <Navigation />
 
-            <h1>Welcome to MindVersity</h1>
-            <h2>A national peer network.</h2>
+            <div className="bodyContent">
+                <h1>Welcome to MindVersity</h1>
 
-            <div className="dashChipParent">
-                <h2>What yould you like to do?</h2>
-                <a className="dashChip" href="chapters">
-                    Manage Chapters
-                </a>
-                <a className="dashChip" href="resources">
-                    Edit Resources
-                </a>
-                <a className="dashChip" href="journal">
-                    Update Journal
-                </a>
+                <div className="dashChipParent">
+                    <h2>What yould you like to do?</h2>
+                    <a className="dashChip" href="chapters">
+                        Manage Chapters
+                    </a>
+                    <a className="dashChip" href="resources">
+                        Edit Resources
+                    </a>
+                    <a className="dashChip" href="journal">
+                        Update Journal
+                    </a>
+                </div>
             </div>
 
             <style jsx>{`
-        .container{
-          padding-top: 50px;
-          text-align: center;
-        }
+                .container{
+                    padding-top: 50px;
+                    text-align: center;
+                }
 
-        .dashChipParent{
-          width: auto;
-          height: auto;
-          position: relative;
-          display: block;
-          margin-top: 50px;
-          padding: 40px;
-        }
+                @media screen and (min-width: 1000px){
+                    .bodyContent{
+                        width: auto;
+                        height: auto;
+                        position: relative;
+                        display: inline-block;
+                        margin-left: 375px;
+                    }
+                }
 
-        .dashChipParent h2{
-          margin-bottom: 40px;
-        }
+                h1{
+                    color: #8C69AA;
+                }
 
-        .dashChip{
-          width: auto;
-          height: auto;
-          position: relative;
-          display: inline-block;
-          padding: 20px 40px;
-          font-size: 20px;
-          border-radius: 500px;
-          border: 3px solid #2AB7CA;
-          box-shadow: 0px 5px 5px #dedede;
-          background-color: #FAFAFA;
-          color: black;
-          text-decoration: none;
-          margin: 20px;
-          transition background 0.5s ease;
-        }
+                .dashChipParent{
+                    width: auto;
+                    height: auto;
+                    position: relative;
+                    display: block;
+                    margin-top: 50px;
+                    padding: 40px;
+                }
 
-        .dashChip:hover{
-          background-color: #2AB7CA;
-          color: white;
-          cursor: pointer;
-        }
-      `}</style>
+                .dashChipParent h2{
+                    margin-bottom: 40px;
+                }
+
+                .dashChip{
+                    width: auto;
+                    height: auto;
+                    position: relative;
+                    display: inline-block;
+                    padding: 20px 40px;
+                    font-size: 20px;
+                    border-radius: 5px;
+                    border: 3px solid #8C69AA;
+                    background-color: #8C69AA;
+                    color: white;
+                    text-decoration: none;
+                    margin: 20px;
+                    transition background 0.5s ease;
+                }
+
+                .dashChip:hover{
+                    background-color: #B59CCC;
+                    color: white;
+                    cursor: pointer;
+                }
+            `}</style>
 
             <style jsx global>{`
                 html,
