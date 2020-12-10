@@ -41,3 +41,11 @@ export interface Resource {
     category?: string;
     link?: string;
 }
+
+export interface JournalEntry{
+    title?: string,
+    description?: string,
+    image?: ContentfulImage,
+    category?: string,
+    body?: string,
+}
