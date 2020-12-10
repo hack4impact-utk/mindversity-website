@@ -121,6 +121,7 @@ const CreateJournalEntry: React.FC = () => {
                     )}
                     <button type="submit" className={styles['submit']}>Publish</button>
                 </form>
+
             </div>
         </section>
     );

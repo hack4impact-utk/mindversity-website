@@ -17,12 +17,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         let journalEntry: JournalEntry = fields;
         //In Contentful, Entries store links to Assets (in this case, our Journal Entry images), so we get the asset ID and url for the JournalEntry's image
         journalEntry.image = await uploadImage(files.image);
-        const created = await createJournalEntry(journalEntry);
+        let created = await createJournalEntry(journalEntry);
         if(created){
-            res.status(200).json({message: "Post successfully created!"});
-        } else {
-            res.status(400).json({message: 'Something went wrong. Please try again.'});
+            res.status(200).json({message: "Post creation successful."});
+        } else{ 
+            res.status(400).json({message:"Something went wrong. Please try again."});
         }
-    });
-        
+    }); 
 }

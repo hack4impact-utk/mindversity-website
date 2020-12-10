@@ -115,7 +115,26 @@ export async function createJournalEntry(journalEntry: JournalEntry){
     }
 }
 
-export async function getJournalEntriesByReviewStatus(status: boolean){
-    //TODO: Implement Contentful query to return all Entries based on status
+/**
+* @param reviewed review status of the Journal Entries to be retrieved
+* @returns An array filled with Journal Entries retrieved or an empty object if there's an error.
+*/
+export async function getJournalEntriesByReviewStatus(reviewed: boolean){
+    try{
+        const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
+        const environment = await space.getEnvironment('master');
+        const entries = await environment.getEntries({
+            content_type: 'blogPost',
+            fields: {
+                reviewed: reviewed,
+            },
+        });
+        return entries;
+    } catch (error) {
+        if(error) console.error(error);
+        return {};
+    }
 }
+
+
 
