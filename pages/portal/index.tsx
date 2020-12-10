@@ -97,15 +97,30 @@ const Home: NextPage = () => {
                     overflow: auto;
                 }
 
-                .loginContainer {
-                    height: auto;
-                    width: 400px;
-                    position: relative;
-                    display: inline-block;
-                    background-color: white;
-                    padding: 10px 40px 40px 40px;
-                    text-align: left;
-                    border-radius: 15px;
+                @media screen and (min-width: 575px) {
+                    .loginContainer {
+                        height: auto;
+                        width: 400px;
+                        position: relative;
+                        display: inline-block;
+                        background-color: white;
+                        padding: 10px 40px 40px 40px;
+                        text-align: left;
+                        border-radius: 15px;
+                    }
+                }
+
+                @media screen and (max-width: 575px) {
+                    .loginContainer {
+                        height: auto;
+                        width: auto;
+                        position: relative;
+                        display: inline-block;
+                        background-color: white;
+                        padding: 10px 40px 40px 40px;
+                        text-align: left;
+                        border-radius: 15px;
+                    }
                 }
 
                 .textInput {
