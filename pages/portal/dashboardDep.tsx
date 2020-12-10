@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
 
-import Navigation from "components/Portal/Navigation";
+import Header from "components/Portal/Header";
 
 const Dashboard: NextPage = () => {
     return (
@@ -11,7 +11,7 @@ const Dashboard: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation />
+            <Header />
 
             <h1>Welcome to MindVersity</h1>
             <h2>A national peer network.</h2>
