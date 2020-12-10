@@ -27,12 +27,12 @@ const Home: NextPage = () => {
                                 placeholder="username@email.com"
                                 id=""
                             />
-                            <div className="formLabel">password</div>
+                            <div className="formLabel">Password</div>
                             <input
                                 type="password"
                                 className="textInput"
                                 name=""
-                                placeholder="Password"
+                                placeholder="password"
                                 id=""
                             />
                             <p className="passwordResetText">
