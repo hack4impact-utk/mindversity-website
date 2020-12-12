@@ -1,0 +1,126 @@
+$light-purple:#EAE0F1;
+$dark-purple: #503E8C;
+
+
+.container{
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+}
+.wrapper{
+    width:80%;
+    align-self:center;
+}
+.breadcrumb{
+    color: black;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    transition: 0.3s ease;
+    margin-bottom:10px;
+    & > span{
+        margin-left: 10px;
+    }
+    &:hover{
+        color: $dark-purple;
+    }
+}
+
+.create-form{
+    display:flex;
+    flex-direction:column;
+}
+
+.image-container{
+    width: 100%;
+    position:relative;
+    height: 600px;
+    display:flex;
+    background-size: 100% 600px !important;
+    background-repeat: no-repeat;
+    flex-direction:column;
+    align-items:center;
+}
+
+.icon-container{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.image-icon{
+    width:100px;
+    height:100px;
+}
+
+.image-select{
+    position:absolute;
+    width:100%;
+    height:100%;
+    cursor:pointer;
+    opacity:0;
+}
+
+.text-container{
+    display:flex;
+    flex-direction:column;
+    margin-top:10px;
+    & > input, & > label, & > .editor{
+        width:90%;
+        align-self:center;
+        margin:5px;
+        border:none;
+        font-size:1.1rem;
+    }
+    & > input{
+        background:#E7E7E7;
+        padding:0.5rem;
+        border-radius:10px;
+    }
+    & > label{
+        font-size: 1.4rem;
+    }
+}
+.select-container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    & > span{
+        font-size:1.2rem;
+    }
+}
+
+.category{
+    border:none;
+    background:white;
+    width:min-content;
+    font-size:1rem;
+    color: #545454;
+    text-align:center;
+    margin-left:5px;
+}
+.submit {
+    width:150px;
+    padding:0.5rem;
+    align-self:center;
+    background: $dark-purple;
+    border:none;
+    font-size:1.2rem;
+    color:white;
+    margin:10px;
+    border-radius:10px;
+}
+
+
+.error{
+    text-align:center;
+    align-self:center;
+    padding:0.5rem;
+    background:#ffafa6;
+    border-radius: 10px;
+    width:50%;
+    color: #540901;
+}
