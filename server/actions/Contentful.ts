@@ -2,6 +2,7 @@ import {createClient} from "contentful-management";
 import fs from "fs";
 import {File} from "formidable";
 import {JournalEntry} from "utils/types";
+import format from 'date-fns/format'
 
 const client = createClient({
     accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string
@@ -127,11 +128,16 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
         for (var i=0; i < entries.total; i++) {
             var journalEntry: JournalEntry = {};
             journalEntry.id = entries.items[i].sys.id; // unique id for the asset
-            journalEntry.body = entries.items[i].fields.body['en-US']
-            journalEntry.category = entries.items[i].fields.category['en-US']
+            journalEntry.body = entries.items[i].fields.body['en-US'];
+            journalEntry.category = entries.items[i].fields.category['en-US'];
             journalEntry.description = entries.items[i].fields.description['en-US'];
-            journalEntry.image = entries.items[i].fields.image['en-US']
-            journalEntry.title = entries.items[i].fields.title['en-US']
+            journalEntry.image = entries.items[i].fields.image['en-US'];
+            journalEntry.title = entries.items[i].fields.title['en-US'];
+
+            // pass in ISO format and format to: Month Day, Year
+            var date: Date = new Date(entries.items[0].sys.createdAt); 
+            journalEntry.dateCreated = format(date, 'MMMM dd, yyyy');
+
             journalEntries.push(journalEntry);
         }
 
@@ -143,7 +149,7 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
 }
 
 /**
-* @param id The unique journal identifier to query by.
+* @param id The unique journal identifier (given by contentful) to query by.
 * @returns A single journal entry or an empty object if there's an error.
 */
 export async function getJournalEntryById(id: string){
@@ -161,11 +167,15 @@ export async function getJournalEntryById(id: string){
 
         var journalEntry: JournalEntry = {};
         journalEntry.id = entries.items[0].sys.id; // unique id for the asset
-        journalEntry.body = entries.items[0].fields.body['en-US']
-        journalEntry.category = entries.items[0].fields.category['en-US']
+        journalEntry.body = entries.items[0].fields.body['en-US'];
+        journalEntry.category = entries.items[0].fields.category['en-US'];
         journalEntry.description = entries.items[0].fields.description['en-US'];
-        journalEntry.image = entries.items[0].fields.image['en-US']
-        journalEntry.title = entries.items[0].fields.title['en-US']
+        journalEntry.image = entries.items[0].fields.image['en-US'];
+        journalEntry.title = entries.items[0].fields.title['en-US'];
+        
+        // pass in ISO format and format to: Month Day, Year
+        var date: Date = new Date(entries.items[0].sys.createdAt); 
+        journalEntry.dateCreated = format(date, 'MMMM dd, yyyy');
 
         return journalEntry;
     } catch (error) {
