@@ -49,4 +49,5 @@ export interface JournalEntry {
     image?: ContentfulImage,
     category?: string,
     body?: string,
+    dateCreated?: string,
 }
