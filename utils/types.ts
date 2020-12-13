@@ -42,7 +42,8 @@ export interface Resource {
     link?: string;
 }
 
-export interface JournalEntry{
+export interface JournalEntry {
+    id?: string, // not an Object since this isn't tied to mongodb
     title?: string,
     description?: string,
     image?: ContentfulImage,
