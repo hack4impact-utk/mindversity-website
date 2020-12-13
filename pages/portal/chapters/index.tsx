@@ -55,7 +55,7 @@ const Chapters: NextPage<Props> = ({chapter}) => {
                 }
 
                 h1{
-                    color: #8C69AA;
+                    color: black;
                     padding: 0px 40px;
                 }
 
@@ -65,7 +65,8 @@ const Chapters: NextPage<Props> = ({chapter}) => {
                     position: relative;
                     display: block;
                     text-align: left;
-                    padding: 0px 60px;
+                    padding: 0px 40px;
+                    margin-bottom: 20px;
                 }
 
                 .newChapterBtn {
