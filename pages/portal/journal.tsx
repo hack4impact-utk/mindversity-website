@@ -1,11 +1,11 @@
 import { NextPage,  NextPageContext } from "next";
 import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
-import Footer from "components/Footer";
 import urls from "utils/urls";
 import JournalEntry from "components/Portal/JournalEntry";
+import {EntryProp} from "contentful-management/dist/typings/entities/entry";
 interface Props{
-    entries: Object[],
+    entries: EntryProp[],
 }
 
 const AdminJournal: NextPage<Props> = ({entries}) => {
@@ -13,11 +13,11 @@ const AdminJournal: NextPage<Props> = ({entries}) => {
         <main className="wrapper">
             <Navigation />
             <div className="content">
-                <h1>Posts to be Reviewed</h1>
+                <h1>Posts to be reviewed</h1>
                 {entries && (
                     entries.map(entry => {
                         return (
-                            <JournalEntry entry={entry} mode="delete"/>
+                            <JournalEntry entry={entry} mode="review"/>
                         )
                     })
                 )}
@@ -28,6 +28,16 @@ const AdminJournal: NextPage<Props> = ({entries}) => {
                     .content {
                         margin-left: 430px;
                         margin-right: 60px;
+                        display:flex;
+                        flex-direction:column;
+                        height: 100vh;
+                    }
+                }
+                @media screen and (max-width: 999px){
+                    .content {
+                        margin-top:30px;
+                        margin-left: 30px;
+                        margin-right:30px;
                         display:flex;
                         flex-direction:column;
                         height: 100vh;
@@ -52,12 +62,12 @@ const AdminJournal: NextPage<Props> = ({entries}) => {
 }
 AdminJournal.getInitialProps = async (context: NextPageContext) => {
     //Load the journal entries that have already been reviewed.
-    let url = urls.baseUrl + '/api/journal/getByReviewStatus?reviewed=true';
+    const url:string = `${urls.baseUrl}/api/journal/getByReviewStatus?reviewed=true`;
     const response = await fetch(url, {
         method: "GET",
     });
-    let data  = await response.json();
-    let entries = data.items;
+    let data = await response.json();
+    let entries: Array<EntryProp> = data.items;
     
     return{
         entries,

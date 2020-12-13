@@ -40,4 +40,28 @@ $color: #8C69AA;
     font-size: 1.2rem;
     border:none;
     cursor:pointer;
+    transition:0.5s ease;
+
+    &:hover{
+        filter:brightness(1.2);
+    }
+}
+
+@media only screen and (max-width:999px){
+    .actionButton{
+        width:150px;
+    }
+}
+@media only screen and (max-width:382px){
+    .entry{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    }
+    .entryBody, .actionButtonContainer{
+        width:100%;
+    }
+    .actionButton{
+        margin-bottom:10px;
+    }
 }
