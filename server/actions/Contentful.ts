@@ -9,7 +9,7 @@ const client = createClient({
 
 
 /**
-* @param image Image file of type Formidable.File to be uploaded
+* @param image Image file of type Formidable.File to be uploaded.
 * @returns An object containing the uploaded image's asset ID and url. 
 * @throws  Error if resource creation is unsuccessful
 */
@@ -49,7 +49,7 @@ export async function uploadImage(image: File){
 }
 
 /**
-* @param ID ID of the Contentful Asset to be deleted
+* @param ID ID of the Contentful Asset to be deleted.
 * @returns True if deletion is successful, false if deletion failed.
 */
 export async function deleteAssetByID(ID: string){
@@ -69,7 +69,7 @@ export async function deleteAssetByID(ID: string){
 }
 
 /**
-* @param journalEntry Journal Entry information to be uploaded to Contentful
+* @param journalEntry Journal Entry information to be uploaded to Contentful.
 * @returns True if creation is successful, false if creation is unsuccessful.
 */
 export async function createJournalEntry(journalEntry: JournalEntry){
@@ -125,7 +125,6 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
 
         var journalEntries : JournalEntry[] = [];
         for (var i=0; i < entries.total; i++) {
-            console.log(entries.items[i])
             var journalEntry: JournalEntry = {};
             journalEntry.id = entries.items[i].sys.id; // unique id for the asset
             journalEntry.body = entries.items[i].fields.body['en-US']
@@ -143,4 +142,61 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
     }
 }
 
+/**
+* @param id The unique journal identifier to query by.
+* @returns A single journal entry or an empty object if there's an error.
+*/
+export async function getJournalEntryById(id: string){
+    try{
+        const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
+        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
+        const entries = await environment.getEntries({
+            content_type: 'blogPost',
+            'sys.id': id,
+        });
 
+        if (entries.total != 1) {
+            throw ("Error finding journal.");
+        }
+
+        var journalEntry: JournalEntry = {};
+        journalEntry.id = entries.items[0].sys.id; // unique id for the asset
+        journalEntry.body = entries.items[0].fields.body['en-US']
+        journalEntry.category = entries.items[0].fields.category['en-US']
+        journalEntry.description = entries.items[0].fields.description['en-US'];
+        journalEntry.image = entries.items[0].fields.image['en-US']
+        journalEntry.title = entries.items[0].fields.title['en-US']
+
+        return journalEntry;
+    } catch (error) {
+        if(error) console.error(error);
+        return {};
+    }
+}
+
+
+// todo not sure what this is supposed to do exactly
+// should fetch by type: creative, vent, or resource
+/**
+* @param type 
+* @returns An array of entries containing to the type specified.
+*/
+export async function getJournalEntryByType(type: string){
+    try{
+        const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
+        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
+        const entries = await environment.getEntries({
+            content_type: 'blogPost',
+            fields: {
+                category: type,
+            },
+        });
+
+        var journalEntries: JournalEntry[] = [];
+
+        return journalEntries;
+    } catch (error) {
+        if(error) console.error(error);
+        return {};
+    }
+}
