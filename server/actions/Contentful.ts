@@ -15,7 +15,7 @@ const client = createClient({
 */
 export async function uploadImage(image: File){
     const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
-    const environment = await space.getEnvironment('master');
+    const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
     let asset = await environment.createAssetFromFiles({
         fields: {
             title: {
@@ -55,8 +55,8 @@ export async function uploadImage(image: File){
 export async function deleteAssetByID(ID: string){
     try{
         const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
-        const environment = await  space.getEnvironment('master');
-        const asset = await environment.getAsset(ID); 
+        const environment = await  space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
+        const asset = await environment.getAsset(ID);
         //Before an asset can be deleted, it has to be unpublished.
         await asset.unpublish();
         await asset.delete();
@@ -75,7 +75,7 @@ export async function deleteAssetByID(ID: string){
 export async function createJournalEntry(journalEntry: JournalEntry){
     try{
         const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
-        const environment = await space.getEnvironment('master');
+        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
         const entry = await environment.createEntry('blogPost', {
             fields: {
                 title: {
@@ -101,7 +101,6 @@ export async function createJournalEntry(journalEntry: JournalEntry){
                             id: journalEntry.image?.assetID,
                         }
                     }
-                    
                 }
             }
         });
@@ -122,14 +121,27 @@ export async function createJournalEntry(journalEntry: JournalEntry){
 export async function getJournalEntriesByReviewStatus(reviewed: boolean){
     try{
         const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
-        const environment = await space.getEnvironment('master');
+        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
         const entries = await environment.getEntries({
             content_type: 'blogPost',
             fields: {
                 reviewed: reviewed,
             },
         });
-        return entries;
+
+        var journalEntries : JournalEntry[] = [];
+        for (var i=0; i < entries.total; i++) {
+            var journalEntry: JournalEntry = {};
+            journalEntry.id = entries.items[i].sys.id; // unique id for the asset
+            journalEntry.body = entries.items[i].fields.body['en-US']
+            journalEntry.category = entries.items[i].fields.category['en-US']
+            journalEntry.description = entries.items[i].fields.description['en-US'];
+            journalEntry.image = entries.items[i].fields.image['en-US'].sys.id
+            journalEntry.title = entries.items[i].fields.title['en-US']
+            journalEntries.push(journalEntry);
+        }
+
+        return journalEntries;
     } catch (error) {
         if(error) console.error(error);
         return {};
