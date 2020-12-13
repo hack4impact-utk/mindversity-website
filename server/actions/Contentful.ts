@@ -94,13 +94,7 @@ export async function createJournalEntry(journalEntry: JournalEntry){
                     'en-US': false,
                 },
                 image:{
-                    'en-US': {
-                        "sys": {
-                            type: "Link",
-                            linkType: "Asset",
-                            id: journalEntry.image?.assetID,
-                        }
-                    }
+                    'en-US': journalEntry.image,
                 }
             }
         });
@@ -131,12 +125,13 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
 
         var journalEntries : JournalEntry[] = [];
         for (var i=0; i < entries.total; i++) {
+            console.log(entries.items[i])
             var journalEntry: JournalEntry = {};
             journalEntry.id = entries.items[i].sys.id; // unique id for the asset
             journalEntry.body = entries.items[i].fields.body['en-US']
             journalEntry.category = entries.items[i].fields.category['en-US']
             journalEntry.description = entries.items[i].fields.description['en-US'];
-            journalEntry.image = entries.items[i].fields.image['en-US'].sys.id
+            journalEntry.image = entries.items[i].fields.image['en-US']
             journalEntry.title = entries.items[i].fields.title['en-US']
             journalEntries.push(journalEntry);
         }
@@ -147,6 +142,5 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
         return {};
     }
 }
-
 
 
