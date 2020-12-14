@@ -5,10 +5,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if(req.method == "GET"){
         let reviewed = false;
-        //Req.query.reviewed is a string, but getJournalEntriesByReviewStatus expects a boolean. To make it one, we check if req.query.reviewed === "true". If it is, then we have a boolean review status with true. If not, the boolean status remains false.
         if(req.query.reviewed){
-           reviewed = (req.query.reviewed === "true");
+            reviewed = req.query.reviewed === "true";
         }
+        //Req.query.reviewed is a string, but getJournalEntriesByReviewStatus expects a boolean. To make it one, we check if req.query.reviewed === "true". If it is, then we have a boolean review status with true. If not, the boolean status remains false.
         const entries = await getJournalEntriesByReviewStatus(reviewed);
         if(entries != {}){
             res.status(200).json(entries);

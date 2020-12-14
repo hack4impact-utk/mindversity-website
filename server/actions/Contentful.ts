@@ -119,9 +119,7 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
         const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
         const entries = await environment.getEntries({
             content_type: 'blogPost',
-            fields: {
-                reviewed: reviewed,
-            },
+            'fields.reviewed': reviewed,
         });
 
         var journalEntries : JournalEntry[] = [];
