@@ -5,7 +5,7 @@ import style from "./navigation.module.scss"; //Import the main stylesheet
 import { AiOutlineMenu } from "react-icons/ai";
 import { HiOutlineBookOpen } from "react-icons/hi";
 import { FiPenTool, FiAward } from "react-icons/fi";
-
+import {RiDeleteBin2Line} from "react-icons/ri";
 const Navigation: React.FC = () => {
     const [open, setOpen] = useState(false); //Control the state of the mobile navigation menu
 
@@ -15,15 +15,19 @@ const Navigation: React.FC = () => {
                 <div className={style.navLogo}>
                     <img src="/logo-white.svg" alt="MindVersity Logo" />
                 </div>
-                <a className={style.navBtn} href="resources">
+                <a className={style.navBtn} href="/portal/resources">
                     <HiOutlineBookOpen className={style.menuIcon} />
                     Edit Resources
                 </a>
-                <a className={style.navBtn} href="journal">
+                <a className={style.navBtn} href="/portal/journal/review">
                     <FiPenTool className={style.menuIcon} />
-                    Update Journal
+                    Review Journal Entries
                 </a>
-                <a className={style.navBtn} href="chapters">
+                <a className={style.navBtn} href="/portal/journal/delete">
+                    <RiDeleteBin2Line className={style.menuIcon} />
+                    Delete Journal Entries
+                </a>
+                <a className={style.navBtn} href="/portal/chapters">
                     <FiAward className={style.menuIcon} />
                     Manage Chapters
                 </a>

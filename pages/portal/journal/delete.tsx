@@ -16,7 +16,7 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
             </Head>
             <Navigation />
             <div className="content">
-                <h1>Posts to be reviewed</h1>
+                <h1>Posts to be deleted</h1>
                 {entries && (
                     entries.map(entry => {
                         return (

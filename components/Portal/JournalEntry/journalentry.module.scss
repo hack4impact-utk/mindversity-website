@@ -8,7 +8,7 @@ $color: #8C69AA;
 }
 .entryBody{
     width: 60%;
-    height: 150px;
+    min-height: 150px;
     display:flex;
     flex-direction:column;
     justify-content:center;
