@@ -20,7 +20,7 @@ const AdminJournalReview: NextPage<Props> = ({entries}) => {
                 {entries && (
                     entries.map(entry => {
                         return (
-                            <JournalEntry entry={entry} mode="review"/>
+                            <JournalEntry key={entry.sys.id} entry={entry} mode="review"/>
                         )
                     })
                 )}

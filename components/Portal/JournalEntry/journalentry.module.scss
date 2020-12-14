@@ -41,6 +41,7 @@ $color: #8C69AA;
     border:none;
     cursor:pointer;
     transition:0.5s ease;
+    align-self: flex-end;
 
     &:hover{
         filter:brightness(1.2);

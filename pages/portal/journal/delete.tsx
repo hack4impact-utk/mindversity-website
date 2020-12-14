@@ -20,7 +20,7 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
                 {entries && (
                     entries.map(entry => {
                         return (
-                            <JournalEntry entry={entry} mode="delete"/>
+                            <JournalEntry key={entry.sys.id} entry={entry} mode="delete"/>
                         )
                     })
                 )}
