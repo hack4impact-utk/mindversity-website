@@ -125,9 +125,7 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
         const environment = await space.getEnvironment('master');
         const entries = await environment.getEntries({
             content_type: 'blogPost',
-            fields: {
-                reviewed: reviewed,
-            },
+            'fields.reviewed': reviewed,
         });
         return entries;
     } catch (error) {

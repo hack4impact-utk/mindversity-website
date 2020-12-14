@@ -5,7 +5,6 @@ import Header from "components/Header";
 import MainInfo from "components/MainInfo";
 import Partners from "components/Partners";
 import HomeChapters from "components/HomeChapters";
-
 const Home: NextPage = () => {
   return (
     <div className="container">

@@ -8,16 +8,19 @@ interface Props{
     entries: EntryProp[],
 }
 
-const AdminJournal: NextPage<Props> = ({entries}) => {
+const AdminJournalDelete: NextPage<Props> = ({entries}) => {
     return(
         <main className="wrapper">
+            <Head>
+                <title>Delete Journal Entries | Mindversity Website</title>
+            </Head>
             <Navigation />
             <div className="content">
                 <h1>Posts to be reviewed</h1>
                 {entries && (
                     entries.map(entry => {
                         return (
-                            <JournalEntry entry={entry} mode="review"/>
+                            <JournalEntry entry={entry} mode="delete"/>
                         )
                     })
                 )}
@@ -60,7 +63,7 @@ const AdminJournal: NextPage<Props> = ({entries}) => {
         </main>
     )
 }
-AdminJournal.getInitialProps = async (context: NextPageContext) => {
+AdminJournalDelete.getInitialProps = async (context: NextPageContext) => {
     //Load the journal entries that have already been reviewed.
     const url:string = `${urls.baseUrl}/api/journal/getByReviewStatus?reviewed=true`;
     const response = await fetch(url, {
@@ -74,4 +77,4 @@ AdminJournal.getInitialProps = async (context: NextPageContext) => {
     }
 }
 
-export default AdminJournal;
+export default AdminJournalDelete;
