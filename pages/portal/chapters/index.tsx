@@ -79,7 +79,7 @@ const Chapters: NextPage<Props> = ({chapter}) => {
                     font-size: 16px;
                     margin-top: 20px;
                     outline: none;
-                    border-radius: 15px;
+                    border-radius: 6px;
                     background-color: #8c69aa;
                     color: white;
                     text-decoration: none;
