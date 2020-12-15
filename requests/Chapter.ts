@@ -22,14 +22,11 @@ export const getChapters = (chapter: Chapter) =>
       return json.payload;
     });
 
-export const addChapter = (chapter: Chapter) =>
+export const addChapter = (chapter: FormData) =>
     fetch("http://localhost:3000/api/chapter/addChapter", {
-      method: "PUT",
+      method: "POST",
       mode: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(chapter)
+      body: chapter
     })
       .then((response) => response.json())
       .then((json) => {
