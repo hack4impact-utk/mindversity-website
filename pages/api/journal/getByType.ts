@@ -1,13 +1,13 @@
 import { NextApiResponse, NextApiRequest } from "next";
-import {getJournalEntryById} from "server/actions/Contentful";
+import {getJournalEntryByType} from "server/actions/Contentful";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
 
     if(req.method == "GET"){
-        if (!req.query.id) res.status(400).json({message:"Bad request."});
-        
-        const entry = await getJournalEntryById(req.query.id as string);
+        if (!req.query.type) res.status(400).json({message:"Bad request."});
+
+        const entry = await getJournalEntryByType(req.query.type as string);
         if(entry != {}){
             res.status(200).json(entry);
         } else {
