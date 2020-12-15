@@ -5,7 +5,7 @@ import { Chapter } from 'utils/types';
 
 import Navigation from "components/Portal/Navigation";
 
-const handleSubmit = async (e) => {
+const handleSubmit = async (e:any) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     var chapter: Chapter = await addChapter(formData);
@@ -32,10 +32,10 @@ const Chapters: NextPage = () => {
                         <input type="text" name="name" placeholder="Chapter Name" required/>
                         <label htmlFor="region">Region</label>
                         <select name="region" id="">
-                            <option value="Northeast">Northeast</option>
-                            <option value="South">South</option>
-                            <option value="West">West</option>
-                            <option value="Midwest">Midwest</option>
+                            <option value="northeast">Northeast</option>
+                            <option value="south">South</option>
+                            <option value="west">West</option>
+                            <option value="midwest">Midwest</option>
                         </select>
                         <label htmlFor="city">City</label>
                         <input type="text" name="city" placeholder="City"/>
