@@ -2,7 +2,7 @@ import Header from "components/Header";
 import Footer from "components/Footer";
 import OfficerCarouselComp from "components/OfficerCarousel";
 import { getChapters } from "server/actions/Chapter";
-import { getOfficers } from "requests/Officer";
+import { getOfficers } from "server/actions/Officer";
 import { Chapter, Officer } from 'utils/types';
 import { GetStaticPropsContext, NextPage, NextPageContext } from 'next';
 import { FaMapMarkerAlt } from "react-icons/fa";
