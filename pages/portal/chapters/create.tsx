@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from "next";
+import { NextPage } from "next";
 import Head from "next/head";
 import { addChapter } from "requests/Chapter";
 import { Chapter } from 'utils/types';
