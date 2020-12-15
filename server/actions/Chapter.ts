@@ -8,7 +8,6 @@ import { Chapter } from "utils/types";
 // they want to query. Returns an array of chapters that match the query.
 export const getChapters = async function (chapterInfo: Chapter) {
     await mongoDB();
-    console.log("connected to mongo, will do query now");
 
     if(!chapterInfo) chapterInfo = {}
 
@@ -22,7 +21,6 @@ export const getChapters = async function (chapterInfo: Chapter) {
     })
 }
 
-// todo these 2 below need authentication to use
 export const addChapter = async function (chapterInfo: Chapter) {
     //Connect to MongoDB.
     await mongoDB();
@@ -35,10 +33,11 @@ export const addChapter = async function (chapterInfo: Chapter) {
 }
 
 export const updateChapter = async function (chapterInfo: Chapter) {
-    // will update by _id or chapterName
-}
+    await mongoDB();
 
-export const deleteChapter = async function (chapterInfo: Chapter) {
-    // will delete by _id or chapterName
-    // also need to delete all officers with that chapterName
+    // todo will update by _id or chapterName
+    const chapter = new ChapterSchema(chapterInfo);
+    await chapter.update((err:any) => {
+        if(err) console.log(err);
+    });
 }
