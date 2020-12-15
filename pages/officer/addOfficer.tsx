@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { addOfficer } from "requests/Officer";
 import { Officer } from "utils/types"
 
-const handleSubmit = async (e) => {
+const handleSubmit = async (e: any) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     var officer: Officer = await addOfficer(formData);
