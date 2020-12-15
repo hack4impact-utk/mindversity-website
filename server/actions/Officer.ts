@@ -12,15 +12,18 @@ export const getOfficers = async function (officerInfo: Officer) {
 
     if(!officerInfo) officerInfo = {}
 
-    return await OfficerSchema.find(officerInfo)
-    .exec()
-    .then(async (officers) => {
-        // todo maybe handle this error on front end
-        if(officers == null)
-            throw new Error("Officers do not exist")
+    let officers = await OfficerSchema.find(officerInfo)
+    
+    if(officers == null) throw new Error("Officers do not exist")
+
+    return officers
+    // .then(async (officers) => {
+    //     // todo maybe handle this error on front end
+    //     if(officers == null)
+            
         
-        return officers;
-    })
+    //     return officers;
+    // })
 }
 
 

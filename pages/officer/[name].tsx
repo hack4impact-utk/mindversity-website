@@ -15,7 +15,7 @@ const OfficerPage: NextPage<Props> = ({ officers }) => {
       <p> hello from the main page </p>
       <>
         {officers.map(officer => (
-          <OfficerComp key={officer._id} officer={officer}/>
+          <OfficerComp key={officer._id as unknown as string} officer={officer}/>
         ))}
       </>
       <Footer />
