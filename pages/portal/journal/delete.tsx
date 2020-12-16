@@ -24,7 +24,7 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
 
         if(submitButton.name === "deleting"){
             if(!isDeleting && warningDismissed){
-                response = await fetch(`/api/journal/deleteByID?id=${submitButton.value}`, {
+                response = await fetch(`/api/journal/deleteById?id=${submitButton.value}`, {
                     method: "DELETE",
                 });
                 setResponseStatus(response.status);
@@ -37,7 +37,7 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
         if(submitButton.name === "delete"){
             //Delete the entry
             setIsDeleting(false);
-            response = await fetch(`/api/journal/deleteByID?id=${deletingID}`, {
+            response = await fetch(`/api/journal/deleteById?id=${deletingID}`, {
                 method: "DELETE",
             });
             setResponseStatus(response.status);
