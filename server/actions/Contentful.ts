@@ -1,9 +1,8 @@
 import {createClient} from "contentful-management";
 import fs from "fs";
 import {File} from "formidable";
-import {JournalEntry} from "utils/types";
-import format from 'date-fns/format'
-
+import {JournalEntry, ContentfulImage} from "utils/types";
+import format from 'date-fns/format';
 const client = createClient({
     accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string
 });
@@ -128,6 +127,7 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
             journalEntry.id = entries.items[i].sys.id; // unique id for the asset
             journalEntry.body = entries.items[i].fields.body['en-US'];
             journalEntry.category = entries.items[i].fields.category['en-US'];
+            journalEntry.reviewed =  entries.items[i].fields.reviewed['en-US'];
             journalEntry.description = entries.items[i].fields.description['en-US'];
             journalEntry.image = entries.items[i].fields.image['en-US'];
             journalEntry.title = entries.items[i].fields.title['en-US'];
@@ -167,6 +167,7 @@ export async function getJournalEntryById(id: string){
         journalEntry.id = entries.items[0].sys.id; // unique id for the asset
         journalEntry.body = entries.items[0].fields.body['en-US'];
         journalEntry.category = entries.items[0].fields.category['en-US'];
+        journalEntry.reviewed =  entries.items[0].fields.reviewed['en-US'];
         journalEntry.description = entries.items[0].fields.description['en-US'];
         journalEntry.image = entries.items[0].fields.image['en-US'];
         journalEntry.title = entries.items[0].fields.title['en-US'];
@@ -208,3 +209,49 @@ export async function getJournalEntryByType(type: string){
         return {};
     }
 }
+
+/**
+* @param id ID of the JournalEntry to be updated
+* @returns True if successful. False if unsuccessful.
+*/
+export async function updateJournalEntryReviewStatus(id: string){
+    try{
+        const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
+        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
+        const entry = await environment.getEntry(id);
+        //Review status would only ever go from false to true, so there's no need to specify what the status would be.
+        entry.fields.reviewed['en-US'] = true;
+        await entry.update();
+        return true;
+
+
+    } catch (error){
+        if(error) console.error(error);
+        return false;
+    }
+}
+/**
+* @param id The unique journal identifier given by contentful.
+* @returns True if successful or false if there's an error.
+*/
+export async function deleteJournalEntryById(id: string){
+    try{
+        const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
+        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
+        const entry = await environment.getEntry(id);
+
+        // First delete the image associated with the journal, then 
+        // delete the journal itself.
+        var image: ContentfulImage = entry.fields.image['en-US'];
+        deleteAssetByID(image.assetID);
+        await entry.unpublish();
+        await entry.delete();
+
+        return true;
+    } catch (error) {
+        if(error) console.error(error);
+        return false;
+    }
+}
+
+

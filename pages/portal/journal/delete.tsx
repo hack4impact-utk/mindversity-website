@@ -2,10 +2,10 @@ import { NextPage,  NextPageContext } from "next";
 import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
 import urls from "utils/urls";
-import JournalEntry from "components/Portal/JournalEntry";
-import {EntryProp} from "contentful-management/dist/typings/entities/entry";
+import JournalEntryComponent from "components/Portal/JournalEntry";
+import {JournalEntry} from "utils/types";
 interface Props{
-    entries: EntryProp[],
+    entries: JournalEntry[],
 }
 
 const AdminJournalDelete: NextPage<Props> = ({entries}) => {
@@ -20,7 +20,7 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
                 {entries && (
                     entries.map(entry => {
                         return (
-                            <JournalEntry key={entry.sys.id} entry={entry} mode="delete"/>
+                            <JournalEntryComponent key={entry.id} entry={entry} mode="delete"/>
                         )
                     })
                 )}
@@ -69,8 +69,7 @@ AdminJournalDelete.getInitialProps = async (context: NextPageContext) => {
     const response = await fetch(url, {
         method: "GET",
     });
-    let data = await response.json();
-    let entries: Array<EntryProp> = data.items;
+    let entries = await response.json();
     
     return{
         entries,

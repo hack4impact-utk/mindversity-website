@@ -50,4 +50,5 @@ export interface JournalEntry {
     category?: string,
     body?: string,
     dateCreated?: string,
+    reviewed?: boolean,
 }
