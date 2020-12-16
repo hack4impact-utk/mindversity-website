@@ -127,7 +127,7 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
             journalEntry.id = entries.items[i].sys.id; // unique id for the asset
             journalEntry.body = entries.items[i].fields.body['en-US'];
             journalEntry.category = entries.items[i].fields.category['en-US'];
-            journalEntry.reviewed=  entries.items[i].fields.reviewed['en-US'];
+            journalEntry.reviewed =  entries.items[i].fields.reviewed['en-US'];
             journalEntry.description = entries.items[i].fields.description['en-US'];
             journalEntry.image = entries.items[i].fields.image['en-US'];
             journalEntry.title = entries.items[i].fields.title['en-US'];
