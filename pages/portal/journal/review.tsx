@@ -81,11 +81,14 @@ const AdminJournalReview: NextPage<Props> = ({entries}) => {
                     </div>
                 </div>
             )}
+
+
             <Navigation />
+
             <form className="content"> 
                 {responseStatus === 200 && (
                     <div className="success">
-                        <p>Entry successfully approved!</p>
+                        <p>Entry action successful.</p>
                     </div>
                 )}
                 {responseStatus === 400 && (
@@ -220,11 +223,11 @@ const AdminJournalReview: NextPage<Props> = ({entries}) => {
 }
 AdminJournalReview.getInitialProps = async (context: NextPageContext) => {
     //Load the journal entries that haven't been reviewed.
-    const url:string = `${urls.baseUrl}/api/journal/getByReviewStatus?reviewed=false`;
+    const url:string = `${urls.baseUrl as string}/api/journal/getByReviewStatus?reviewed=false`;
     const response = await fetch(url, {
         method: "GET",
     });
-    let entries = await response.json();
+    let entries: JournalEntry[] = await response.json();
     return{
         entries,
     }
