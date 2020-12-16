@@ -28,7 +28,7 @@ const CreateJournalEntry: React.FC = () => {
         let target = e.target as HTMLInputElement;
         if(target != null){
             if(target.name == "image" && target.files != null){
-                setValues(values => ({...values, [target.name]: target.files[0]}));
+                setValues(values => ({...values, [target.name]: target.files?.item(0)}));
                 handleImageURL(target.files[0]);
             } else {
                 setValues(values => ({...values, [target.name]: target.value}));
@@ -49,7 +49,7 @@ const CreateJournalEntry: React.FC = () => {
         }
         
     }
-    const handleQuill = (content, delta, source, editor) => {
+    const handleQuill = (content: any, delta: any, source: any, editor: any) => {
         //If the editor is empty, the only thing in it is a newline character. We don't want to send just newlines to the backend, so we do this.
         if(editor.getText() != "\n"){
             if(values.body){

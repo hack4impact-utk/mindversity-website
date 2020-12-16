@@ -23,5 +23,8 @@ export default {
             get: "/api/chapter/getChapter",
             update: "/api/chapter/updateChapter",
         },
+        officer: {
+            get: "/api/officer/getOfficers",
+        }
     },
 };
