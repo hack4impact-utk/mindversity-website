@@ -20,7 +20,7 @@ const AdminJournalReview: NextPage<Props> = ({entries}) => {
                 {entries && (
                     entries.map(entry => {
                         return (
-                            <JournalEntry key={entry.sys.id} entry={entry} mode="review"/>
+                            <JournalEntry key={entry.id} entry={entry} mode="review"/>
                         )
                     })
                 )}
@@ -69,9 +69,7 @@ AdminJournalReview.getInitialProps = async (context: NextPageContext) => {
     const response = await fetch(url, {
         method: "GET",
     });
-    let data = await response.json();
-    let entries: Array<EntryProp> = data.items;
-    
+    let entries = await response.json();
     return{
         entries,
     }

@@ -128,6 +128,7 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
             journalEntry.id = entries.items[i].sys.id; // unique id for the asset
             journalEntry.body = entries.items[i].fields.body['en-US'];
             journalEntry.category = entries.items[i].fields.category['en-US'];
+            journalEntry.reviewed=  entries.items[i].fields.reviewed['en-US'];
             journalEntry.description = entries.items[i].fields.description['en-US'];
             journalEntry.image = entries.items[i].fields.image['en-US'];
             journalEntry.title = entries.items[i].fields.title['en-US'];
@@ -167,6 +168,7 @@ export async function getJournalEntryById(id: string){
         journalEntry.id = entries.items[0].sys.id; // unique id for the asset
         journalEntry.body = entries.items[0].fields.body['en-US'];
         journalEntry.category = entries.items[0].fields.category['en-US'];
+        journalEntry.reviewed=  entries.items[0].fields.reviewed['en-US'];
         journalEntry.description = entries.items[0].fields.description['en-US'];
         journalEntry.image = entries.items[0].fields.image['en-US'];
         journalEntry.title = entries.items[0].fields.title['en-US'];
@@ -208,3 +210,24 @@ export async function getJournalEntryByType(type: string){
         return {};
     }
 }
+
+/**
+* @param id ID of the JournalEntry to be updated
+* @returns Updated entry if successful. Empty object if unsuccessful.
+*/
+export async function updateJournalEntryReviewStatus(id: string){
+    try{
+        const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
+        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
+        const entry = await environment.getEntry(id);
+        //Review status would only ever go from false to true, so there's no need to specify what the status would be.
+        entry.fields.reviewed['en-US'] = true;
+        return entry.update();
+
+    } catch (error){
+        if(error) console.error(error);
+        return {};
+    }
+}
+
+
