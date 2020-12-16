@@ -1,9 +1,8 @@
 import {createClient} from "contentful-management";
 import fs from "fs";
 import {File} from "formidable";
-import {JournalEntry} from "utils/types";
-import format from 'date-fns/format'
-
+import {JournalEntry, ContentfulImage} from "utils/types";
+import format from 'date-fns/format';
 const client = createClient({
     accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string
 });
@@ -213,7 +212,7 @@ export async function getJournalEntryByType(type: string){
 
 /**
 * @param id ID of the JournalEntry to be updated
-* @returns Updated entry if successful. Empty object if unsuccessful.
+* @returns True if successful. False if unsuccessful.
 */
 export async function updateJournalEntryReviewStatus(id: string){
     try{
@@ -222,11 +221,36 @@ export async function updateJournalEntryReviewStatus(id: string){
         const entry = await environment.getEntry(id);
         //Review status would only ever go from false to true, so there's no need to specify what the status would be.
         entry.fields.reviewed['en-US'] = true;
-        return entry.update();
+        await entry.update();
+        return true;
+
 
     } catch (error){
         if(error) console.error(error);
-        return {};
+        return false;
+    }
+}
+/**
+* @param id The unique journal identifier given by contentful.
+* @returns True if successful or false if there's an error.
+*/
+export async function deleteJournalEntryById(id: string){
+    try{
+        const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
+        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
+        const entry = await environment.getEntry(id);
+
+        // First delete the image associated with the journal, then 
+        // delete the journal itself.
+        var image: ContentfulImage = entry.fields.image['en-US'];
+        deleteAssetByID(image.assetID);
+        await entry.unpublish();
+        await entry.delete();
+
+        return true;
+    } catch (error) {
+        if(error) console.error(error);
+        return false;
     }
 }
 
