@@ -46,7 +46,6 @@ export async function uploadImage(image: File){
        //The url is returned without the http/https, so it's added here.
        return {'url': "https:" + asset.fields.file['en-US'].url, 'assetID': asset.sys.id}
    }
-
 }
 
 /**
