@@ -16,7 +16,7 @@ const authenticated = (role: string, func: NextApiHandler) => async (req: NextAp
         }
 
         res.setHeader("Set-Cookie", "auth=; Max-Age=0; SameSite=Lax; Path=/");
-        res.status(500).json({ message: "Not Authenticated" });
+        res.status(401).json({ success: false, message: "Not Authenticated" });
     })
 
 }

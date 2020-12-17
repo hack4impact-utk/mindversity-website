@@ -14,6 +14,7 @@ export default {
             signup: "/api/admin/signup",
             forgotPass: "/api/admin/forgotPass",
             resetPass: "/api/admin/resetPass",
+            validateLogin: "/api/admin/validateLogin",
         },
         blog: {
             get: "/api/blog/getBlog",
