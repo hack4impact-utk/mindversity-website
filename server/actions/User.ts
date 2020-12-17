@@ -55,7 +55,7 @@ export async function createUser(user: User): Promise<void> {
     }
     const isNew = await checkEmail(user.email);
 
-    if (!isNew) {
+    if (isNew?._id) {
         throw Error("Email already used");
     }
 
