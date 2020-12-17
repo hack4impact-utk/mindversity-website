@@ -51,11 +51,11 @@ to find the original object to replace.
 export const updateChapter = async function (queryChapter: Chapter, newChapter: Chapter) {
     try {
         await mongoDB();
-        const chapter = new ChapterSchema(newChapter);
-
+        const  options = {useFindAndModify: true};
+        
         // update only updates a single item since we specify the _id field 
         // in queryChapter. newChapter replaces the old object.
-        await chapter.findOneAndUpdate(queryChapter, newChapter);
+        await ChapterSchema.findOneAndUpdate(queryChapter, newChapter, options);
         return true;
     }
     catch (error) {
