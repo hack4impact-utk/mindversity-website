@@ -12,13 +12,13 @@ export const config = {
     },
 };
 
-  
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const form = new formidable.IncomingForm();
     form.parse(req, async (err: any, fields: formidable.Fields, files: formidable.Files) => {
         // convert formdata into a chapter object
-        let chapterInfo: Chapter = req.body;
-        
+        let chapterInfo: Chapter = fields;
+        if (!chapterInfo) res.status(500).json({success: false, message: "uh oh"});
+
         // replace all whitespaces with underscores
         chapterInfo.name = chapterInfo?.name?.replace(/ /g, "_");
 
@@ -32,14 +32,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         let chapter: Chapter = chapters[0];
 
-        // if images exist (TODO and differ???), delete them from contentful
-        // and upload the new images. Deletes can happen async here.
-        if (chapter.universityLogo?.assetID) {
-            deleteAssetByID(chapter.universityLogo.assetID);
+        /*
+          if images on contentful exist, they need to removed while uploading the 
+          new images (deletes can happen async here):
+            - both images exist -> delete contentful, insert form image
+            - only form image exists (chapterInfo) -> insert image normally
+            - else nothing happens
+        */
+        if (files?.logo) {
+            if (chapter.universityLogo?.assetID) deleteAssetByID(chapter.universityLogo.assetID);
             chapterInfo.universityLogo = await uploadImage(files.logo);
         }
-        if (chapter.campusPic?.assetID) {
-            deleteAssetByID(chapter.campusPic.assetID);
+        if (files?.campus) {
+            if (chapter.campusPic?.assetID) deleteAssetByID(chapter.campusPic.assetID);
             chapterInfo.campusPic = await uploadImage(files.campus);
         }
 

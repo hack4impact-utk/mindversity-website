@@ -22,11 +22,11 @@ export const getChapters = (chapter: Chapter) =>
       return json.payload;
     });
 
-export const addChapter = (chapter: FormData) =>
+export const addChapter = (chapterFormData: FormData) =>
     fetch("http://localhost:3000/api/chapter/addChapter", {
       method: "POST",
       mode: "same-origin",
-      body: chapter
+      body: chapterFormData
     })
       .then((response) => response.json())
       .then((json) => {
@@ -40,14 +40,11 @@ export const addChapter = (chapter: FormData) =>
       });
     
 
-export const updateChapter = (chapter: Chapter) =>
+export const updateChapter = (chapterFormData: FormData) =>
   fetch("http://localhost:3000/api/chapter/updateChapter", {
     method: "PUT",
     mode: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(chapter)
+    body: chapterFormData
   })
     .then((response) => response.json())
     .then((json) => {

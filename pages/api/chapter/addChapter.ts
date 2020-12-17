@@ -22,13 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         chapterInfo.name = chapterInfo?.name?.replace(/ /g, "_");
 
         //Since these two don't rely on each other to be uploaded, doing this allows them to be done simultaneously, and should be more efficient
-        [
-            chapterInfo.campusPic,
-            chapterInfo.universityLogo,
-        ] = await Promise.all([
-            uploadImage(files.campus),
-            uploadImage(files.logo),
-        ]);
+        [chapterInfo.campusPic, chapterInfo.universityLogo] = await Promise.all([uploadImage(files.campus), uploadImage(files.logo)]);
 
         //Now that all data is prepped, we can add chapter.
         await addChapter(chapterInfo)
