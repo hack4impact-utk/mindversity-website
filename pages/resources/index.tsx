@@ -71,7 +71,7 @@ const Resources: NextPage<Props> = ({resources}) => {
       <div className="heroContainer">
         <div className="textContainer">
           <h1>Resources</h1>
-          <p>Need help or want to discover something new? Use these links!.</p>
+          <p>Need help or want to discover something new? Use these links!</p>
         </div>
       </div>
 
