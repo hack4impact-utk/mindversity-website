@@ -4,12 +4,12 @@ import { Chapter } from "utils/types";
 
 
 /**
-* @param chapterInfo Chapter type that contains the properties to query by.
-For example, this function can be used to query a chapter by name, region, 
-etc and can even return all chapters. It expects the caller to properly specify 
-the parameters they want to query.
-* @returns An array of chapters that match the query.
-*/
+ * @param chapterInfo Chapter type that contains the properties to query by.
+ For example, this function can be used to query a chapter by name, region, 
+ etc and can even return all chapters. It expects the caller to properly specify 
+ the parameters they want to query.
+ * @returns An array of chapters that match the query.
+ */
 export const getChapters = async function (chapterInfo: Chapter) {
     await mongoDB();
     if(!chapterInfo) chapterInfo = {};
@@ -22,21 +22,18 @@ export const getChapters = async function (chapterInfo: Chapter) {
 }
 
 /**
-* @param chapterInfo The chapter object that needs to be inserted into our database.
-*/
+ * @param chapterInfo The chapter object that needs to be inserted into our database.
+ */
 export const addChapter = async function (chapterInfo: Chapter) {
     await mongoDB();
-    const chapter = new ChapterSchema(chapterInfo);
-
-    // saving the model uploads it to the collection.
-    await chapter.save();
+    await ChapterSchema.create(chapterInfo);
 }
 
 /**
-* @param queryChapter Chapter containing just the _id field. Used by Mongoose 
-to find the original object to replace.
-* @param newChapter The new chapter object that should replace the old object.
-*/
+ * @param queryChapter Chapter containing just the _id field. Used by Mongoose 
+ to find the original object to replace.
+ * @param newChapter The new chapter object that should replace the old object.
+ */
 export const updateChapter = async function (queryChapter: Chapter, newChapter: Chapter) {
     await mongoDB();
     const options = {useFindAndModify: true};
