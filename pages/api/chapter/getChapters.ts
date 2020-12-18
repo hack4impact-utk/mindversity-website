@@ -3,19 +3,19 @@ import { getChapters } from "server/actions/Chapter"
 import { Chapter } from "utils/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    let chapterInfo: Chapter = req.body;
-    console.log(chapterInfo);
-    await getChapters(chapterInfo)
-    .then((payload) => 
+    try {
+        let chapterInfo: Chapter = req.body;
+
+        const chapters: Chapter[] = await getChapters(chapterInfo);
         res.status(200).json({
             success: true,
-            payload
+            payload: chapters
         })
-    )
-    .catch((error)=>
+    }
+    catch(error) {
         res.status(400).json({
             success: false, 
-            message: error.message
+            message: error as Error
         })
-    )
+    }
 }
