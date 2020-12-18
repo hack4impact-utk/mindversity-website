@@ -1,9 +1,8 @@
-import { createClient } from "contentful-management";
-import { File } from "formidable";
-import { JournalEntry, ContentfulImage } from "utils/types";
+import {createClient} from "contentful-management";
 import fs from "fs";
+import {File} from "formidable";
+import {JournalEntry, ContentfulImage} from "utils/types";
 import format from 'date-fns/format';
-
 const client = createClient({
     accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string
 });
@@ -46,6 +45,7 @@ export async function uploadImage(image: File){
        //The url is returned without the http/https, so it's added here.
        return {'url': "https:" + asset.fields.file['en-US'].url, 'assetID': asset.sys.id}
    }
+
 }
 
 /**
@@ -154,19 +154,26 @@ export async function getJournalEntryById(id: string){
     try{
         const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
         const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
-        const entry = await environment.getEntry(id);
+        const entries = await environment.getEntries({
+            content_type: 'blogPost',
+            'sys.id': id,
+        });
+
+        if (entries.total != 1) {
+            throw ("Error finding journal.");
+        }
 
         var journalEntry: JournalEntry = {};
-        journalEntry.id = entry.sys.id; // unique id for the asset
-        journalEntry.body = entry.fields.body['en-US'];
-        journalEntry.category = entry.fields.category['en-US'];
-        journalEntry.reviewed =  entry.fields.reviewed['en-US'];
-        journalEntry.description = entry.fields.description['en-US'];
-        journalEntry.image = entry.fields.image['en-US'];
-        journalEntry.title = entry.fields.title['en-US'];
+        journalEntry.id = entries.items[0].sys.id; // unique id for the asset
+        journalEntry.body = entries.items[0].fields.body['en-US'];
+        journalEntry.category = entries.items[0].fields.category['en-US'];
+        journalEntry.reviewed =  entries.items[0].fields.reviewed['en-US'];
+        journalEntry.description = entries.items[0].fields.description['en-US'];
+        journalEntry.image = entries.items[0].fields.image['en-US'];
+        journalEntry.title = entries.items[0].fields.title['en-US'];
         
         // pass in ISO format and format to: Month Day, Year
-        var date: Date = new Date(entry.sys.createdAt); 
+        var date: Date = new Date(entries.items[0].sys.createdAt); 
         journalEntry.dateCreated = format(date, 'MMMM dd, yyyy');
 
         return journalEntry;
@@ -176,33 +183,11 @@ export async function getJournalEntryById(id: string){
     }
 }
 
+
+// todo not sure what this is supposed to do exactly
+// should fetch by type: creative, vent, or resource
 /**
-* @param id The unique journal identifier given by contentful.
-* @returns True if successful or false if there's an error.
-*/
-export async function deleteJournalEntryById(id: string){
-    try{
-        const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
-        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
-        const entry = await environment.getEntry(id);
-
-        // First delete the image associated with the journal, then 
-        // delete the journal itself.
-        var image: ContentfulImage = entry.fields.image['en-US'];
-        deleteAssetByID(image.assetID);
-        await entry.unpublish();
-        await entry.delete();
-
-        return true;
-    } catch (error) {
-        if(error) console.error(error);
-        return false;
-    }
-}
-
-
-/**
-* @param type what journal category to filter by: creative-space or vent-place
+* @param type 
 * @returns An array of entries containing to the type specified.
 */
 export async function getJournalEntryByType(type: string){
@@ -211,25 +196,12 @@ export async function getJournalEntryByType(type: string){
         const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
         const entries = await environment.getEntries({
             content_type: 'blogPost',
-            'fields.category': type,
+            fields: {
+                category: type,
+            },
         });
 
-        var journalEntries : JournalEntry[] = [];
-        for (var i=0; i < entries.total; i++) {
-            var journalEntry: JournalEntry = {};
-            journalEntry.id = entries.items[i].sys.id; // unique id for the asset
-            journalEntry.body = entries.items[i].fields.body['en-US'];
-            journalEntry.category = entries.items[i].fields.category['en-US'];
-            journalEntry.description = entries.items[i].fields.description['en-US'];
-            journalEntry.image = entries.items[i].fields.image['en-US'];
-            journalEntry.title = entries.items[i].fields.title['en-US'];
-
-            // pass in ISO format and format to: Month Day, Year
-            var date: Date = new Date(entries.items[0].sys.createdAt); 
-            journalEntry.dateCreated = format(date, 'MMMM dd, yyyy');
-
-            journalEntries.push(journalEntry);
-        }
+        var journalEntries: JournalEntry[] = [];
 
         return journalEntries;
     } catch (error) {
@@ -258,4 +230,26 @@ export async function updateJournalEntryReviewStatus(id: string){
         return false;
     }
 }
+/**
+* @param id The unique journal identifier given by contentful.
+* @returns True if successful or false if there's an error.
+*/
+export async function deleteJournalEntryById(id: string){
+    try{
+        const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
+        const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
+        const entry = await environment.getEntry(id);
 
+        // First delete the image associated with the journal, then 
+        // delete the journal itself.
+        var image: ContentfulImage = entry.fields.image['en-US'];
+        deleteAssetByID(image.assetID);
+        await entry.unpublish();
+        await entry.delete();
+
+        return true;
+    } catch (error) {
+        if(error) console.error(error);
+        return false;
+    }
+}
