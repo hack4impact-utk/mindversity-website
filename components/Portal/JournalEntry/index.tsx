@@ -5,7 +5,11 @@ interface Props {
     mode: string; //Because Delete Journal and Update Journal require a similar component, this prop allows us to swap out things needed in each inside this component. This keeps us from having to make two components that are basically the same thing. There's two modes: delete and review.
     handleEntryApproval(e: React.SyntheticEvent): void;
 }
-const JournalEntryComponent: React.FC<Props> = ({ entry, mode, handleEntryApproval }) => {
+const JournalEntryComponent: React.FC<Props> = ({
+    entry,
+    mode,
+    handleEntryApproval,
+}) => {
     return (
         <div className={styles["entry"]}>
             <div className={styles["entryBody"]}>
@@ -29,7 +33,9 @@ const JournalEntryComponent: React.FC<Props> = ({ entry, mode, handleEntryApprov
                             name="approve"
                             type="submit"
                             className={`${styles["actionButtonPrimary"]} ${styles["actionButton"]}`}
-                            onClick={(e: React.SyntheticEvent) => handleEntryApproval(e)}
+                            onClick={(e: React.SyntheticEvent) =>
+                                handleEntryApproval(e)
+                            }
                             value={entry.id}
                         >
                             Approve
@@ -38,7 +44,9 @@ const JournalEntryComponent: React.FC<Props> = ({ entry, mode, handleEntryApprov
                             name="rejecting"
                             type="submit"
                             className={`${styles["actionButtonSecondary"]} ${styles["actionButton"]}`}
-                            onClick={(e: React.SyntheticEvent) => handleEntryApproval(e)}
+                            onClick={(e: React.SyntheticEvent) =>
+                                handleEntryApproval(e)
+                            }
                             value={entry.id}
                         >
                             Reject
