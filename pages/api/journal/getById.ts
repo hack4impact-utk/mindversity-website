@@ -3,15 +3,23 @@ import {getJournalEntryById} from "server/actions/Contentful";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
-
-    if(req.method == "GET"){
-        if (!req.query.id) res.status(400).json({message:"Bad request."});
-        
-        const entry = await getJournalEntryById(req.query.id as string);
-        if(entry != {}){
-            res.status(200).json(entry);
-        } else {
-            res.status(500).json({message:"Server error."});
+    try {
+        if(req.method == "GET"){
+            if (!req.query.id)
+                throw new Error("Bad request.");
+            
+            const entry = await getJournalEntryById(req.query.id as string);
+            res.status(200).json({
+                success: true,
+                payload: entry
+            });
         }
+    }
+    catch (error) {
+        console.error(error);    
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }
