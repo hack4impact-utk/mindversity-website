@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json({
                 success: true,
                 payload: {}
-            })
+            });
         });
     }
     catch (error) {  
@@ -40,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(400).json({
             success: false,
             message: error.message
-        })
+        });
     }
 }
 
