@@ -150,7 +150,7 @@ export async function getServerSideProps(context: NextPageContext) {
   return {
     props: {
       post: post,
-      relatedEntries: related
+      relatedEntries: related.filter((p: JournalEntry) => p.id != post.id)
     }
   }
 }
