@@ -12,106 +12,45 @@ export const getEntries = () =>
     },
   })
   .then((response) => response.json())
-  .then((json) => {
-    if (json == null) {
+  .then((data) => {
+    if (!data) {
       throw new Error("Could not connect to API!");
-    } else if (!json.success) {
-      console.log(json.message);
     }
-
-    return json.payload;
+    return data;
   });
 
-export const getFakeEntries: JournalEntry[] = [
-  {
-    id: "1",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "creative",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-  {
-    id: "2",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "creative",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-  {
-    id: "3",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "creative",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-  {
-    id: "4",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "creative",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-  {
-    id: "",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "resources",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-  {
-    id: "6",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "creative",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-  {
-    id: "7",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "creative",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-  {
-    id: "8",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "vent",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-  {
-    id: "9",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "vent",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-  {
-    id: "10",
-    title: "Awesome blog title",
-    description: "Small but sweet description for this dope blog post.",
-    category: "creative",
-    image: { assetID: "", url: "" },
-    dateCreated: new Date("11/22/2020").toDateString(),
-    reviewed: true
-  },
-]
+export const getEntriesByType = async (type: any) => {
+  if (!type) return await getEntries()
+  fetch(`http://localhost:3000/api/journal/getByType?type=${type}`, {
+    method: "GET",
+    mode: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  .then((response) => (response.json()))
+  .then((data) => {
+    if (!data) {
+      throw new Error("Could not connect to API!");
+    }
+    return data;
+  });
+}
 
+export const getPostById = async (id: any) => {
+  fetch(`http://localhost:3000/api/journal/getById?id=${id}`, {
+    method: "GET",
+    mode: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  .then((response) => (response.json()))
+  .then((data) => {
+    if (!data) {
+      throw new Error("Could not connect to API!");
+    }
+    console.log(data)
+    return data;
+  });
+}

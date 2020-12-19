@@ -1,0 +1,41 @@
+.postPreview {
+    width: 400px;
+    margin: 20px 0 20px 0;
+    cursor: pointer;
+}
+.postPreview > .thumbnail {
+    background-color: #c2c2c2;
+    height: 200px;
+}
+.postPreview:hover .titleText {
+    text-decoration: underline;
+}
+
+.timePill {
+    padding: 7px 20px 7px 20px;
+    display: inline-block;
+    border-radius: 20px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #C1A6D4;
+    position: relative;
+    top: 150px;
+    left: 20px;
+}
+.descText {
+    margin-left: 10px;
+    margin-top: 10px;
+    font-weight:normal;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 25px;
+    text-overflow: ellipsis;
+}
+
+.titleText {
+    margin-left: 10px;
+    color: #8C69AA;
+    font-weight: bold;
+    margin-bottom: 0px;
+}

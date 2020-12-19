@@ -125,7 +125,7 @@ export async function getJournalEntriesByReviewStatus(reviewed: boolean){
         for (var i=0; i < entries.total; i++) {
             var journalEntry: JournalEntry = {};
             journalEntry.id = entries.items[i].sys.id; // unique id for the asset
-            journalEntry.body = entries.items[i].fields.body['en-US'];
+            // journalEntry.body = entries.items[i].fields.body['en-US'];  // we probably dont need the body when getting them all (i may be wrong) -z
             journalEntry.category = entries.items[i].fields.category['en-US'];
             journalEntry.reviewed =  entries.items[i].fields.reviewed['en-US'];
             journalEntry.description = entries.items[i].fields.description['en-US'];
@@ -185,7 +185,7 @@ export async function getJournalEntryById(id: string){
 
 
 // todo not sure what this is supposed to do exactly
-// should fetch by type: creative, vent, or resource
+// should fetch by type: creative-space, vent-space, or resource
 /**
 * @param type 
 * @returns An array of entries containing to the type specified.
@@ -196,12 +196,27 @@ export async function getJournalEntryByType(type: string){
         const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
         const entries = await environment.getEntries({
             content_type: 'blogPost',
-            fields: {
-                category: type,
-            },
+            "fields.category": type,
         });
 
         var journalEntries: JournalEntry[] = [];
+
+        for (var i=0; i < entries.total; i++) {
+            var journalEntry: JournalEntry = {};
+            journalEntry.id = entries.items[i].sys.id; // unique id for the asset
+            // journalEntry.body = entries.items[i].fields.body['en-US'];  // we probably dont need the body when getting them all (i may be wrong) -z
+            journalEntry.category = entries.items[i].fields.category['en-US'];
+            journalEntry.reviewed =  entries.items[i].fields.reviewed['en-US'];
+            journalEntry.description = entries.items[i].fields.description['en-US'];
+            journalEntry.image = entries.items[i].fields.image['en-US'];
+            journalEntry.title = entries.items[i].fields.title['en-US'];
+
+            // pass in ISO format and format to: Month Day, Year
+            var date: Date = new Date(entries.items[0].sys.createdAt); 
+            journalEntry.dateCreated = format(date, 'MMMM dd, yyyy');
+
+            journalEntries.push(journalEntry);
+        }
 
         return journalEntries;
     } catch (error) {

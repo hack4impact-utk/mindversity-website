@@ -3,24 +3,24 @@ import style from "./style.module.scss"; //Import the main stylesheet
 import { JournalEntry } from "utils/types"
 
 interface Props {
-    post: JournalPost
+    post: JournalEntry
 }
   
 
-const BlogPostThumbnail : React.FC = () => {
+const BlogPostThumbnail: React.FC<Props> = ({ post }) => {
 
     return (
-        <div key={index} className="postPreview">
-            <div className="thumbnail">
-              <div className="timePill">
+        <div className={style.postPreview}>
+            <div className={style.thumbnail} style={{backgroundImage: `url("${post.image?.url}")`, backgroundSize: "cover" }}>
+              {/* <img src={post.image?.url} /> */}
+              {/* <div className="timePill">
                 {post.readMins} min read
-              </div>
+              </div> */}
             </div>
-            <h3>{post.title}</h3>
-            <p className="descText">{post.desc}</p>
-            <p className="authorText">Written by {post.author}</p>
+            <h2 className={style.titleText}>{post.title}</h2>
+            <p className={style.descText}>{post.description}</p>
         </div>
     )
 }
 
-export default SelectBtn;
+export default BlogPostThumbnail;
