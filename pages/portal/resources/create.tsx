@@ -1,14 +1,13 @@
-import { NextPage, NextPageContext } from 'next'
+import { NextPage } from 'next'
 import Head from "next/head";
 import React, { useRef, FormEvent } from 'react'
 import { Resource } from 'utils/types'
-import { getResources } from "requests/Resource";
 import Navigation from "components/Portal/Navigation";
 import Router from 'next/router';
 import urls from 'utils/urls'
 
 
-const createResourcePage: NextPage = () => {
+const CreateResourcePage: NextPage = () => {
 
     const nameEle = useRef<HTMLInputElement>(null)
     const cateEle = useRef<HTMLSelectElement>(null)
@@ -23,7 +22,7 @@ const createResourcePage: NextPage = () => {
             link: linkEle.current?.value,
         }
 
-        const response = await fetch(`${urls.baseUrl}${urls.api.resource.add}`, {
+        const response = await fetch(`${urls.baseUrl as string}${urls.api.resource.add as string}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +45,7 @@ const createResourcePage: NextPage = () => {
         <Navigation />
 
         <div className="bodyContent">
-                <h1>Edit Resource</h1>
+                <h1>Create Resource</h1>
                 <div className="formContainer">
                     <form onSubmit={handleSubmit} method="post">
                         <label htmlFor="name">Resource Name</label>
@@ -161,4 +160,4 @@ const createResourcePage: NextPage = () => {
     )
 }
 
-export default createResourcePage;
+export default CreateResourcePage;
