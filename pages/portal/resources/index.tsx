@@ -2,15 +2,26 @@ import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { getResources } from "requests/Resource";
 import { Resource } from 'utils/types';
-
+import { ObjectID } from "mongodb";
 import Navigation from "components/Portal/Navigation";
-import ChapterCard from "components/Portal/ChapterCard";
+import ResourceCardComp from "components/Portal/ResourceCard";
+import { useState } from "react";
 
 interface Props {
     resource: Resource[];
 }
 
 const Resources: NextPage<Props> = ({resource}) => {
+
+    let [resourcesList, setResourceList] = useState(resource)
+
+    let handleDelete = (id: ObjectID|undefined) => {
+        if(id === undefined) return
+        
+        const newResourceList = resourcesList.filter(resourceItem => resourceItem._id !== id)
+        setResourceList(newResourceList)
+    }
+
     return (
         <div className="container">
             <Head>
@@ -27,10 +38,10 @@ const Resources: NextPage<Props> = ({resource}) => {
                 </div>
                 <div className="resourcesContainer">
                     {
-                        resource && (
-                            resource.map(reso => {
+                        resourcesList && (
+                            resourcesList.map((reso, i) => {
                                 return (
-                                    <p>{reso.name}</p>
+                                    <ResourceCardComp key={i} reso={reso} onDelete={handleDelete}/>
                                 )
                             })
                         )
