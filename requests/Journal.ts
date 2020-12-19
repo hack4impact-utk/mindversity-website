@@ -21,7 +21,7 @@ export const getEntries = () =>
 
 export const getEntriesByType = async (type: any) => {
   if (!type) return await getEntries()
-  fetch(`http://localhost:3000/api/journal/getByType?type=${type}`, {
+  return fetch(`http://localhost:3000/api/journal/getByType?type=${type}`, {
     method: "GET",
     mode: "same-origin",
     headers: {
@@ -37,7 +37,7 @@ export const getEntriesByType = async (type: any) => {
   });
 }
 
-export const getPostById = async (id: any) => {
+export const getPostById = async (id: any) => (
   fetch(`http://localhost:3000/api/journal/getById?id=${id}`, {
     method: "GET",
     mode: "same-origin",
@@ -52,5 +52,5 @@ export const getPostById = async (id: any) => {
     }
     console.log(data)
     return data;
-  });
-}
+  })
+)

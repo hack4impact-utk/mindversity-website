@@ -40,8 +40,8 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
       <div className="thumbnailContainer">
         {
         journalEntries && journalEntries.map((post, index) => (
-          <a href={`/journal/${post.id}`}>
-            <BlogPostThumbnail key={`post-${index}`} post={post} />  
+          <a href={`/journal/${post.id}`} key={post.id}>
+            <BlogPostThumbnail post={post} />  
           </a>
         ))
         }
