@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from "next";
+import { NextPage, NextPageContext, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 
 import Head from "next/head";
@@ -10,6 +10,7 @@ import Footer from "components/Footer";
 import { getEntriesByType } from "requests/Journal"
 import { JournalEntry, ContentfulImage } from "utils/types"
 import { useEffect, useState } from "react";
+import {getJournalEntryByType} from "server/actions/Contentful";
 
 interface Props {
   journalEntries: JournalEntry[]
@@ -138,11 +139,12 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
   );
 };
 
-JournalPage.getInitialProps = async ( context: NextPageContext) => {
-  // WHY DOES THIS RETURN UNDEFINED WHEN ACTUALLY GETTING BY CATEGORY?????
-  var data = await getEntriesByType(context.query.category);
+export async function getServerSideProps(context: NextPageContext) {
+  var data = await getJournalEntryByType(context.query.category as string);
   return {
-    journalEntries: data,
+    props: {
+      journalEntries: data,
+    }
   }
 }
 
