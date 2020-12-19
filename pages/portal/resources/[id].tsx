@@ -57,7 +57,7 @@ const editResourcePage: NextPage<Props> = ({resource}) => {
                         <label htmlFor="name">Resource Name</label>
                         <input ref={nameEle} type="text" name="name" placeholder="Resource Name" defaultValue={resource.name} required/>
                         <label htmlFor="category">Category</label>
-                        <select ref={cateEle} name="category" id="categoryChoice" defaultValue={resource.category || "National"}>
+                        <select ref={cateEle} name="category" id="categoryChoice" defaultValue={resource.category || "national"}>
                             <option value="national">National</option>
                             <option value="mindversity">Mindversity</option>
                             <option value="help">Help</option>
