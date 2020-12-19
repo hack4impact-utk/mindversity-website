@@ -7,35 +7,36 @@ import { useState, useRef, FormEvent } from "react";
 import urls from "utils/urls";
 
 const Home: NextPage = () => {
-    const userEmail = useRef<HTMLInputElement>(null);
-    const userPassword = useRef<HTMLInputElement>(null);
 
-    const [failedLogin, setFailed] = useState(false);
+    let userEmail = useRef<HTMLInputElement>(null)
+    let userPassword = useRef<HTMLInputElement>(null)
 
-    const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    let [failedLogin, setFailed] = useState(false)
 
+    let handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        
         const response = await fetch(`${urls.baseUrl}${urls.api.admin.login}`, {
-            method: "POST",
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 email: userEmail.current?.value,
-                password: userPassword.current?.value,
-            }),
-        });
+                password: userPassword.current?.value
+            })
+        })
 
-        const responseJson = await response.json();
+        const responseJson = await response.json()
 
-        if (responseJson?.success) {
-            Router.push("/portal/dashboard");
+        if(responseJson?.success){
+            Router.push('/portal/dashboard')
         } else {
-            setFailed(true);
+            setFailed(true)
         }
 
-        console.log(responseJson);
-    };
+        console.log(responseJson)
+    }
 
     return (
         <div className="container">
@@ -73,11 +74,13 @@ const Home: NextPage = () => {
                                 Forgot your password?{" "}
                                 <a href="/portal/password-reset">click here</a>.
                             </p>
-                            {failedLogin && (
-                                <p className="invalidPasswordText">
-                                    Invalid Email or Password
-                                </p>
-                            )}
+                            {
+                                failedLogin && (
+                                    <p className="invalidPasswordText">
+                                    Invalid Email or Password 
+                                    </p>
+                                )
+                            }
                             <div className="submitInputParent">
                                 <input
                                     type="submit"
@@ -118,7 +121,7 @@ const Home: NextPage = () => {
                     margin-bottom: 5px;
                     padding-left: 80px;
                     font-size: 14px;
-                    color: #714b92;
+                    color: #714b92; 
                 }
 
                 .passwordResetText {

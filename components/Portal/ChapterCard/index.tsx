@@ -1,6 +1,6 @@
-import React from "react";
-import { Chapter } from "utils/types";
-import style from "./chaptercard.module.scss";
+import React from 'react'
+import { Chapter } from 'utils/types'
+import style from './chaptercard.module.scss';
 
 interface Props {
     chap: Chapter;
@@ -8,10 +8,10 @@ interface Props {
 
 const ChapterComp: React.FC<Props> = ({ chap }) => {
     //Remove the underscores from the chapter name
-    const cleanName = chap.name?.replace(/_/g, " ");
+    var cleanName = chap.name?.replace(/_/g, " ");
     //Only display location if the city and state exist in the db
-    let location;
-    if (chap.city && chap.state) {
+    var location;
+    if(chap.city && chap.state){
         location = chap.city + ", " + chap.state;
     }
     return (
@@ -23,12 +23,7 @@ const ChapterComp: React.FC<Props> = ({ chap }) => {
                 </div>
             </div>
             <div className={style.chapterCardBtn}>
-                <a
-                    className={style.editChapterBtn}
-                    href={"chapters/" + chap.name}
-                >
-                    Edit
-                </a>
+                <a className={style.editChapterBtn} href={"chapters/" + chap.name}>Edit</a>
             </div>
         </div>
     );

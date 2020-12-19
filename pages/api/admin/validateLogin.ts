@@ -21,4 +21,4 @@ async function handler(
 }
 
 // Here the auth function is run and sets the status appropriately
-export default auth("any", handler);
+export default auth('any', handler)
