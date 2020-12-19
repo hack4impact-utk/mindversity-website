@@ -13,7 +13,7 @@ const SelectBtn: React.FC = () => {
             <option value=''>All</option>
             <option value="resources">Resources</option>
             <option value="creative-space"> Creative Space</option>
-            <option value="vent-space">Vent Place</option>
+            <option value="vent-place">Vent Place</option>
         </select>
     )
 }
