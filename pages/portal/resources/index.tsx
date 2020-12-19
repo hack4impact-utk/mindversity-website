@@ -6,6 +6,7 @@ import { ObjectID } from "mongodb";
 import Navigation from "components/Portal/Navigation";
 import ResourceCardComp from "components/Portal/ResourceCard";
 import { useState } from "react";
+import urls from "utils/urls";
 
 interface Props {
     resource: Resource[];
@@ -15,9 +16,19 @@ const Resources: NextPage<Props> = ({resource}) => {
 
     let [resourcesList, setResourceList] = useState(resource)
 
-    let handleDelete = (id: ObjectID|undefined) => {
+    let handleDelete = async (id: ObjectID|undefined) => {
         if(id === undefined) return
         
+        const response = await fetch(`${urls.baseUrl}${urls.api.resource.delete}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                _id: id
+            })
+        })
+
         const newResourceList = resourcesList.filter(resourceItem => resourceItem._id !== id)
         setResourceList(newResourceList)
     }
@@ -34,7 +45,7 @@ const Resources: NextPage<Props> = ({resource}) => {
             <div className="bodyContent">
                 <h1>Edit Resources</h1>
                 <div className="newResourceBtnParent">
-                    <a href="resource/create" className="newResourceBtn">New Resource</a>
+                    <a href="resources/create" className="newResourceBtn">New Resource</a>
                 </div>
                 <div className="resourcesContainer">
                     {
