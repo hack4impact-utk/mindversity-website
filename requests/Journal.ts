@@ -2,6 +2,10 @@
 import fetch from "isomorphic-unfetch";
 import { ContentfulImage, JournalEntry } from 'utils/types';
 
+// TODO: create api endpoint for paginated entries so we dont have
+// to pull all entries and process on the front end. fine for now
+// though.
+
 // assuming we only want to show reviewed entries by default
 export const getEntries = () =>
   fetch("http://localhost:3000/api/journal/getByReviewStatus?reviewed=true", {

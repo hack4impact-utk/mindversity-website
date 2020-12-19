@@ -12,13 +12,32 @@ import { JournalEntry, ContentfulImage } from "utils/types"
 import { useEffect, useState } from "react";
 import {getJournalEntryByType} from "server/actions/Contentful";
 
+const ITEMS_PER_PAGE = 6
+
 interface Props {
   journalEntries: JournalEntry[]
 }
 
 const JournalPage: NextPage<Props> = ({journalEntries}) => {
   const router = useRouter();
+  console.log(journalEntries)
   // var selectedPosts = journalEntries.filter((post) => post.category == journalType)
+
+  // generates paginated array based on ITEMS_PER_PAGE
+  // this uses frontend resources so it may be better to
+  // have this be implemented on the backend
+  var [page, setPage] = useState(0)
+  var paginatedEntries: JournalEntry[][] = []
+  var tmp: JournalEntry[] = []
+  for(var i = 0; i < journalEntries.length; i++) {
+    if ((i + 1) % (ITEMS_PER_PAGE + 1) === 0) {
+      paginatedEntries.push(tmp)
+      tmp = [journalEntries[i]]
+    } else {
+      tmp.push(journalEntries[i])
+    }
+  }
+  if (tmp.length > 0) paginatedEntries.push(tmp)
 
   // console.log(selectedPosts)
   return (
@@ -40,13 +59,19 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
 
       <div className="thumbnailContainer">
         {
-        journalEntries && journalEntries.map((post, index) => (
+        paginatedEntries.length > 0 && paginatedEntries[page].map((post, index) => (
           <a href={`/journal/${post.id}`} key={post.id}>
             <BlogPostThumbnail post={post} />  
           </a>
         ))
         }
-
+      </div>
+      <div className="pagination">
+        {
+          paginatedEntries.map((n, i) => (
+          <a className={page === i ? 'active' : ''} onClick={() => setPage(i)}>{i + 1}</a>
+          ))
+        }
       </div>
 
       <Footer />
@@ -124,11 +149,42 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
           grid-template-columns: repeat(auto-fill, 400px);
           grid-gap: 1rem;
           justify-content: center;
+          margin-bottom: 50px;
         }
         a {
           text-decoration: inherit;
           color: inherit;
         }
+        .pagination {
+          width: 70%;
+          margin:20px 0 20px -35%;
+          left: 50%;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: baseline;
+          font-size: 20px;
+        }
+        
+        .pagination a {
+          margin: 10px;
+          cursor: pointer;
+        }
+
+        .pagination > a:hover {
+          text-decoration: underline;
+        }
+
+        a.active {
+          font-size: 25px;
+          color: #8C69AA;
+          cursor: default;
+        }
+
+        a.active:hover {
+          text-decoration: none;
+        }
+
         @media only screen and (min-width: 1200px) {
           .thumbnailContainer {
             justify-content: space-between;

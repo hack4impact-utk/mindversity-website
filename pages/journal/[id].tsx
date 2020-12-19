@@ -144,12 +144,14 @@ const JournalPostPage: NextPage<Props> = ({ post, relatedEntries }) => {
   );
 };
 
-JournalPostPage.getInitialProps = async ( context: NextPageContext ) => {
+export async function getServerSideProps(context: NextPageContext) {
   var post: JournalEntry = await getPostById(context.query.id)
   var related = await getEntriesByType(post.category)
   return {
-    post: post,
-    relatedEntries: related
+    props: {
+      post: post,
+      relatedEntries: related
+    }
   }
 }
 
