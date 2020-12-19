@@ -43,12 +43,12 @@ export interface Resource {
 }
 
 export interface JournalEntry {
-    id?: string, // not an Object since this isn't tied to mongodb
-    title?: string,
-    description?: string,
-    image?: ContentfulImage,
-    category?: string,
-    body?: string,
-    dateCreated?: string,
-    reviewed?: boolean,
+    id?: string; // not an Object since this isn't tied to mongodb
+    title?: string;
+    description?: string;
+    image?: ContentfulImage;
+    category?: string;
+    body?: string;
+    dateCreated?: string;
+    reviewed?: boolean;
 }

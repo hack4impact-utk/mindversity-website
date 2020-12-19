@@ -5,7 +5,7 @@ import style from "./navigation.module.scss"; //Import the main stylesheet
 import { AiOutlineMenu } from "react-icons/ai";
 import { HiOutlineBookOpen } from "react-icons/hi";
 import { FiPenTool, FiAward } from "react-icons/fi";
-import {RiDeleteBin2Line} from "react-icons/ri";
+import { RiDeleteBin2Line } from "react-icons/ri";
 const Navigation: React.FC = () => {
     const [open, setOpen] = useState(false); //Control the state of the mobile navigation menu
 

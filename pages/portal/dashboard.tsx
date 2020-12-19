@@ -104,34 +104,32 @@ const Dashboard: NextPage = () => {
     );
 };
 
-
 Dashboard.getInitialProps = async (context: NextPageContext) => {
-    const cookie = context.req?.headers.cookie
+    const cookie = context.req?.headers.cookie;
 
     //Since this is client side only absolute URLs are supported
     //TODO: need to change url off of localhost in production
     const resp = await fetch("http://localhost:3000/api/admin/validateLogin", {
         headers: {
-            cookie: cookie!
-        }
-    })
+            cookie: cookie!,
+        },
+    });
 
-    if(resp.status === 401 && !context.req) {
-        Router.replace('/portal/login')
-        return {}
+    if (resp.status === 401 && !context.req) {
+        Router.replace("/portal/login");
+        return {};
     }
 
-    if(resp.status === 401 && context.req)
-    {
+    if (resp.status === 401 && context.req) {
         context.res?.writeHead(302, {
             //TODO: same here
-            Location: "http://localhost:3000/"
-        })
-        context.res?.end()
-        return {}
+            Location: "http://localhost:3000/",
+        });
+        context.res?.end();
+        return {};
     }
 
-    return {}
-}
+    return {};
+};
 
 export default Dashboard;

@@ -26,6 +26,6 @@ export default {
         },
         officer: {
             get: "/api/officer/getOfficers",
-        }
+        },
     },
 };
