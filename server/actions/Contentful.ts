@@ -188,7 +188,7 @@ export async function getJournalEntryById(id: string){
 // should fetch by type: creative-space, vent-space, or resource
 /**
 * @param type 
-* @returns An array of entries containing to the type specified.
+* @returns An array of reviewed entries containing to the type specified.
 */
 export async function getJournalEntryByType(type: string){
     try{
@@ -197,6 +197,7 @@ export async function getJournalEntryByType(type: string){
         const entries = await environment.getEntries({
             content_type: 'blogPost',
             "fields.category": type,
+            'fields.reviewed': true,
         });
 
         var journalEntries: JournalEntry[] = [];
@@ -206,7 +207,7 @@ export async function getJournalEntryByType(type: string){
             journalEntry.id = entries.items[i].sys.id; // unique id for the asset
             // journalEntry.body = entries.items[i].fields.body['en-US'];  // we probably dont need the body when getting them all (i may be wrong) -z
             journalEntry.category = entries.items[i].fields.category['en-US'];
-            journalEntry.reviewed =  entries.items[i].fields.reviewed['en-US'];
+            // journalEntry.reviewed =  entries.items[i].fields.reviewed['en-US'];
             journalEntry.description = entries.items[i].fields.description['en-US'];
             journalEntry.image = entries.items[i].fields.image['en-US'];
             journalEntry.title = entries.items[i].fields.title['en-US'];

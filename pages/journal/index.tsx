@@ -20,7 +20,6 @@ interface Props {
 
 const JournalPage: NextPage<Props> = ({journalEntries}) => {
   const router = useRouter();
-  console.log(journalEntries)
   // var selectedPosts = journalEntries.filter((post) => post.category == journalType)
 
   // generates paginated array based on ITEMS_PER_PAGE

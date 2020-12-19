@@ -54,7 +54,6 @@ export const getPostById = async (id: any) => (
     if (!data) {
       throw new Error("Could not connect to API!");
     }
-    console.log(data)
     return data;
   })
 )
