@@ -46,11 +46,11 @@ export const getResource = async function (
 export const updateResource = async function (
     resource: Resource
 ): Promise<boolean> {
-    if (!resource.id) throw new Error("Id must be provided for update");
+    if (!resource._id) throw new Error("Id must be provided for update");
 
     await mongoDB();
 
-    const oldResource = { _id: resource.id };
+    const oldResource = { _id: resource._id };
 
     if (
         await ResourceModel.findOneAndUpdate(oldResource, resource, {
@@ -74,8 +74,8 @@ export const deleteResource = async function (
     await mongoDB();
     let deleted = false;
 
-    if (resource.id) {
-        await ResourceModel.findByIdAndDelete(resource.id).then(
+    if (resource._id) {
+        await ResourceModel.findByIdAndDelete(resource._id).then(
             (resource: Resource) => {
                 if (resource) deleted = true;
             }
