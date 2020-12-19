@@ -4,18 +4,19 @@ import { User } from "utils/types";
 import cookie from "cookie";
 
 // This is really only used to validiate when someone is logged in
-async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-): Promise<void> {
+async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
-        res.status(200).json({ success: true });
-    } catch (_err) {
-        const err = _err as Error;
+        res.status(200).json({ 
+            success: true, 
+            payload: {}
+        });
+    } 
+    catch (error) {
+        console.error(error);
         res.setHeader("Set-Cookie", "auth=; Max-Age=0; SameSite=Lax; Path=/");
         res.status(401).json({
             success: false,
-            message: err.message,
+            message: error.message
         });
     }
 }
