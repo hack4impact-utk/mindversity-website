@@ -1,58 +1,117 @@
+import { useState } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import Header from "components/Header";
 import Footer from "components/Footer";
+import { Resource } from "utils/types";
+import { getResource } from "server/actions/Resource";
 
-const Resources: NextPage = () => {
+interface Props {
+  resources: Resource[]
+}
+
+const Resources: NextPage<Props> = ({resources}) => {
+  // Defines number of resources to display after "Load more" button is clicked.
+  const COUNT_INCREMENT = 5;
+
+  // Tracks how many resources of each category are currently displayed for "Load more" feature.
+  const [nationalCount, setNationalCount] = useState(COUNT_INCREMENT);
+  const [mindversityCount, setMindversityCount] = useState(COUNT_INCREMENT);
+  const [helpCount, setHelpCount] = useState(COUNT_INCREMENT);
+
+  // Gets certain number of links for a specified category.
+  const getLinks = (category: string, count: number) => {
+    let links: Array<Resource> = [];
+    // Get "count" number of resources in "category."
+    for (let i = 0; i < resources.length; i++)
+    {
+      if (resources[i].category == category || (category == "national" && !resources[i].category))
+      {
+        // If specified category matches that of resource, append to its list.
+        // Also, by default, place resources with no category in the national list.
+        links.push(resources[i]);
+      }
+
+      // Once the number of appended resources matches that of how many should be loaded, stop appending.
+      if (links.length == count) break;
+    }
+
+    // Styling for links.
+    let textStyle = {
+      marginTop: "30px",
+      fontSize: "24px",
+      fontWeight: 500
+    };
+    let linkStyle = {
+      textDecoration: "none",
+      color: "#000000",
+    };
+
+    // Links elements
+    return links.map((link) => (
+      <p style={textStyle} key={category + link.link}>
+        <a style={linkStyle} href={link.link}>{link.name}</a>
+      </p>
+    ));
+  }
+
+  // Used to display certain number of "loaded" resources per category.
+  const nationalLinks = getLinks("national", nationalCount);
+  const mindversityLinks = getLinks("mindversity", mindversityCount);
+  const helpLinks = getLinks("help", helpCount);
+
   return (
     <main className="container">
       <Head>
         <title>Resources | MindVersity</title>
       </Head>
+
       <Header />
 
       <div className="heroContainer">
         <div className="textContainer">
           <h1>Resources</h1>
-          <p>Description of page content goes here</p>
+          <p>Need help or want to discover something new? Use these links!</p>
         </div>
       </div>
 
-      <div className="contentContainer">
-        <div className="nationalResources">
-          <h2>National Resources</h2>
-          <p>
-            <a href="tel:800-273-8255">Lifeline Suicide Prevention</a>
-          </p>
-          <p>
-            <a href="https://www.nimh.nih.gov/index.shtml">
-              National Institute of Mental Health
-            </a>
-          </p>
-          <p>Hotlines</p>
-          <p>Websites</p>
+      <div className="wrapper">
+        <div className="contentContainer">
+          <div className="nationalResources">
+            <h2>National Resources</h2>
+            { nationalLinks.length != 0
+              ? nationalLinks
+              : <p>There are no resources currently. Check back again later!</p>
+            }
+            { resources.filter(resource => resource.category == "national" || resource.category == null).length > nationalCount &&
+              <button onClick={() => setNationalCount(nationalCount+COUNT_INCREMENT)}>Load more</button>
+            }
+          </div>
+          <div className="mindversityResources">
+            <h2>MindVersity Resources</h2>
+            { mindversityLinks.length != 0
+              ? mindversityLinks
+              : <p>There are no resources currently. Check back again later!</p>
+            }
+            { resources.filter(resource => resource.category == "mindversity").length > mindversityCount &&
+              <button onClick={() => setMindversityCount(mindversityCount+COUNT_INCREMENT)}>Load more</button>
+            }
+          </div>
         </div>
-
         <div className="immediateHelp">
           <h2>Immediate Help Resources</h2>
-          <p>
-            <a href="tel:800-273-8255">Help ###</a>
-          </p>
-          <p>
-            <a href="tel:">Help ###</a>
-          </p>
-          <p>Hotlines</p>
-          <p>Websites</p>
+            { helpLinks.length != 0
+              ? helpLinks
+              : <p>There are no resources currently. Check back again later!</p>
+            }
+          { resources.filter(resource => resource.category == "help").length > helpCount &&
+            <button onClick={() => setHelpCount(helpCount+COUNT_INCREMENT)}>Load more</button>
+          }
         </div>
-      </div>
-
-      <div className="mindversityResources">
-        <h2>MindVersity Resources</h2>
-        <p>Articles</p>
-        <p>Podcasts</p>
       </div>
 
       <Footer />
+
       <style jsx global>{`
         html,
         body {
@@ -70,11 +129,12 @@ const Resources: NextPage = () => {
       <style jsx>{`
         .heroContainer {
           width: 100%;
-          height: 15vh;
+          height: 30vh;
           position: relative;
           display: block;
           text-align: center;
-          margin-bottom: 20px;
+          background: rgb(234,224,241);
+          background: linear-gradient(90deg, rgba(234,224,241,1) 0%, rgba(181,156,204,1) 100%);
         }
         .textContainer {
           position: relative;
@@ -83,75 +143,91 @@ const Resources: NextPage = () => {
           transform: translateY(-50%);
         }
         .textContainer > h1 {
-          color: #8c69aa;
-          font-size: 36px;
+          color: #503E8C;
+          font-size: 41px;
           padding: 0px 20px;
         }
         .textContainer > p {
           margin-top: 0px;
           position: relative;
           display: block;
-          font-size:18px;
+          font-size: 20px;
           top: 50%;
           transform: translateY(-50%);
           padding: 0 20px;
         }
-        h2 {
-          color: #503E8C;
-          font-size: 28px;
-          font-weight: normal;
+        
+        .wrapper {
+          display: grid;
+          grid-template-columns: 1fr min-content;
+          margin: 40px 0;
         }
-        .contentContainer{
-          width: 80vw;
-          position: relative;
-          margin-left: -40vw;
-          left: 50%;
-          display:flex;
-          justify-content: space-between;
+        .contentContainer {
+          margin-left: 6vw;
         }
         .nationalResources {
-          width: 60%;
+          padding: 20px 20px;
+        }
+        .mindversityResources {
+          margin-top: 30px;
           padding: 20px 20px;
         }
         .immediateHelp {
-          width 350px;
+          width: 350px;
           background-color:#E7D8F2;
+          margin-right: 4.5vw;
           padding: 20px 20px;
         }
-        .immediateHelp > h2 {
+
+        .wrapper h2 {
+          color: #503E8C;
+          font-size: 28px;
           font-weight: bold;
         }
-        .mindversityResources {
-          width: 80vw;
-          position: relative;
-          margin-left: -40vw;
-          left: 50%;
-          padding: 20px 20px;
+        .wrapper p {
+          font-size: 24px;
+          font-weight: normal;
         }
-        a, p {
+
+        .wrapper button {
+          font-size: 20px;
+          margin-top: 10px;
+          padding: 10px 30px;
+          background-color: #8C69AA;
+          color: #FFFFFF;
+          border-radius: 15px;
           text-decoration: none;
-          color: black;
-          font-size: 1.15rem;
-          margin: 40px 0;
+          transition: background-color 0.5s;
         }
-        @media screen and (max-width: 510px) {
-          .contentContainer {
-            flex-wrap: wrap;
-            width: 100vw;
-            left: 0;
-            margin-left: 0;
-          }
-          .nationalResources,
-          .mindversityResources,
+        .wrapper button:hover {
+          cursor: pointer;
+          background-color: #503E8C;
+        }
+        .wrapper button:focus { outline: none; }
+
+        @media screen and (max-width: 860px) {
+          .wrapper { grid-template-columns: none; }
+          .contentContainer { order: 2; }
           .immediateHelp {
-            width: 100%;
-            left:0;
-            margin-left: 0;
+            order: 1;
+            width: auto;
+            margin: 0 6vw 30px 6vw;
           }
         }
       `}</style>
     </main>
   );
 };
+
+export async function getStaticProps() {
+  // Get all resources, divide into categories later.
+  let resources: Resource[] = await getResource({})
+
+  return {
+    props: {
+      resources: JSON.parse(JSON.stringify(resources))
+    }
+  }
+}
 
 export default Resources;

@@ -1,17 +1,17 @@
 import { NextApiResponse, NextApiRequest } from "next";
-import {getJournalEntryById} from "server/actions/Contentful";
+import {deleteJournalEntryById} from "server/actions/Contentful";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
     try {
-        if(req.method == "GET"){
-            if (!req.query.id)
+        if(req.method == "DELETE") {
+            if (!req.query.id) 
                 throw new Error("Bad request.");
             
-            const entry = await getJournalEntryById(req.query.id as string);
+            await deleteJournalEntryById(req.query.id as string);
             res.status(200).json({
                 success: true,
-                payload: entry
+                payload: {}
             });
         }
     }

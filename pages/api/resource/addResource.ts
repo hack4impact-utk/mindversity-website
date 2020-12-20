@@ -3,23 +3,20 @@ import { addResource } from "server/actions/Resource";
 import auth from "server/actions/Authenticate";
 import { Resource } from "utils/types";
 
-export default auth("admin", async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const resourceData = req.body as Resource;
-
-  try {
-    const added = await addResource(resourceData);
-
-    if (added) res.status(200).json({ success: true });
-    else res.status(400).json({ success: false });
-  } catch (_err) {
-    const err = _err as Error;
-
-    res.status(400).json({
-      success: false,
-      message: err.message,
-    });
-  }
+export default auth("admin", async function handler(req: NextApiRequest, res: NextApiResponse) {
+    try {
+        const resourceData = req.body as Resource;
+        await addResource(resource);
+        res.status(200).json({ 
+            success: true, 
+            payload: {}
+        });
+    } 
+    catch (error) {
+        console.error(error);
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
 });

@@ -5,18 +5,21 @@ interface Email {
     email: string;
 }
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-): Promise<void> {
-    const recipient = req.body as Email;
-
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
-        const success = await sendForgotPasswordEmail(recipient.email);
-        if (!success) throw new Error("Failed");
-        res.status(200).json({ success: true, message: "Reset Email Sent" });
-    } catch (_err) {
-        const err = _err as Error;
-        res.status(400).json({ sucess: false, message: err.message });
+        const recipient = req.body as Email;
+
+        await sendForgotPasswordEmail(recipient.email);
+        res.status(200).json({ 
+            success: true, 
+            payload: "Reset Email Sent" 
+        });
+    } 
+    catch (error) {
+        console.error(error);
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }

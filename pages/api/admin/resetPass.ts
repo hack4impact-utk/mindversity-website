@@ -7,21 +7,24 @@ interface resetTokens {
     newPassword: string;
 }
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-): Promise<void> {
-    const resetData = req.body as resetTokens;
-
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
+        const resetData = req.body as resetTokens;
         await resetPassword(
             resetData.email,
             resetData.resetKey,
             resetData.newPassword
         );
-        res.status(200).json({ success: true, message: "Password Reset" });
-    } catch (_err) {
-        const err = _err as Error;
-        res.status(400).json({ success: false, message: err.message });
+        res.status(200).json({ 
+            success: true, 
+            payload: "Password Reset" 
+        });
+    } 
+    catch (error) {
+        console.error(error);
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }

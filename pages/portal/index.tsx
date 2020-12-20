@@ -1,10 +1,43 @@
 import { NextPage } from "next";
 import Head from "next/head";
-
+import Router from "next/router";
 import Header from "components/Header";
 import Footer from "components/Footer";
+import { useState, useRef, FormEvent } from "react";
+import urls from "utils/urls";
 
 const Home: NextPage = () => {
+
+    let userEmail = useRef<HTMLInputElement>(null)
+    let userPassword = useRef<HTMLInputElement>(null)
+
+    let [failedLogin, setFailed] = useState(false)
+
+    let handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        
+        const response = await fetch(`${urls.baseUrl}${urls.api.admin.login}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: userEmail.current?.value,
+                password: userPassword.current?.value
+            })
+        })
+
+        const responseJson = await response.json()
+
+        if(responseJson?.success){
+            Router.push('/portal/dashboard')
+        } else {
+            setFailed(true)
+        }
+
+        console.log(responseJson)
+    }
+
     return (
         <div className="container">
             <Head>
@@ -18,7 +51,7 @@ const Home: NextPage = () => {
                 <div className="loginWrapper">
                     <div className="loginContainer">
                         <h1>Log In</h1>
-                        <form action="" method="post">
+                        <form onSubmit={handleLogin} action="" method="post">
                             <div className="formLabel">Email</div>
                             <input
                                 type="text"
@@ -26,6 +59,7 @@ const Home: NextPage = () => {
                                 name=""
                                 placeholder="username@email.com"
                                 id=""
+                                ref={userEmail}
                             />
                             <div className="formLabel">Password</div>
                             <input
@@ -34,11 +68,19 @@ const Home: NextPage = () => {
                                 name=""
                                 placeholder="password"
                                 id=""
+                                ref={userPassword}
                             />
                             <p className="passwordResetText">
                                 Forgot your password?{" "}
                                 <a href="/portal/password-reset">click here</a>.
                             </p>
+                            {
+                                failedLogin && (
+                                    <p className="invalidPasswordText">
+                                    Invalid Email or Password 
+                                    </p>
+                                )
+                            }
                             <div className="submitInputParent">
                                 <input
                                     type="submit"
@@ -72,6 +114,14 @@ const Home: NextPage = () => {
                     margin-top: 20px;
                     margin-bottom: 40px;
                     font-size: 34px;
+                }
+
+                .invalidPasswordText {
+                    margin-top: 10px;
+                    margin-bottom: 5px;
+                    padding-left: 80px;
+                    font-size: 14px;
+                    color: #714b92; 
                 }
 
                 .passwordResetText {

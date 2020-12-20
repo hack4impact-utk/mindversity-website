@@ -36,7 +36,7 @@ export interface ContentfulImage {
 }
 
 export interface Resource {
-    id?: ObjectID;
+    _id?: ObjectID|string;
     name?: string;
     category?: string;
     link?: string;
@@ -50,4 +50,5 @@ export interface JournalEntry {
     category?: string,
     body?: string,
     dateCreated?: string,
+    reviewed?: boolean,
 }

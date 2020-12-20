@@ -3,42 +3,42 @@ import ChapterSchema from "../models/Chapter";
 import { Chapter } from "utils/types";
 
 
-// This function can be used to query a chapter by name, region, etc and can even
-// return all chapters. It expects the caller to properly specify the parameters 
-// they want to query. Returns an array of chapters that match the query.
+/**
+ * @param chapterInfo Chapter type that contains the properties to query by.
+ For example, this function can be used to query a chapter by name, region, 
+ etc and can even return all chapters. It expects the caller to properly specify 
+ the parameters they want to query.
+ * @returns An array of chapters that match the query.
+ */
 export const getChapters = async function (chapterInfo: Chapter) {
     await mongoDB();
-    console.log("connected to mongo, will do query now");
+    if(!chapterInfo) chapterInfo = {};
 
-    if(!chapterInfo) chapterInfo = {}
-
-    return await ChapterSchema.find(chapterInfo)
-    .exec()
-    .then(async (chapters) => {
-        if(chapters == null) 
-            throw new Error("Chapter does not exist")
+    const chapters: Chapter[] = await ChapterSchema.find(chapterInfo).exec();
+    if(chapters == null || chapters.length == 0)
+        throw new Error("Chapter does not exist");
         
-        return chapters;
-    })
+    return chapters;
 }
 
-// todo these 2 below need authentication to use
+/**
+ * @param chapterInfo The chapter object that needs to be inserted into our database.
+ */
 export const addChapter = async function (chapterInfo: Chapter) {
-    //Connect to MongoDB.
     await mongoDB();
-    //Define a new chapter model to work with and pass in all the chapterInfo.
-    const chapter = new ChapterSchema(chapterInfo);
-    //Saving the model uploads it to the collection.
-    await chapter.save((err:any) => {
-        if(err) console.log(err);
-    });
+    await ChapterSchema.create(chapterInfo);
 }
 
-export const updateChapter = async function (chapterInfo: Chapter) {
-    // will update by _id or chapterName
-}
-
-export const deleteChapter = async function (chapterInfo: Chapter) {
-    // will delete by _id or chapterName
-    // also need to delete all officers with that chapterName
+/**
+ * @param queryChapter Chapter containing just the _id field. Used by Mongoose 
+ to find the original object to replace.
+ * @param newChapter The new chapter object that should replace the old object.
+ */
+export const updateChapter = async function (queryChapter: Chapter, newChapter: Chapter) {
+    await mongoDB();
+    const options = {useFindAndModify: true};
+    
+    // update only updates a single item since we specify the _id field 
+    // in queryChapter. newChapter replaces the old object.
+    await ChapterSchema.findOneAndUpdate(queryChapter, newChapter, options);
 }

@@ -1,24 +1,21 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getResource } from "server/actions/Resource";
+import { getResources } from "server/actions/Resource";
 import { Resource } from "utils/types";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const resourceData = req.body as Resource;
-
-  try {
-    const resources = await getResource(resourceData);
-
-    if (resources) res.status(200).json({ success: true, resources });
-    else res.status(400).json({ success: false });
-  } catch (_err) {
-    const err = _err as Error;
-
-    res.status(400).json({
-      success: false,
-      message: err.message,
-    });
-  }
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    try {
+        const resourceData = req.body as Resource;
+        const resources = await getResources(resourceData);
+        res.status(200).json({ 
+            success: true, 
+            payload: resources
+        });
+    } 
+    catch (error) {
+        console.error(error);
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
 }

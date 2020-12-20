@@ -5,7 +5,18 @@ import Header from "components/Header";
 import MainInfo from "components/MainInfo";
 import Partners from "components/Partners";
 import HomeChapters from "components/HomeChapters";
-const Home: NextPage = () => {
+import OfficerCarouselComp from "components/OfficerCarousel"
+import { Officer, Chapter } from "utils/types";
+import { getOfficers } from "server/actions/Officer";
+import { getChapters } from "server/actions/Chapter";
+
+interface Props {
+  officers: Officer[],
+  chapters: Chapter[]
+}
+
+const Home: NextPage<Props> = ({officers,chapters}) => {
+
   return (
     <div className="container">
       <Head>
@@ -16,7 +27,15 @@ const Home: NextPage = () => {
       <Header />
       <MainInfo />
       <Partners />
-      <HomeChapters />
+      {
+      <div className="bodyContent">
+        <div className="chapterOfficerParent bodySection">
+           <h2>Meet the National Board</h2>
+           <OfficerCarouselComp officers={officers} />
+       </div>
+      </div>
+    }
+      <HomeChapters chapters={chapters} />
       <Footer />
 
       <style jsx>{`
@@ -27,6 +46,31 @@ const Home: NextPage = () => {
           justify-content: center;
           align-items: center;
         }
+
+        .chapterOfficerParent h2{
+          position: relative;
+          display: block;
+          text-align: left;
+          font-size: 38px;
+          color: black;
+        }
+        
+        .bodySection{
+          width: auto;
+          height: auto;
+          position: relative;
+          display: block;
+          padding: 20px 0px;
+        }
+
+        .bodyContent{
+          width: auto;
+          height: auto;
+          position: relative;
+          display: block;
+          padding: 60px;
+        }
+
       `}</style>
 
       <style jsx global>{`
@@ -46,5 +90,21 @@ const Home: NextPage = () => {
     </div>
   );
 };
+
+export async function getStaticProps() {
+  let officerQuery: Officer = {chapter: 'national'}
+  let officers: Officer[] = await getOfficers(officerQuery)
+
+  // Get all chapters. Filter by region in component once user's location is retrieved.
+  // Navigator is undefined in async getStaticProps(), so must do it in component.
+  let chapters: Chapter[] = await getChapters({})
+
+  return {
+    props: {
+      officers: JSON.parse(JSON.stringify(officers)),
+      chapters: JSON.parse(JSON.stringify(chapters)),
+    }
+  }
+}
 
 export default Home;

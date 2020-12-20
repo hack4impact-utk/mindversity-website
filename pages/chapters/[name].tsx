@@ -1,10 +1,10 @@
 import Header from "components/Header";
 import Footer from "components/Footer";
 import OfficerCarouselComp from "components/OfficerCarousel";
-import { getChapters } from "requests/Chapter";
-import { getOfficers } from "requests/Officer";
+import { getChapters } from "server/actions/Chapter";
+import { getOfficers } from "server/actions/Officer";
 import { Chapter, Officer } from 'utils/types';
-import { NextPage, NextPageContext } from 'next';
+import { GetStaticPropsContext, NextPage, NextPageContext } from 'next';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import errors from 'utils/errors';
 import Head from "next/head";
@@ -61,10 +61,12 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers }) => {
             {chapter.description}
           </p>
         </div>
+        { officers.length > 0 &&
         <div className="chapterOfficerParent bodySection">
           <h2>Meet the Team</h2>
           <OfficerCarouselComp officers={officers} />
         </div>
+        }
       </div>
       
       <Footer />
@@ -191,10 +193,10 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers }) => {
 
 // This function cant be in child component, so we query the data and 
 // then pass it to the component. It's ran server-side
-ChapterPage.getInitialProps = async ( context: NextPageContext ) => {
+export async function getStaticProps(context: GetStaticPropsContext) {
   // query by the chapter's name
   let chapterQuery: Chapter = new Object;
-  chapterQuery.name = context.query.name as string;
+  chapterQuery.name = context.params?.name as string;
 
   var chapter: Chapter = new Object;
   var chapters: Chapter[] = await getChapters(chapterQuery);
@@ -213,13 +215,25 @@ ChapterPage.getInitialProps = async ( context: NextPageContext ) => {
   if (!(officers.length > 0))
   {
     // TODO route to an error page
-    throw new Error(errors.GENERIC_ERROR);
+    //throw new Error(errors.GENERIC_ERROR);
   }
 
   return {
-      chapter: chapter,
-      officers: officers
+    props: {
+      chapter: JSON.parse(JSON.stringify(chapter)),
+      officers: JSON.parse(JSON.stringify(officers)),
+    },
   }
+}
+
+export async function getStaticPaths() {
+  let chapters: Chapter[] = await getChapters({});
+
+  let paths = chapters.map((chapter) => ({
+    params: {name: chapter.name},
+  }));
+
+  return { paths, fallback: false}
 }
 
 export default ChapterPage;

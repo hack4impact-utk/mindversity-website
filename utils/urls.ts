@@ -14,6 +14,7 @@ export default {
             signup: "/api/admin/signup",
             forgotPass: "/api/admin/forgotPass",
             resetPass: "/api/admin/resetPass",
+            validateLogin: "/api/admin/validateLogin",
         },
         blog: {
             get: "/api/blog/getBlog",
@@ -22,6 +23,15 @@ export default {
             add: "/api/chapter/addChapter",
             get: "/api/chapter/getChapter",
             update: "/api/chapter/updateChapter",
+        },
+        officer: {
+            get: "/api/officer/getOfficers",
+        },
+        resource: {
+            add: "/api/resource/addResource",
+            get: "/api/resource/getResource",
+            update: "/api/resource/updateResource",
+            delete: "/api/resource/deleteResource",
         },
     },
 };
