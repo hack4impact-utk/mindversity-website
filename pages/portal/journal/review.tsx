@@ -227,7 +227,8 @@ AdminJournalReview.getInitialProps = async (context: NextPageContext) => {
     const response = await fetch(url, {
         method: "GET",
     });
-    let entries: JournalEntry[] = await response.json();
+    let json = await response.json();
+    let entries: JournalEntry[] = json.payload
     return{
         entries,
     }

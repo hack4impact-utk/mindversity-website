@@ -21,7 +21,7 @@ div.container div.imgContainer div {
   position: absolute;
   /* Slide animations */
   &.hidden {
-    opacity: 0.0;
+    opacity: 0.0 !important;
     animation: hideOfficer 0.1s linear forwards;
   }
   &.show {
@@ -34,7 +34,11 @@ div.container div.imgContainer div {
     to { transform: translateX(0); }
   }
   @keyframes hideOfficer {
-    to { transform: translateX(-100%); }
+    99% { opacity: 1.0; }
+    100% {
+      transform: translateX(-100%);
+      opacity: 0.0;
+    }
   }
   /* General styling for both picture and background */
   img {

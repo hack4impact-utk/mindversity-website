@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from "next";
+import { NextPage } from "next";
 import Head from "next/head";
 import Footer from "components/Footer";
 import Header from "components/Header";
@@ -6,14 +6,17 @@ import MainInfo from "components/MainInfo";
 import Partners from "components/Partners";
 import HomeChapters from "components/HomeChapters";
 import OfficerCarouselComp from "components/OfficerCarousel"
-import { Officer } from "utils/types";
+import { Officer, Chapter } from "utils/types";
 import { getOfficers } from "server/actions/Officer";
+import { getChapters } from "server/actions/Chapter";
 
 interface Props {
-  officers: Officer[]
+  officers: Officer[],
+  chapters: Chapter[]
 }
 
-const Home: NextPage<Props> = ({officers}) => {
+const Home: NextPage<Props> = ({officers,chapters}) => {
+
   return (
     <div className="container">
       <Head>
@@ -32,7 +35,7 @@ const Home: NextPage<Props> = ({officers}) => {
        </div>
       </div>
     }
-      <HomeChapters />
+      <HomeChapters chapters={chapters} />
       <Footer />
 
       <style jsx>{`
@@ -88,13 +91,18 @@ const Home: NextPage<Props> = ({officers}) => {
   );
 };
 
-export async function getStaticProps(context:NextPageContext) {
-  let offficerQuery: Officer = {chapter: 'national'}
-  let officers: Officer[] = await getOfficers(offficerQuery)
+export async function getStaticProps() {
+  let officerQuery: Officer = {chapter: 'national'}
+  let officers: Officer[] = await getOfficers(officerQuery)
+
+  // Get all chapters. Filter by region in component once user's location is retrieved.
+  // Navigator is undefined in async getStaticProps(), so must do it in component.
+  let chapters: Chapter[] = await getChapters({})
 
   return {
     props: {
-      officers: JSON.parse(JSON.stringify(officers))
+      officers: JSON.parse(JSON.stringify(officers)),
+      chapters: JSON.parse(JSON.stringify(chapters)),
     }
   }
 }

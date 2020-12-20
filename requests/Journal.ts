@@ -20,7 +20,7 @@ export const getEntries = () =>
     if (!data) {
       throw new Error("Could not connect to API!");
     }
-    return data;
+    return data.payload;
   });
 
 export const getEntriesByType = async (type: any) => {
@@ -37,7 +37,7 @@ export const getEntriesByType = async (type: any) => {
     if (!data) {
       throw new Error("Could not connect to API!");
     }
-    return data;
+    return data.payload;
   });
 }
 
@@ -54,6 +54,6 @@ export const getPostById = async (id: any) => (
     if (!data) {
       throw new Error("Could not connect to API!");
     }
-    return data;
+    return data.payload;
   })
 )

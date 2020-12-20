@@ -146,11 +146,12 @@ const JournalPostPage: NextPage<Props> = ({ post, relatedEntries }) => {
 
 export async function getServerSideProps(context: NextPageContext) {
   var post: JournalEntry = await getPostById(context.query.id)
-  var related = await getEntriesByType(post.category)
+  var related: JournalEntry[] = await getEntriesByType(post.category)
+  // console.log(related)
   return {
     props: {
       post: post,
-      relatedEntries: related.filter((p: JournalEntry) => p.id != post.id)
+      relatedEntries: related.filter((entry) => entry.id !== post.id)
     }
   }
 }

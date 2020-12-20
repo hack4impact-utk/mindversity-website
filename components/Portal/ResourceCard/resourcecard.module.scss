@@ -1,0 +1,65 @@
+.resourceCard{
+    height: auto;
+    width: 100%;
+    position: relative;
+    display: flex;
+    background-color: white;
+    transition: 0.5s ease;
+    border-bottom: 1px solid black;
+    padding: 40px 0px;
+}
+
+.resourceCardText{
+    width: auto;
+    height: auto;
+    position: relative;
+    display: inline-block;
+    flex: 1;
+}
+
+.resourceCardBtn{
+    width: auto;
+    height: auto;
+    position: relative;
+    margin-left: 30px;
+    display: inline-block;
+    text-align: right;
+    flex: 0;
+}
+
+.resourceCardTitle{
+    height: auto;
+    text-align: left;
+}
+
+.resourceLink{
+    font-size: 16px;
+}
+
+.resourceName{
+    font-size: 24px;
+    font-weight: bold;
+    color: #8C69AA;
+}
+
+.editResourceBtn {
+    height: auto;
+    width: auto;
+    padding: 10px 40px;
+    position: relative;
+    display: inline-block;
+    border: none;
+    font-size: 16px;
+    margin-top: 20px;
+    outline: none;
+    border-radius: 6px;
+    background-color: #8c69aa;
+    color: white;
+    text-decoration: none;
+    transition: background 0.5s ease;
+}
+
+.editResourceBtn:hover {
+    cursor: pointer;
+    background-color: #b59ccc;
+}

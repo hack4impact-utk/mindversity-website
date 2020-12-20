@@ -47,8 +47,10 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
       <Header />
 
       <div className="heroContainer">
-        <div className="textContainer">
-          <h1>Journal</h1>
+        <div className="heroOverlay">
+          <div className="textContainer">
+            <h1>Journal</h1>
+          </div>
         </div>
       </div>
 
@@ -89,25 +91,43 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
         }
         .heroContainer {
           width: 100%;
-          height: 400px;
+          height: 30vh;
           position: relative;
-          display: block;
-          text-align: center;
-          margin-top: -20px;
-          margin-bottom: 20px;
-          background-color: #ccc;
+          background: rgb(234,224,241);
+          background: linear-gradient(90deg, rgba(234,224,241,1) 0%, rgba(181,156,204,1) 100%);
         }
+
+        .heroOverlay{
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 2;
+          background-color: rgba(215, 215, 215, 0.30);
+        }
+
         .textContainer {
           position: relative;
           display: block;
-          top: 50%;
-          transform: translateY(-50%);
+          top: 40%;
+          transform: translateY(-40%);
+          padding: 0px 40px;
+          text-align: center;
         }
         .textContainer > h1 {
-          color: #8c69aa;
-          font-size: 36px;
-          padding: 0px 20px;
+          position: relative;
+          display: block;
+          color: #503E8C;
+          font-size: 46px;
+          font-weight: bold;
+          padding-bottom: 0px;
+          margin-bottom: 0px;
+          text-align: center;
         }
+
         .textContainer > p {
           margin-top: 0px;
           position: relative;
