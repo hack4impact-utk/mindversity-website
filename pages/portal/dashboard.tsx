@@ -25,7 +25,7 @@ const Dashboard: NextPage = () => {
                     <a className="dashChip" href="resources">
                         Edit Resources
                     </a>
-                    <a className="dashChip" href="journal">
+                    <a className="dashChip" href="journal/delete">
                         Update Journal
                     </a>
                 </div>
