@@ -14,7 +14,8 @@ const JournalEntryComponent: React.FC<Props> = ({entry, mode, handleEntryApprova
             </div>
             <div className={styles['actionButtonContainer']}>
                 { mode === "delete" && (
-                     <button name="deleting" className={`${styles['actionButton']} ${styles['actionButtonPrimary']}`} onClick={(e) => handleEntryApproval(e)} value={entry.id}>Delete</button>) }
+                    <button name="deleting" className={`${styles['actionButton']} ${styles['actionButtonPrimary']}`} onClick={(e) => handleEntryApproval(e)} value={entry.id}>Delete</button>
+                ) }
                 { mode === "review" && (
                     <div>
                         <button name="approve" type="submit" className={`${styles['actionButtonPrimary']} ${styles['actionButton']}`} onClick={(e:React.SyntheticEvent) => handleEntryApproval(e)} value={entry.id}>Approve</button>

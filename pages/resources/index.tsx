@@ -4,7 +4,7 @@ import Head from "next/head";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import { Resource } from "utils/types";
-import { getResource } from "server/actions/Resource";
+import { getResources } from "server/actions/Resource";
 
 interface Props {
   resources: Resource[]
@@ -221,7 +221,7 @@ const Resources: NextPage<Props> = ({resources}) => {
 
 export async function getStaticProps() {
   // Get all resources, divide into categories later.
-  let resources: Resource[] = await getResource({})
+  let resources: Resource[] = await getResources({})
 
   return {
     props: {

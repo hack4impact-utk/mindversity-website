@@ -1,9 +1,8 @@
-import { createClient } from "contentful-management";
-import { File } from "formidable";
-import { JournalEntry, ContentfulImage } from "utils/types";
+import {createClient} from "contentful-management";
 import fs from "fs";
+import {File} from "formidable";
+import {JournalEntry, ContentfulImage} from "utils/types";
 import format from 'date-fns/format';
-
 const client = createClient({
     accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string
 });
@@ -46,6 +45,7 @@ export async function uploadImage(image: File){
        //The url is returned without the http/https, so it's added here.
        return {'url': "https:" + asset.fields.file['en-US'].url, 'assetID': asset.sys.id};
    }
+
 }
 
 /**
@@ -169,6 +169,8 @@ export async function deleteJournalEntryById(id: string){
 }
 
 
+// todo not sure what this is supposed to do exactly
+// should fetch by type: creative-space, vent-space, or resource
 /**
  * @param type what journal category to filter by: creative-space or vent-place
  * @returns An array of entries containing to the type specified.
@@ -214,4 +216,3 @@ export async function updateJournalEntryReviewStatus(id: string){
     entry.fields.reviewed['en-US'] = true;
     await entry.update();
 }
-

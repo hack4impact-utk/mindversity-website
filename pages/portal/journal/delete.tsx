@@ -5,13 +5,11 @@ import urls from "utils/urls";
 import JournalEntryComponent from "components/Portal/JournalEntry";
 import {JournalEntry} from "utils/types";
 import {useState} from "react";
-
 interface Props{
     entries: JournalEntry[],
 }
 
 const AdminJournalDelete: NextPage<Props> = ({entries}) => {
-
     const [isDeleting, setIsDeleting] = useState(false);
     const [responseStatus, setResponseStatus] = useState(0);
     const [warningDismissed, setWarningDismissed] = useState(false);
@@ -24,7 +22,7 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
 
         if(submitButton.name === "deleting"){
             if(!isDeleting && warningDismissed){
-                response = await fetch(`/api/journal/deleteById?id=${submitButton.value}`, {
+                response = await fetch(`/api/journal/deleteByID?id=${submitButton.value}`, {
                     method: "DELETE",
                 });
                 setResponseStatus(response.status);
@@ -37,13 +35,13 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
         if(submitButton.name === "delete"){
             //Delete the entry
             setIsDeleting(false);
-            response = await fetch(`/api/journal/deleteById?id=${deletingID}`, {
+            response = await fetch(`/api/journal/deleteByID?id=${deletingID}`, {
                 method: "DELETE",
             });
             setResponseStatus(response.status);
         }
     };
-
+    
     const toggleWarningDismissed = (e:React.SyntheticEvent) => {
         setWarningDismissed(true);
     }
@@ -68,9 +66,8 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
                     </div>
                 </div>
             )}
-
             <form className="content">
-                 {responseStatus === 200 && (
+                {responseStatus === 200 && (
                     <div className="success">
                         <p>Entry successfully deleted.</p>
                     </div>
@@ -81,8 +78,6 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
                     </div>
                 )}
                 <h1 className="contentHeader">Posts to be deleted</h1>
-
-
                 {entries && (
                     entries.map(entry => {
                         return (
@@ -93,7 +88,7 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
 
             </form>
             <style jsx>{`
-                 .actionButton{
+                .actionButton{
                     width: 230px;
                     height: 50px;
                     border-radius: 6px;
@@ -142,8 +137,6 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
                 }
 
 
-
-                
                 @media screen and (min-width: 1000px){
                     .content {
                         margin-left: 430px;
@@ -152,6 +145,21 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
                         flex-direction:column;
                         height: 100vh;
                     }   
+                    .rejectModal{
+                        width:100%;
+                        position:absolute;
+                        display:flex;
+                        flex-direction:column;
+                        justify-content:center;
+                        align-items:center;
+                        height:100%;
+                        background:rgba(0,0,0,0.2);
+                        z-index:2;
+                    }
+                    .modalBody{
+                        margin-left:430px;
+                        margin-right: 60px;
+                    }
                     .rejectModal{
                         width:100%;
                         position:absolute;
@@ -176,6 +184,20 @@ const AdminJournalDelete: NextPage<Props> = ({entries}) => {
                         flex-direction:column;
                         height: 100vh;
                     }   
+                    .rejectModal{
+                        width:100%;
+                        position:absolute;
+                        display:flex;
+                        flex-direction:column;
+                        justify-content:center;
+                        align-items:center;
+                        height:100%;
+                        background:rgba(0,0,0,0.2);
+                        z-index:2;
+                    }
+                    .contentHeader{
+                        text-align:center;
+                    }
                     .rejectModal{
                         width:100%;
                         position:absolute;
