@@ -52,3 +52,9 @@ export interface JournalEntry {
     dateCreated?: string,
     reviewed?: boolean,
 }
+
+export interface ApiResponse{
+    success: boolean,
+    message?: string,
+    payload?: unknown, //Unknown since there are several different types that the payload could be.
+}

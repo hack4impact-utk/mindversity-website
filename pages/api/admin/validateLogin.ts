@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import auth from "server/actions/Authenticate";
-import { User } from "utils/types";
-import cookie from "cookie";
 
 // This is really only used to validiate when someone is logged in
 async function handler(
@@ -21,4 +19,4 @@ async function handler(
 }
 
 // Here the auth function is run and sets the status appropriately
-export default auth('any', handler)
+export default auth("any", handler);
