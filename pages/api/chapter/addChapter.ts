@@ -22,8 +22,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             //Since we use names in the url, names need to be parsed and have all whitespace converted to underscores
             chapterInfo.name = chapterInfo?.name?.replace(/ /g, "_");
 
-            //Since these two don't rely on each other to be uploaded, doing this allows them to be done simultaneously, and should be more efficient
-            [chapterInfo.campusPic, chapterInfo.universityLogo] = await Promise.all([uploadImage(files.campus), uploadImage(files.logo)]);
+            //If the files for the campus pic and logo exist, upload them to Contentful
+            if(files.campus.size > 0){
+                chapterInfo.campusPic = await uploadImage(files.campus);
+            }
+            if(files.logo.size > 0){
+                chapterInfo.universityLogo = await uploadImage(files.logo);
+            }
 
             //Now that all data is prepped, we can add chapter.
             await addChapter(chapterInfo);
