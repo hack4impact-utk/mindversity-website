@@ -12,7 +12,7 @@ export const getOfficers = async function (officerInfo: Officer) {
     await mongoDB();
     if(!officerInfo) officerInfo = {};
 
-    const officers = await OfficerSchema.find(officerInfo);
+    const officers: Officer[] = await OfficerSchema.find(officerInfo);
     return officers;
 }
 

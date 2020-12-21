@@ -36,19 +36,26 @@ export interface ContentfulImage {
 }
 
 export interface Resource {
-    _id?: ObjectID|string;
+    _id?: ObjectID | string;
     name?: string;
     category?: string;
     link?: string;
+    chapter?: string;
 }
 
 export interface JournalEntry {
-    id?: string, // not an Object since this isn't tied to mongodb
-    title?: string,
-    description?: string,
-    image?: ContentfulImage,
-    category?: string,
-    body?: string,
-    dateCreated?: string,
-    reviewed?: boolean,
+    id?: string; // not an Object since this isn't tied to mongodb
+    title?: string;
+    description?: string;
+    image?: ContentfulImage;
+    category?: string;
+    body?: string;
+    dateCreated?: string;
+    reviewed?: boolean;
+}
+
+export interface ApiResponse{
+    success: boolean,
+    message?: string,
+    payload?: unknown, //Unknown since there are several different types that the payload could be.
 }

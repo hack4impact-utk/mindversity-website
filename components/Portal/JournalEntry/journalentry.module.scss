@@ -4,7 +4,6 @@ $color: #8C69AA;
     flex-direction:row;
     border-bottom: 1px solid black;
     width: 100%;
-
 }
 .entryBody{
     width: 60%;
@@ -17,6 +16,7 @@ $color: #8C69AA;
     font-size: 2rem;
     color: $color;
     margin-bottom:0;
+    text-decoration: none;
 }
 .description{
     color: #2B2B2C;

@@ -3,8 +3,13 @@ import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
 import urls from "utils/urls";
 import Router from "next/router";
+import { User } from "utils/types";
 
-const Dashboard: NextPage = () => {
+interface Props {
+    admin: boolean;
+}
+
+const Dashboard: NextPage<Props> = ({ admin }) => {
     return (
         <div className="container">
             <Head>
@@ -12,20 +17,20 @@ const Dashboard: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation />
+            <Navigation admin={admin} />
 
             <div className="bodyContent">
                 <h1>Welcome to MindVersity</h1>
 
                 <div className="dashChipParent">
-                    <h2>What yould you like to do?</h2>
+                    <h2>What would you like to do?</h2>
                     <a className="dashChip" href="chapters">
                         Manage Chapters
                     </a>
                     <a className="dashChip" href="resources">
                         Edit Resources
                     </a>
-                    <a className="dashChip" href="journal">
+                    <a className="dashChip" href="journal/delete">
                         Update Journal
                     </a>
                 </div>
@@ -92,9 +97,8 @@ const Dashboard: NextPage = () => {
                 body {
                     padding: 0;
                     margin: 0;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-                        Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+                        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
                 }
                 * {
                     box-sizing: border-box;
@@ -104,34 +108,33 @@ const Dashboard: NextPage = () => {
     );
 };
 
+export async function getServerSideProps(context: NextPageContext) {
+    const cookie = context.req?.headers.cookie;
 
-Dashboard.getInitialProps = async (context: NextPageContext) => {
-    const cookie = context.req?.headers.cookie
-
-    //Since this is client side only absolute URLs are supported
-    //TODO: need to change url off of localhost in production
-    const resp = await fetch("http://localhost:3000/api/admin/validateLogin", {
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
         headers: {
-            cookie: cookie!
-        }
-    })
+            cookie: cookie!,
+        },
+    });
 
-    if(resp.status === 401 && !context.req) {
-        Router.replace('/portal/login')
-        return {}
+    if (resp.status === 401 && !context.req) {
+        void Router.replace(`${urls.pages.portal.login}`);
+        return { props: {} };
     }
 
-    if(resp.status === 401 && context.req)
-    {
+    if (resp.status === 401 && context.req) {
         context.res?.writeHead(302, {
-            //TODO: same here
-            Location: "http://localhost:3000/"
-        })
-        context.res?.end()
-        return {}
+            Location: `${urls.baseUrl}`,
+        });
+        context.res?.end();
+        return { props: {} };
     }
 
-    return {}
+    const jsonRes = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (jsonRes.payload as User) || null;
+    const chapter = user?.role || null;
+
+    return { props: { admin: chapter == "admin" || chapter == "national" } };
 }
 
 export default Dashboard;

@@ -1,25 +1,58 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { addChapter } from "requests/Chapter";
-import { Chapter, User } from "utils/types";
-import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
+import urls from "utils/urls";
 import Router from "next/router";
-import { FormEvent } from "react";
+import { Chapter, User } from "utils/types";
+import { FormEvent, useRef, useState } from "react";
+import { getChapters } from "server/actions/Chapter";
 
 interface Props {
-    admin: boolean;
+    chapters: Chapter[];
 }
 
-const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    var chapter: Chapter = await addChapter(formData);
-    //After submitting the form send the user to the list of chapters
-    window.location.href = "/portal/chapters";
-};
+const NewUser: NextPage<Props> = ({ chapters }) => {
+    const [validEmail, setValidEmail] = useState(true);
+    const emailEle = useRef<HTMLInputElement>(null);
+    const passwordEle = useRef<HTMLInputElement>(null);
+    const chapterEle = useRef<HTMLSelectElement>(null);
 
-const Chapters: NextPage<Props> = ({ admin }) => {
+    const cleanName = (name: string | undefined) => {
+        if (name == undefined) return;
+        return name.replace(/_/g, " ");
+    };
+
+    const emailIsValid = (email: string) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!emailIsValid(emailEle.current?.value as string)) {
+            setValidEmail(false);
+            return;
+        }
+
+        setValidEmail(true);
+
+        const chagedResource: User = {
+            email: emailEle.current?.value,
+            password: passwordEle.current?.value,
+            role: chapterEle.current?.value,
+        };
+
+        const response = await fetch(`${urls.baseUrl}${urls.api.admin.signup}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(chagedResource),
+        });
+
+        void Router.push("/portal/dashboard");
+    };
+
     return (
         <div className="container">
             <Head>
@@ -27,32 +60,28 @@ const Chapters: NextPage<Props> = ({ admin }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation admin={admin} />
+            <Navigation admin={true} />
 
             <div className="bodyContent">
-                <h1>New Chapter</h1>
                 <div className="formContainer">
                     <form onSubmit={handleSubmit} method="post">
-                        <label htmlFor="name">Chapter Name</label>
-                        <input type="text" name="name" placeholder="Chapter Name" required />
-                        <label htmlFor="region">Region</label>
-                        <select name="region" id="">
-                            <option value="northeast">Northeast</option>
-                            <option value="south">South</option>
-                            <option value="west">West</option>
-                            <option value="midwest">Midwest</option>
+                        <label htmlFor="email">Email</label>
+                        {validEmail || <p className="invalidEmailText">Invalid Email Address</p>}
+                        <input ref={emailEle} type="text" name="email" placeholder="Email" />
+                        <label htmlFor="password">Password</label>
+                        <input ref={passwordEle} type="text" name="password" placeholder="password" />
+                        <label htmlFor="chapter">Chapter</label>
+                        <select ref={chapterEle} name="chapter" id="chapterChoice">
+                            {chapters.map((chap, i) => {
+                                return (
+                                    <option key={i} value={chap.name}>
+                                        {cleanName(chap.name)}
+                                    </option>
+                                );
+                            })}
                         </select>
-                        <label htmlFor="city">City</label>
-                        <input type="text" name="city" placeholder="City" />
-                        <label htmlFor="state">State</label>
-                        <input type="text" name="state" placeholder="State" />
-                        <label htmlFor="description">Description</label>
-                        <textarea name="description" placeholder="Description"></textarea>
-                        <label htmlFor="campus">Campus Picture</label>
-                        <input type="file" name="campus"/>
-                        <label htmlFor="logo">Logo</label>
-                        <input type="file" name="logo"/>
-                        <input type="submit" value="Create" className="submitInput"/>
+
+                        <input type="submit" value="Add" className="submitInput" />
                     </form>
                 </div>
             </div>
@@ -88,11 +117,10 @@ const Chapters: NextPage<Props> = ({ admin }) => {
                 }
 
                 input[type="text"],
-                input[type="file"],
                 select,
                 textarea {
                     height: auto;
-                    width: 100%;
+                    width: 75%;
                     padding: 10px 15px;
                     position: relative;
                     display: block;
@@ -116,6 +144,14 @@ const Chapters: NextPage<Props> = ({ admin }) => {
                     padding-left: 5px;
                     text-align: left;
                     font-size: 16px;
+                }
+
+                .invalidEmailText {
+                    margin-top: 10px;
+                    margin-bottom: 5px;
+                    font-size: 14px;
+                    text-align: left;
+                    color: #714b92;
                 }
 
                 .submitInput {
@@ -165,16 +201,16 @@ export async function getServerSideProps(context: NextPageContext) {
         },
     });
 
-    const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
-    const user = (respJSON.payload as User) || null;
-    const usersChapter = user?.role || null;
-
     if (resp.status === 401 && !context.req) {
         void Router.replace(`${urls.pages.portal.login}`);
         return { props: {} };
     }
 
-    if ((resp.status === 401 && context.req) || (usersChapter != "admin" && usersChapter != "national")) {
+    const jsonRes = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (jsonRes.payload as User) || null;
+    const chapter = user?.role || null;
+
+    if ((resp.status === 401 && context.req) || (chapter != "admin" && chapter != "national")) {
         context.res?.writeHead(302, {
             Location: `${urls.baseUrl}`,
         });
@@ -182,7 +218,9 @@ export async function getServerSideProps(context: NextPageContext) {
         return { props: {} };
     }
 
-    return { props: { admin: usersChapter == "admin" || usersChapter == "national" } };
+    const chapters = await getChapters({});
+
+    return { props: { chapters: JSON.parse(JSON.stringify(chapters)) as Chapter[] } };
 }
 
-export default Chapters;
+export default NewUser;
