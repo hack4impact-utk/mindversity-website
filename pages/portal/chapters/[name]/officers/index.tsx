@@ -2,7 +2,6 @@ import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { getOfficers, deleteOfficer } from "requests/Officer";
 import { Officer } from 'utils/types';
-import urls from "utils/urls";
 import { useState } from "react";
 import Navigation from "components/Portal/Navigation";
 import OfficerCard from "components/Portal/OfficerCard";
