@@ -1,16 +1,44 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { getOfficers } from "requests/Officer";
+import { getOfficers, deleteOfficer } from "requests/Officer";
 import { Officer } from 'utils/types';
-
+import urls from "utils/urls";
+import { useState } from "react";
 import Navigation from "components/Portal/Navigation";
 import OfficerCard from "components/Portal/OfficerCard";
+
 
 interface Props {
     officer: Officer[];
 }
 
 const Officers: NextPage<Props> = ({officer}) => {
+
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [deletingID, setDeletingID] = useState("");
+
+    const handleDeleteAction = async (e:React.SyntheticEvent) => {
+        e.preventDefault();
+        const submitButton = e.target as HTMLButtonElement;
+        if(submitButton.name === "delete"){ //Delete the officer
+            const officerToDelete = officer.filter(officer => officer._id?.toString() === deletingID);
+            if(officerToDelete.length == 1){
+                const officerDelete = await deleteOfficer(officerToDelete[0]);
+            }
+            else{
+                //TODO: Possible error message telling the user that the officer is not found
+            }
+        }
+        else{ //Open the delete confirm modal
+            setIsDeleting(true);
+            setDeletingID(submitButton.value);
+        }
+    }
+
+    const dismissWarning = (e:React.SyntheticEvent) => {
+
+    }
+
     return (
         <div className="container">
             <Head>
@@ -20,17 +48,32 @@ const Officers: NextPage<Props> = ({officer}) => {
 
             <Navigation />
 
+            {isDeleting && (
+                <div className="rejectModal">
+                    <div className="modalBody">
+                        <h1>Are you sure?</h1>
+                        <p>Continuing with this action will delete the officer permanently.</p>
+                        <input type='checkbox' onClick={dismissWarning}/>
+                        <span>Do not show this message again.</span>
+                        <div className="actionButtonContainer">
+                            <button type="submit" name="delete" className="actionButton actionButtonPrimary" onClick={handleDeleteAction}>Delete</button>
+                            <button className="actionButton actionButtonSecondary" onClick={() => {setIsDeleting(false); setDeletingID("")}}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="bodyContent">
                 <h1>Edit Officers</h1>
                 <div className="newChapterBtnParent">
                     <a href="officers/create" className="newChapterBtn">New Officer</a>
                 </div>
                 <div className="chaptersContainer">
-                    { //Display all of the chapters from the database
+                    { //Display all of the officers from the database
                         officer && (
                             officer.map(officer => {
                                 return(
-                                    <OfficerCard officer={officer}/>
+                                    <OfficerCard officer={officer} handleDelete={handleDeleteAction}/>
                                 )
                             })
                         )
@@ -98,6 +141,80 @@ const Officers: NextPage<Props> = ({officer}) => {
                     display: block;
                     padding: 20px 40px;
                     text-align: center;
+                }
+
+                .actionButton{
+                    width: 230px;
+                    height: 50px;
+                    border-radius: 6px;
+                    font-size: 1.2rem;
+                    border: 1px solid #8C69AA;
+                    cursor:pointer;
+                    transition:0.5s ease;
+                    align-self: flex-end;
+                    margin: 10px;
+                }
+
+                .actionButtonPrimary {
+                    background: #8C69AA;
+                    color: white;
+                }
+
+                .actionButtonPrimary:hover{
+                    filter:brightness(1.2);
+                }
+
+                .actionButtonSecondary{
+                    background: white;
+                    color: #8C69AA;
+                }
+
+                .actionButtonSecondary:hover{
+                    filter:brightness(0.8);
+                }
+
+                .modalBody{
+                    background: white;
+                    width:500px;
+                    height:300px;
+                    padding:0.5rem;
+                    text-align:center;
+                    align-self:center;
+                }
+
+                @media screen and (min-width: 1000px){  
+                    .rejectModal{
+                        width:100%;
+                        position:absolute;
+                        display:flex;
+                        flex-direction:column;
+                        justify-content:center;
+                        align-items:center;
+                        height:100%;
+                        background:rgba(0,0,0,0.2);
+                        z-index:2;
+                    }
+                    .modalBody{
+                        margin-left:430px;
+                        margin-right: 60px;
+                    }
+                }
+
+                @media screen and (max-width: 999px){
+                    .rejectModal{
+                        width:100%;
+                        position:absolute;
+                        display:flex;
+                        flex-direction:column;
+                        justify-content:center;
+                        align-items:center;
+                        height:100%;
+                        background:rgba(0,0,0,0.2);
+                        z-index:2;
+                    }
+                    .contentHeader{
+                        text-align:center;
+                    }
                 }
             `}</style>
 

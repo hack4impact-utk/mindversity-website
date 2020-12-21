@@ -4,9 +4,10 @@ import style from './officercard.module.scss';
 
 interface Props {
     officer: Officer;
+    handleDelete: any;
 }
 
-const OfficerCard: React.FC<Props> = ({ officer }) => {
+const OfficerCard: React.FC<Props> = ({ officer, handleDelete }) => {
     return (
         <div className={style.chapterCard}>
             <div className={style.chapterCardText}>
@@ -16,7 +17,7 @@ const OfficerCard: React.FC<Props> = ({ officer }) => {
                 </div>
             </div>
             <div className={style.chapterCardBtn}>
-                <a className={style.editChapterBtn} href={"officers/" + officer._id}>Delete</a>
+                <button className={style.editChapterBtn} onClick={(e:React.SyntheticEvent) => handleDelete(e)} value={String(officer._id)}>Delete</button>
             </div>
         </div>
     );

@@ -9,6 +9,8 @@ const handleSubmit = async (e:any) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     var officer: Officer = await addOfficer(formData);
+    //Return the user to the list of officers
+    window.location.href = "../officers";
 };
 
 const CreateOfficer: NextPage = () => {

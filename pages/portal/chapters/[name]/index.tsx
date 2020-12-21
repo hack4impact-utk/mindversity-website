@@ -10,7 +10,7 @@ const handleSubmit = async (e:any) => {
     const formData = new FormData(e.target);
     var chapter: Chapter = await updateChapter(formData);
     //After submitting the form send the user to the list of chapters
-    window.location.href = "chapters";
+    window.location.href = "/portal/chapters";
 };
 
 interface Props{
@@ -51,7 +51,7 @@ const Chapters: NextPage<Props> = ({chapter}) => {
                         <textarea name="description" placeholder="Description" defaultValue={chapter.description}></textarea>
                         <label htmlFor="campus">Campus Picture</label>
                         <div className="inputContainer">
-                            <img src={chapter.universityLogo?.url}></img>
+                            <img src={chapter.campusPic?.url}></img>
                             <input type="file" name="campus"/>
                         </div>
                         <label htmlFor="logo">Logo</label>
