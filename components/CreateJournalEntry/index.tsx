@@ -161,20 +161,17 @@ const CreateJournalEntry: React.FC = () => {
                                     Please select a category
                                 </option>
                                 <option value="vent-place">Vent Place</option>
-<<<<<<< HEAD
-<<<<<<< HEAD
                                 <option value="creative-space">Creative Space</option>
                                 <option value="resources">Resources</option>
-=======
                                 <option value="creative-space">
                                     Creative Space
                                 </option>
->>>>>>> acca770 (Rebase to fix more recent issues)
-=======
                                 <option value="creative-space">
                                     Creative Space
                                 </option>
->>>>>>> ec0b8dd (Fixes linter issues in all Components except for HomeChapters, Officers, OfficerCarousel, and CreateJournalEntry)
+                                <option value="creative-space">
+                                    Creative Space
+                                </option>
                             </select>
                         </div>
                     </div>

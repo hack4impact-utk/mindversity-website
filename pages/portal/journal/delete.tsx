@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from "next";
+import { NextPage } from "next";
 import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
 import urls from "utils/urls";
@@ -22,9 +22,12 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
 
         if (submitButton.name === "deleting") {
             if (!isDeleting && warningDismissed) {
-                response = await fetch(`/api/journal/deleteById?id=${submitButton.value}`, {
-                    method: "DELETE",
-                });
+                response = await fetch(
+                    `/api/journal/deleteById?id=${submitButton.value}`,
+                    {
+                        method: "DELETE",
+                    }
+                );
                 setResponseStatus(response.status);
             } else {
                 setIsDeleting(true);
@@ -55,8 +58,14 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                 <div className="rejectModal">
                     <div className="modalBody">
                         <h1>Are you sure?</h1>
-                        <p>Continuing with this action will delete the entry permanently.</p>
-                        <input type="checkbox" onClick={toggleWarningDismissed} />
+                        <p>
+                            Continuing with this action will delete the entry
+                            permanently.
+                        </p>
+                        <input
+                            type="checkbox"
+                            onClick={toggleWarningDismissed}
+                        />
                         <span>Do not show this message again.</span>
                         <div className="actionButtonContainer">
                             <button
@@ -177,21 +186,6 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                         margin-left: 430px;
                         margin-right: 60px;
                     }
-                    .rejectModal {
-                        width: 100%;
-                        position: absolute;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100%;
-                        background: rgba(0, 0, 0, 0.2);
-                        z-index: 2;
-                    }
-                    .modalBody {
-                        margin-left: 430px;
-                        margin-right: 60px;
-                    }
                 }
                 @media screen and (max-width: 999px) {
                     .content {
@@ -200,20 +194,6 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                         display: flex;
                         flex-direction: column;
                         height: 100vh;
-                    }
-                    .rejectModal {
-                        width: 100%;
-                        position: absolute;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100%;
-                        background: rgba(0, 0, 0, 0.2);
-                        z-index: 2;
-                    }
-                    .contentHeader {
-                        text-align: center;
                     }
                     .rejectModal {
                         width: 100%;
