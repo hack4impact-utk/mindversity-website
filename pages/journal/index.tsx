@@ -214,8 +214,9 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
           flex-direction:column;
           justify-content:center;
           background:#8C69AA;
-          padding:0.5rem;
-          border-radius: 10px;
+          padding: 10px 20px 10px 20px;
+          text-align:center;
+          border-radius: 15px;
           font-weight:bold;
           color:white;
           cursor:pointer;
