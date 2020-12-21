@@ -19,6 +19,7 @@ export default {
             forgotPass: "/api/admin/forgotPass",
             resetPass: "/api/admin/resetPass",
             validateLogin: "/api/admin/validateLogin",
+            signout: "/api/admin/signout",
         },
         blog: {
             get: "/api/blog/getBlog",
