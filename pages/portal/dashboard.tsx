@@ -119,7 +119,6 @@ export async function getServerSideProps(context: NextPageContext) {
 
     if (resp.status === 401 && context.req) {
         context.res?.writeHead(302, {
-            //TODO: same here
             Location: `${urls.baseUrl}`,
         });
         context.res?.end();
