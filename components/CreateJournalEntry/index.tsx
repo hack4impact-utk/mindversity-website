@@ -6,6 +6,7 @@ import { BiImageAdd } from "react-icons/bi";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 import { Delta, Sources } from "quill";
+import urls from "utils/urls";
 
 interface IFormValues {
     title?: string | undefined;
@@ -20,17 +21,20 @@ interface IFormValues {
 const CreateJournalEntry: React.FC = () => {
     const [values, setValues] = useState({} as IFormValues); //Used to store the various values that will be sent to the backend.
     const [imageURL, setImageURL] = useState("");
+    const [fileTooLarge, setFileTooLarge] = useState(false);
 
     //Idea from: https://upmostly.com/tutorials/form-validation-using-custom-react-hooks
     const handleData = (e: React.SyntheticEvent) => {
         e.persist();
         const target = e.target as HTMLInputElement;
-        if (target != null) {
-            if (target.name == "image" && target.files != null) {
-                setValues(values => ({
-                    ...values,
-                    [target.name]: target.files?.item(0),
-                }));
+        if(target != null) {
+            if(target.name == "image" && target.files != null) {
+                if (target.files[0].size >= urls.CONTENTFUL_IMAGE_LIMIT) {
+                    setFileTooLarge(true);      
+                    setTimeout(() => {setFileTooLarge(false)}, 2000);
+                    return;
+                }
+                setValues(values => ({...values, [target.name]: target.files?.item(0)}));
                 handleImageURL(target.files[0]);
             } else {
                 setValues(values => ({
@@ -115,13 +119,14 @@ const CreateJournalEntry: React.FC = () => {
                         <div className={styles["icon-container"]}>
                             <BiImageAdd className={styles["image-icon"]} />
                         </div>
-                        <input
-                            type="file"
-                            name="image"
-                            className={styles["image-select"]}
-                            onChange={handleData}
-                            required
-                        />
+                        <input type="file" name="image" className={styles['image-select']} onChange={handleData} required/>
+                        {/* <div className={`alert alert-success ${this.state.showingAlert ? 'alert-shown' : 'alert-hidden'}`}> */}
+                        <div>
+                            <a className={styles['icon-container']}> 
+                                <strong>Error!</strong> 
+                                File size is too large, it must be below 20MB.
+                            </a>
+                        </div>
                     </div>
                     <div className={styles["text-container"]}>
                         <label htmlFor="title">Title</label>
