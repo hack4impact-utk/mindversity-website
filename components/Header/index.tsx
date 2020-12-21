@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import style from "./style.module.scss"; //Import the main stylesheet
+import style from "./style.module.scss";
 import Link from "next/link";
-//Import the icons from react-icons
 import { AiOutlineMenu } from "react-icons/ai";
-import { FaSearch } from "react-icons/fa";
-
 import { useRouter } from "next/router";
 
 const Header: React.FC = () => {
@@ -32,57 +29,27 @@ const Header: React.FC = () => {
                         </span>
                     </Link>
                     <div className={style.headerNav}>
-                        <div
-                            className={style.navWrapper}
-                            style={{ width: mobileWidth }}
-                        >
+                        <div className={style.navWrapper} style={{ width: mobileWidth }}>
                             <Link href="/chapters">
-                                <span
-                                    className={
-                                        router.pathname == "/chapters"
-                                            ? style.activeNavBtn
-                                            : style.navBtn
-                                    }
-                                >
+                                <span className={router.pathname == "/chapters" ? style.activeNavBtn : style.navBtn}>
                                     Chapters
                                 </span>
                             </Link>
                             <Link href="/journal">
-                                <span
-                                    className={
-                                        router.pathname == "/journal"
-                                            ? style.activeNavBtn
-                                            : style.navBtn
-                                    }
-                                >
+                                <span className={router.pathname == "/journal" ? style.activeNavBtn : style.navBtn}>
                                     Journal
                                 </span>
                             </Link>
                             <Link href="/resources">
-                                <span
-                                    className={
-                                        router.pathname == "/resources"
-                                            ? style.activeNavBtn
-                                            : style.navBtn
-                                    }
-                                >
+                                <span className={router.pathname == "/resources" ? style.activeNavBtn : style.navBtn}>
                                     Resources
                                 </span>
                             </Link>
                             <Link href="/faq">
-                                <span
-                                    className={
-                                        router.pathname == "/faq"
-                                            ? style.activeNavBtn
-                                            : style.navBtn
-                                    }
-                                >
+                                <span className={router.pathname == "/faq" ? style.activeNavBtn : style.navBtn}>
                                     FAQs
                                 </span>
                             </Link>
-                            <div className={style.navIcon}>
-                                <FaSearch className={style.navIconSearch} />
-                            </div>
                         </div>
                         <button
                             className={style.navHamButton}
