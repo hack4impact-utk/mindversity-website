@@ -38,17 +38,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             let chapter: Chapter = chapters[0];
 
             /*
-            if images on contentful exist, they need to removed while uploading the 
+            first check the file size to see if there is a new file upload
+            if the user wants to upload a new image and images on contentful exist, they need to removed while uploading the 
             new images (deletes can happen async here):
                 - both images exist -> delete contentful, insert form image
                 - only form image exists (chapterInfo) -> insert image normally
                 - else nothing happens
             */
-            if (files?.logo) {
+            if (files?.logo.size > 0) {
                 if (chapter.universityLogo?.assetID) deleteAssetByID(chapter.universityLogo.assetID);
                 chapterInfo.universityLogo = await uploadImage(files.logo);
             }
-            if (files?.campus) {
+            if (files?.campus.size > 0) {
                 if (chapter.campusPic?.assetID) deleteAssetByID(chapter.campusPic.assetID);
                 chapterInfo.campusPic = await uploadImage(files.campus);
             }
