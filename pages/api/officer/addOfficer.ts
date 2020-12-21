@@ -3,7 +3,11 @@ import { uploadImage } from "server/actions/Contentful";
 import { addOfficer } from "server/actions/Officer";
 import formidable from "formidable";
 import { Officer } from "utils/types";
+<<<<<<< HEAD
 import errors from "utils/errors";
+=======
+import urls from "utils/urls";
+>>>>>>> Working on file to olarge errors
 
 //To get formidable to work, bodyParser has to be turned off.
 // Otherwise, the parse request will never end.
@@ -29,9 +33,15 @@ export default function handler(
                 //Fields is used for everything other than files, so all this data can be passed in directly to the officer type.
                 const officerInfo: Officer = fields;
 
+<<<<<<< HEAD
                 // check image size, should be less than 20 MB
                 if (files.picture.size >= 20 * 1000 * 1000)
                     throw new Error("File size is too large!");
+=======
+            // check image size, should be less than 20 MB
+            if (files.image.size >= urls.CONTENTFUL_IMAGE_LIMIT)
+                throw new Error("File size is too large!");
+>>>>>>> Working on file to olarge errors
 
                 // upload the officer's profile pic to contentful
                 // keep .picture in sync with the front-end input name in the form
