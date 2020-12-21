@@ -2,7 +2,7 @@ import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { addChapter } from "requests/Chapter";
 import { Chapter } from "utils/types";
-
+import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 import Router from "next/router";
 import { FormEvent } from "react";
@@ -156,23 +156,20 @@ const Chapters: NextPage = () => {
 export async function getServerSideProps(context: NextPageContext) {
     const cookie = context.req?.headers.cookie;
 
-    //Since this is client side only absolute URLs are supported
-    //TODO: need to change url off of localhost in production
-    const resp = await fetch("http://localhost:3000/api/admin/validateLogin", {
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
         headers: {
             cookie: cookie!,
         },
     });
 
     if (resp.status === 401 && !context.req) {
-        void Router.replace("/portal/login");
+        void Router.replace(`${urls.pages.portal.login}`);
         return { props: {} };
     }
 
     if (resp.status === 401 && context.req) {
         context.res?.writeHead(302, {
-            //TODO: same here
-            Location: "http://localhost:3000/",
+            Location: `${urls.baseUrl}`,
         });
         context.res?.end();
         return { props: {} };
