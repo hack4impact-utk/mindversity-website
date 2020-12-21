@@ -3,7 +3,7 @@ import { addResource } from "server/actions/Resource";
 import auth from "server/actions/Authenticate";
 import { Resource } from "utils/types";
 
-export default auth("admin", async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default auth("any", async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         const resourceData = req.body as Resource;
         await addResource(resourceData);
