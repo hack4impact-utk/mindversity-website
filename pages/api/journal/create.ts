@@ -29,8 +29,9 @@ export default function handler(
 
                 // check image size, should be less than 20 MB
                 if (files.image.size >= urls.CONTENTFUL_IMAGE_LIMIT)
-                    throw new Error("File size is too large!");
+                    throw new Error(errors.IMAGE_TOO_LARGE);
 
+                    
                 //In Contentful, Entries store links to Assets (in this case, our Journal Entry images),
                 //so we get the asset ID and url for the JournalEntry's image
                 journalEntry.image = await uploadImage(files.image);
