@@ -2,12 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { login } from "server/actions/User";
 import { User } from "utils/types";
 import cookie from "cookie";
+import errors from "utils/errors";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
         const currentUser = req.body as User;
         const jwt = await login(currentUser);
-        
+
         res.setHeader(
             "Set-Cookie",
             cookie.serialize("auth", jwt, {
@@ -18,17 +19,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 path: "/",
             })
         );
-        res.status(200).json({ 
+        res.status(200).json({
             success: true,
-            payload: {}
+            payload: {},
         });
-    } 
-    catch (error) {
-        console.error(error);
+    } catch (error) {
+        console.error(error instanceof Error && error);
         res.setHeader("Set-Cookie", "auth=; Max-Age=0; SameSite=Lax; Path=/");
         res.status(400).json({
             success: false,
-            message: error.message,
+            message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
         });
     }
 }

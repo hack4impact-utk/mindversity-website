@@ -22,12 +22,9 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
 
         if (submitButton.name === "deleting") {
             if (!isDeleting && warningDismissed) {
-                response = await fetch(
-                    `/api/journal/deleteById?id=${submitButton.value}`,
-                    {
-                        method: "DELETE",
-                    }
-                );
+                response = await fetch(`/api/journal/deleteById?id=${submitButton.value}`, {
+                    method: "DELETE",
+                });
                 setResponseStatus(response.status);
             } else {
                 setIsDeleting(true);
@@ -37,7 +34,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
         if (submitButton.name === "delete") {
             //Delete the entry
             setIsDeleting(false);
-            response = await fetch(`/api/journal/deleteByID?id=${deletingID}`, {
+            response = await fetch(`/api/journal/deleteById?id=${deletingID}`, {
                 method: "DELETE",
             });
             setResponseStatus(response.status);
@@ -58,14 +55,8 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                 <div className="rejectModal">
                     <div className="modalBody">
                         <h1>Are you sure?</h1>
-                        <p>
-                            Continuing with this action will delete the entry
-                            permanently.
-                        </p>
-                        <input
-                            type="checkbox"
-                            onClick={toggleWarningDismissed}
-                        />
+                        <p>Continuing with this action will delete the entry permanently.</p>
+                        <input type="checkbox" onClick={toggleWarningDismissed} />
                         <span>Do not show this message again.</span>
                         <div className="actionButtonContainer">
                             <button
@@ -163,12 +154,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                     text-align: center;
                 }
 
-<<<<<<< HEAD
-
-                @media screen and (min-width: 1000px){
-=======
                 @media screen and (min-width: 1000px) {
->>>>>>> df2b5c4 (Lints API routes and adds new command to start server for Windows users)
                     .content {
                         margin-left: 430px;
                         margin-right: 60px;
@@ -191,19 +177,19 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                         margin-left: 430px;
                         margin-right: 60px;
                     }
-                    .rejectModal{
-                        width:100%;
-                        position:absolute;
-                        display:flex;
-                        flex-direction:column;
-                        justify-content:center;
-                        align-items:center;
-                        height:100%;
-                        background:rgba(0,0,0,0.2);
-                        z-index:2;
+                    .rejectModal {
+                        width: 100%;
+                        position: absolute;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.2);
+                        z-index: 2;
                     }
-                    .modalBody{
-                        margin-left:430px;
+                    .modalBody {
+                        margin-left: 430px;
                         margin-right: 60px;
                     }
                 }
@@ -229,19 +215,19 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                     .contentHeader {
                         text-align: center;
                     }
-                    .rejectModal{
-                        width:100%;
-                        position:absolute;
-                        display:flex;
-                        flex-direction:column;
-                        justify-content:center;
-                        align-items:center;
-                        height:100%;
-                        background:rgba(0,0,0,0.2);
-                        z-index:2;
+                    .rejectModal {
+                        width: 100%;
+                        position: absolute;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.2);
+                        z-index: 2;
                     }
-                    .contentHeader{
-                        text-align:center;
+                    .contentHeader {
+                        text-align: center;
                     }
                 }
             `}</style>
@@ -250,9 +236,8 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                 body {
                     padding: 0;
                     margin: 0;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-                        Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+                        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
                 }
                 * {
                     box-sizing: border-box;
@@ -261,11 +246,9 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
         </main>
     );
 };
-AdminJournalDelete.getInitialProps = async (context: NextPageContext) => {
+AdminJournalDelete.getInitialProps = async () => {
     //Load the journal entries that have already been reviewed.
-    const url = `${
-        urls.baseUrl as string
-    }/api/journal/getByReviewStatus?reviewed=true`;
+    const url = `${urls.baseUrl as string}/api/journal/getByReviewStatus?reviewed=true`;
     const response = await fetch(url, {
         method: "GET",
     });
