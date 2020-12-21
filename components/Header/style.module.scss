@@ -5,6 +5,7 @@
     right: 0;
     left: 0;
     z-index: 2000;
+    box-shadow: 0px 1px 3px rgb(200, 200, 200);
 }
 
 .header{
@@ -250,7 +251,7 @@
 
 /* Since the header is fixed this invisible div goes behind the header to prevent any of the content from being covered */
 .headerContentSpacer{
-    height: 98px;
+    height: 90px;
     width: auto;
     position: relative;
     display: block;
