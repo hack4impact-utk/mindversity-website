@@ -3,9 +3,10 @@ import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
 import urls from "utils/urls";
 import JournalEntryComponent from "components/Portal/JournalEntry";
-import { JournalEntry } from "utils/types";
+import { JournalEntry, ApiResponse } from "utils/types";
 import { useState } from "react";
 import Router from "next/router";
+
 interface Props {
     entries: JournalEntry[];
 }
@@ -22,9 +23,13 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
 
         if (submitButton.name === "deleting") {
             if (!isDeleting && warningDismissed) {
-                response = await fetch(`/api/journal/deleteByID?id=${submitButton.value}`, {
-                    method: "DELETE",
-                });
+                response = await fetch(
+                    `/api/journal/deleteById?id=${submitButton.value}`,
+                    {
+                        method: "DELETE",
+                    }
+                );
+
                 setResponseStatus(response.status);
             } else {
                 setIsDeleting(true);
@@ -34,14 +39,15 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
         if (submitButton.name === "delete") {
             //Delete the entry
             setIsDeleting(false);
-            response = await fetch(`/api/journal/deleteByID?id=${deletingID}`, {
+            response = await fetch(`/api/journal/deleteById?id=${deletingID}`, {
                 method: "DELETE",
             });
             setResponseStatus(response.status);
         }
     };
 
-    const toggleWarningDismissed = (e: React.SyntheticEvent) => {
+
+    const toggleWarningDismissed = () => {
         setWarningDismissed(true);
     };
 
@@ -55,8 +61,15 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                 <div className="rejectModal">
                     <div className="modalBody">
                         <h1>Are you sure?</h1>
-                        <p>Continuing with this action will delete the entry permanently.</p>
-                        <input type="checkbox" onClick={toggleWarningDismissed} />
+
+                        <p>
+                            Continuing with this action will delete the entry
+                            permanently.
+                        </p>
+                        <input
+                            type="checkbox"
+                            onClick={toggleWarningDismissed}
+                        />
                         <span>Do not show this message again.</span>
                         <div className="actionButtonContainer">
                             <button
@@ -88,10 +101,11 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                 )}
                 {responseStatus === 400 && (
                     <div className="error">
-                        <p>Something went wrong. Please try again</p>
+                        <p>Something went wrong. Please try again.</p>
                     </div>
                 )}
                 <h1 className="contentHeader">Posts to be deleted</h1>
+
                 {entries &&
                     entries.map(entry => {
                         return (
@@ -160,21 +174,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                         display: flex;
                         flex-direction: column;
                         height: 100vh;
-                    }
-                    .rejectModal {
-                        width: 100%;
-                        position: absolute;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100%;
-                        background: rgba(0, 0, 0, 0.2);
-                        z-index: 2;
-                    }
-                    .modalBody {
-                        margin-left: 430px;
-                        margin-right: 60px;
+
                     }
                     .rejectModal {
                         width: 100%;
@@ -199,20 +199,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                         display: flex;
                         flex-direction: column;
                         height: 100vh;
-                    }
-                    .rejectModal {
-                        width: 100%;
-                        position: absolute;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100%;
-                        background: rgba(0, 0, 0, 0.2);
-                        z-index: 2;
-                    }
-                    .contentHeader {
-                        text-align: center;
+
                     }
                     .rejectModal {
                         width: 100%;
@@ -278,5 +265,6 @@ export async function getServerSideProps(context: NextPageContext) {
 
     return { props: { entries: JSON.parse(JSON.stringify(entries)) as JournalEntry[] } };
 }
+
 
 export default AdminJournalDelete;

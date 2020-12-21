@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { addResource } from "server/actions/Resource";
 import auth from "server/actions/Authenticate";
 import { Resource } from "utils/types";
+import errors from "utils/errors";
 
 export default auth("admin", async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -12,11 +13,11 @@ export default auth("admin", async function handler(req: NextApiRequest, res: Ne
             payload: {},
         });
     } catch (error) {
-        const err = error as Error;
-        console.error(err);
+        console.error(error instanceof Error && error);
         res.status(400).json({
             success: false,
-            message: err.message,
+            message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
+
         });
     }
 });

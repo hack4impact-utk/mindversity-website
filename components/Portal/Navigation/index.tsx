@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import style from "./navigation.module.scss"; //Import the main stylesheet
+import Link from "next/link";
 
 //Import the icons from react-icons
 import { AiOutlineMenu } from "react-icons/ai";
@@ -28,39 +29,53 @@ const Navigation: React.FC = () => {
                 <div className={style.navLogo}>
                     <img src="/logo-white.svg" alt="MindVersity Logo" />
                 </div>
-                <a className={style.navBtn} href="/portal/resources">
-                    <HiOutlineBookOpen className={style.menuIcon} />
-                    Edit Resources
-                </a>
-                <a className={style.navBtn} href="/portal/journal/review">
-                    <FiPenTool className={style.menuIcon} />
-                    Review Journal Entries
-                </a>
-                <a className={style.navBtn} href="/portal/journal/delete">
-                    <RiDeleteBin2Line className={style.menuIcon} />
-                    Delete Journal Entries
-                </a>
-                <a className={style.navBtn} href="/portal/chapters">
-                    <FiAward className={style.menuIcon} />
-                    Manage Chapters
-                </a>
+                <Link href="/portal/resources">
+                    <span className={style.navBtn}>
+                        <HiOutlineBookOpen className={style.menuIcon} />
+                        Edit Resources
+                    </span>
+                </Link>
+                <Link href="/portal/journal/review">
+                    <span className={style.navBtn}>
+                        <FiPenTool className={style.menuIcon} />
+                        Review Journal Entries
+                    </span>
+                </Link>
+                <Link href="/portal/journal/delete">
+                    <span className={style.navBtn}>
+                        <RiDeleteBin2Line className={style.menuIcon} />
+                        Delete Journal Entries
+                    </span>
+                </Link>
+                <Link href="/portal/chapters">
+                    <span className={style.navBtn}>
+                        <FiAward className={style.menuIcon} />
+                        Manage Chapters
+                    </span>
+                </Link>
                 <div className={style.navLower}>
                     <div className={style.navLowerLinks}>
                         <div className={style.navLowerCol}>
-                            <a className={style.navLowerBtn} href="/journal">
-                                Journal
-                            </a>
-                            <a className={style.navLowerBtn} href="/chapters">
-                                Chapters
-                            </a>
+                            <Link href="/journal">
+                                <span className={style.navLowerBtn}>
+                                    Journal
+                                </span>
+                            </Link>
+                            <Link href="/chapters">
+                                <span className={style.navLowerBtn}>
+                                    Chapters
+                                </span>
+                            </Link>
                         </div>
                         <div className={style.navLowerCol}>
-                            <a className={style.navLowerBtn} href="/resources">
-                                Resources
-                            </a>
-                            <a className={style.navLowerBtn} href="/faq">
-                                FAQ
-                            </a>
+                            <Link href="/resources">
+                                <span className={style.navLowerBtn}>
+                                    Resources
+                                </span>
+                            </Link>
+                            <Link href="/faq">
+                                <span className={style.navLowerBtn}>FAQ</span>
+                            </Link>
                         </div>
                     </div>
                     <div className={style.navLowerLinks}>

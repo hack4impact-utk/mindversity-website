@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "NODE_OPTIONS='--inspect' next dev",
+        "devwin": "set NODE_OPTIONS='--inspect' & next dev",
         "build": "next build",
         "start": "next start",
         "lint": "yarn lint:tsc ; yarn lint:eslint",
