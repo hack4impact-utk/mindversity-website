@@ -53,12 +53,7 @@ const CreateJournalEntry: React.FC = () => {
             fr.readAsDataURL(image);
         }
     };
-    const handleChange = (
-        content: string,
-        delta: Delta,
-        source: Sources,
-        editor: any
-    ) => {
+    const handleChange = (content: string, delta: Delta, source: Sources, editor: any) => {
         //If the editor is empty, the only thing in it is a newline character. We don't want to send just newlines to the backend, so we do this.
         if (editor.getText() != "\n") {
             if (values.body) {
@@ -74,8 +69,7 @@ const CreateJournalEntry: React.FC = () => {
         e.preventDefault();
         if (!values.body) {
             setValues({ ...values, ["error"]: true });
-        }
-        if (!values.error) {
+        } else if (!values.error) {
             const fd = new FormData();
             let key: string;
             for (key in values) {
@@ -106,11 +100,7 @@ const CreateJournalEntry: React.FC = () => {
                 <form className={styles["create-form"]} onSubmit={handleSubmit}>
                     <div
                         className={styles["image-container"]}
-                        style={
-                            imageURL
-                                ? { background: `url(${imageURL})` }
-                                : { background: "#EAE0F1" }
-                        }
+                        style={imageURL ? { background: `url(${imageURL})` } : { background: "#EAE0F1" }}
                     >
                         <div className={styles["icon-container"]}>
                             <BiImageAdd className={styles["image-icon"]} />
@@ -151,35 +141,18 @@ const CreateJournalEntry: React.FC = () => {
                         />
                         <div className={styles["select-container"]}>
                             <span>Publish to: </span>
-                            <select
-                                name="category"
-                                className={styles["category"]}
-                                onChange={handleData}
-                                required
-                            >
-                                <option value="">
-                                    Please select a category
-                                </option>
+                            <select name="category" className={styles["category"]} onChange={handleData} required>
+                                <option value="">Please select a category</option>
                                 <option value="vent-place">Vent Place</option>
                                 <option value="creative-space">Creative Space</option>
                                 <option value="resources">Resources</option>
-                                <option value="creative-space">
-                                    Creative Space
-                                </option>
-                                <option value="creative-space">
-                                    Creative Space
-                                </option>
-                                <option value="creative-space">
-                                    Creative Space
-                                </option>
+                                <option value="creative-space">Creative Space</option>
+                                <option value="creative-space">Creative Space</option>
+                                <option value="creative-space">Creative Space</option>
                             </select>
                         </div>
                     </div>
-                    {values.error && (
-                        <span className={styles["error"]}>
-                            Please enter a body paragraph.
-                        </span>
-                    )}
+                    {values.error && <span className={styles["error"]}>Please enter a body paragraph.</span>}
                     <button type="submit" className={styles["submit"]}>
                         Publish
                     </button>

@@ -267,6 +267,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
             officers: JSON.parse(JSON.stringify(officers)) as Officer[],
             resources: JSON.parse(JSON.stringify(resources)) as Resource[],
         },
+        revalidate: 15,
     };
 }
 
