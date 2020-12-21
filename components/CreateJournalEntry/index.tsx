@@ -146,9 +146,6 @@ const CreateJournalEntry: React.FC = () => {
                                 <option value="vent-place">Vent Place</option>
                                 <option value="creative-space">Creative Space</option>
                                 <option value="resources">Resources</option>
-                                <option value="creative-space">Creative Space</option>
-                                <option value="creative-space">Creative Space</option>
-                                <option value="creative-space">Creative Space</option>
                             </select>
                         </div>
                     </div>
