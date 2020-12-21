@@ -263,7 +263,8 @@ export async function getServerSideProps(context: NextPageContext) {
     const json = (await response.json()) as { success: boolean; payload: JournalEntry[] };
     const entries: JournalEntry[] = json.payload;
 
-    const user = (json.payload as User) || null;
+    const loginrespjson = (await resp.json()) as { success: boolean; payload: JournalEntry[] };
+    const user = (loginrespjson.payload as User) || null;
     const usersChapter = user.role || null;
 
     return {
