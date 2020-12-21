@@ -5,11 +5,15 @@ export default {
     dbUrl: process.env.MONGO_DB ?? "mongodb://localhost:27017",
     pages: {
         index: "/",
-        passwordReset: "portal/password-reset",
-        newPassword: "portal/new-password",
         journal: {
             index: "/journal",
             create: "/journal/create",
+        },
+        portal: {
+            login: "/portal",
+            dashboard: "/portal/dashboard",
+            passwordReset: "portal/password-reset",
+            newPassword: "portal/new-password",
         },
     },
     api: {
