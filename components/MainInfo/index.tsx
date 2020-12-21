@@ -37,9 +37,8 @@ const MainInfo: React.FC = () => (
     </div>
 
     <div className={styles.quoteParent}>
-      "People of color...feel the stigma [of mental health] more keenly. In a race-conscious society, some don't want to be perceived as having yet another deficit."  
+      "People of color...feel the stigma [of mental health] more keenly. In a race-conscious society, some don't want to be perceived as having yet another deficit."   -Bebe Moore Campbell
     </div>
-
   </section>
 );
 

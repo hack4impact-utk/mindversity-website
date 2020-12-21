@@ -201,14 +201,14 @@ export async function getServerSideProps(context: NextPageContext) {
         },
     });
 
-    const jsonRes = (await resp.json()) as { success: boolean; payload: unknown };
-    const user = (jsonRes.payload as User) || null;
-    const chapter = user.role || null;
-
     if (resp.status === 401 && !context.req) {
         void Router.replace(`${urls.pages.portal.login}`);
         return { props: {} };
     }
+
+    const jsonRes = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (jsonRes.payload as User) || null;
+    const chapter = user?.role || null;
 
     if ((resp.status === 401 && context.req) || (chapter != "admin" && chapter != "national")) {
         context.res?.writeHead(302, {

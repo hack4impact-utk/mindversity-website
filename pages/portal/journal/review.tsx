@@ -265,7 +265,7 @@ export async function getServerSideProps(context: NextPageContext) {
 
     const loginrespjson = (await resp.json()) as { success: boolean; payload: JournalEntry[] };
     const user = (loginrespjson.payload as User) || null;
-    const usersChapter = user.role || null;
+    const usersChapter = user?.role || null;
 
     return {
         props: {

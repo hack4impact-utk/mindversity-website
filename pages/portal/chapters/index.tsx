@@ -148,7 +148,7 @@ export async function getServerSideProps(context: NextPageContext) {
     let chapterQuery: Chapter = new Object();
     const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
     const user = (respJSON.payload as User) || null;
-    const usersChapter = user.role || null;
+    const usersChapter = user?.role || null;
 
     if (usersChapter == "admin" || usersChapter == "national") chapterQuery = {};
     else if (usersChapter != null) chapterQuery = { name: usersChapter };

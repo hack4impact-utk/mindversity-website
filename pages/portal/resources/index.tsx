@@ -161,7 +161,7 @@ export async function getServerSideProps(context: NextPageContext) {
 
     const jsonRes = (await resp.json()) as { success: boolean; payload: unknown };
     const user = (jsonRes.payload as User) || null;
-    const chapter = user.role || null;
+    const chapter = user?.role || null;
 
     let resources: Resource[] = [];
 

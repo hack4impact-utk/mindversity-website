@@ -18,7 +18,7 @@ export async function getServerSideProps(context: NextPageContext) {
 
     const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
     const user = (respJSON.payload as User) || null;
-    const usersChapter = user.role || null;
+    const usersChapter = user?.role || null;
 
     if (resp.status === 401 && !context.req) {
         void Router.replace(`${urls.pages.portal.login}`);
