@@ -23,7 +23,7 @@ const Dashboard: NextPage<Props> = ({ admin }) => {
                 <h1>Welcome to MindVersity</h1>
 
                 <div className="dashChipParent">
-                    <h2>What yould you like to do?</h2>
+                    <h2>What would you like to do?</h2>
                     <a className="dashChip" href="chapters">
                         Manage Chapters
                     </a>

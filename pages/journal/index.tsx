@@ -1,6 +1,6 @@
 import { NextPage, NextPageContext, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
-
+import Link from "next/link";
 import Head from "next/head";
 import Header from "components/Header";
 import SelectBtn from "components/Journal/SelectBtn";
@@ -55,6 +55,9 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
       </div>
 
       <div className="btnRow">
+        <Link href='/journal/create'>
+          <span className="createBtn">Create a New Journal Entry</span>
+        </Link>
         <SelectBtn />
       </div>
 
@@ -203,6 +206,37 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
         a.active:hover {
           text-decoration: none;
         }
+        
+        .createBtn{
+          margin-right: auto;
+          text-align:center;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          background:#8C69AA;
+          padding: 10px 20px 10px 20px;
+          text-align:center;
+          border-radius: 15px;
+          font-weight:bold;
+          color:white;
+          cursor:pointer;
+          transition: 0.3s ease;
+        }
+        .createBtn:hover{
+          filter:brightness(1.2);
+          transform:translateY(-2px);
+        }
+
+        @media only screen and (max-width:999px){
+          .btnRow{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+          }
+          .createBtn{
+            margin:10px;
+          }
+        }
 
         @media only screen and (min-width: 1200px) {
           .thumbnailContainer {
@@ -215,7 +249,7 @@ const JournalPage: NextPage<Props> = ({journalEntries}) => {
 };
 
 export async function getServerSideProps(context: NextPageContext) {
-  var data = await getJournalEntryByType(context.query.category as string);
+  let data = await getJournalEntryByType(context.query.category as string);
   return {
     props: {
       journalEntries: data,
