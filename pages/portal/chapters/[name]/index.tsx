@@ -2,7 +2,6 @@ import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { getChapters, updateChapter } from "requests/Chapter";
 import { Chapter } from 'utils/types';
-
 import Navigation from "components/Portal/Navigation";
 
 const handleSubmit = async (e:any) => {

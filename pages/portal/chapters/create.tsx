@@ -2,16 +2,14 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { addChapter } from "requests/Chapter";
 import { Chapter } from 'utils/types';
-
 import Navigation from "components/Portal/Navigation";
 
 const handleSubmit = async (e:any) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     var chapter: Chapter = await addChapter(formData);
-    //After submitting the form send the user to the chapter edit page
-    var chapterName = String(formData.get("name"));
-    window.location.href = chapterName?.replace(/ /g, "_")
+    //After submitting the form send the user to the list of chapters
+    window.location.href = "/portal/chapters";
 };
 
 const Chapters: NextPage = () => {
@@ -44,9 +42,9 @@ const Chapters: NextPage = () => {
                         <label htmlFor="description">Description</label>
                         <textarea name="description" placeholder="Description"></textarea>
                         <label htmlFor="campus">Campus Picture</label>
-                        <input type="file" name="campus" required/>
+                        <input type="file" name="campus"/>
                         <label htmlFor="logo">Logo</label>
-                        <input type="file" name="logo" required/>
+                        <input type="file" name="logo"/>
                         <input type="submit" value="Create" className="submitInput"/>
                     </form>
                 </div>
