@@ -106,8 +106,6 @@ const Dashboard: NextPage = () => {
 export async function getServerSideProps(context: NextPageContext) {
     const cookie = context.req?.headers.cookie;
 
-    //Since this is client side only absolute URLs are supported
-    //TODO: need to change url off of localhost in production
     const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
         headers: {
             cookie: cookie!,
