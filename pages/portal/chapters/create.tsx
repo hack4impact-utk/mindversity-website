@@ -1,11 +1,15 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { addChapter } from "requests/Chapter";
-import { Chapter } from "utils/types";
+import { Chapter, User } from "utils/types";
 import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 import Router from "next/router";
 import { FormEvent } from "react";
+
+interface Props {
+    admin: boolean;
+}
 
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,7 +20,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     window.location.href = chapterName?.replace(/ /g, "_");
 };
 
-const Chapters: NextPage = () => {
+const Chapters: NextPage<Props> = ({ admin }) => {
     return (
         <div className="container">
             <Head>
@@ -24,7 +28,7 @@ const Chapters: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation />
+            <Navigation admin={admin} />
 
             <div className="bodyContent">
                 <h1>New Chapter</h1>
@@ -162,12 +166,16 @@ export async function getServerSideProps(context: NextPageContext) {
         },
     });
 
+    const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (respJSON.payload as User) || null;
+    const usersChapter = user?.role || null;
+
     if (resp.status === 401 && !context.req) {
         void Router.replace(`${urls.pages.portal.login}`);
         return { props: {} };
     }
 
-    if (resp.status === 401 && context.req) {
+    if ((resp.status === 401 && context.req) || (usersChapter != "admin" && usersChapter != "national")) {
         context.res?.writeHead(302, {
             Location: `${urls.baseUrl}`,
         });
@@ -175,7 +183,7 @@ export async function getServerSideProps(context: NextPageContext) {
         return { props: {} };
     }
 
-    return { props: {} };
+    return { props: { admin: usersChapter == "admin" || usersChapter == "national" } };
 }
 
 export default Chapters;

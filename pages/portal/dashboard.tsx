@@ -3,8 +3,13 @@ import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
 import urls from "utils/urls";
 import Router from "next/router";
+import { User } from "utils/types";
 
-const Dashboard: NextPage = () => {
+interface Props {
+    admin: boolean;
+}
+
+const Dashboard: NextPage<Props> = ({ admin }) => {
     return (
         <div className="container">
             <Head>
@@ -12,7 +17,7 @@ const Dashboard: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation />
+            <Navigation admin={admin} />
 
             <div className="bodyContent">
                 <h1>Welcome to MindVersity</h1>
@@ -125,7 +130,11 @@ export async function getServerSideProps(context: NextPageContext) {
         return { props: {} };
     }
 
-    return { props: {} };
+    const jsonRes = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (jsonRes.payload as User) || null;
+    const chapter = user?.role || null;
+
+    return { props: { admin: chapter == "admin" || chapter == "national" } };
 }
 
 export default Dashboard;

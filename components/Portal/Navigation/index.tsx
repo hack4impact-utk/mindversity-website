@@ -7,8 +7,13 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { HiOutlineBookOpen } from "react-icons/hi";
 import { FiPenTool, FiAward } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { FaRegUser } from "react-icons/fa";
 import Router from "next/router";
 import urls from "utils/urls";
+
+interface Props {
+    admin?: boolean;
+}
 
 const handleSignout = async () => {
     await fetch(`${urls.baseUrl}${urls.api.admin.signout}`, {
@@ -20,7 +25,7 @@ const handleSignout = async () => {
     void Router.push("/");
 };
 
-const Navigation: React.FC = () => {
+const Navigation: React.FC<Props> = ({ admin }) => {
     const [open, setOpen] = useState(false); //Control the state of the mobile navigation menu
 
     return (
@@ -29,30 +34,28 @@ const Navigation: React.FC = () => {
                 <div className={style.navLogo}>
                     <img src="/logo-white.svg" alt="MindVersity Logo" />
                 </div>
-                <Link href="/portal/resources">
-                    <span className={style.navBtn}>
-                        <HiOutlineBookOpen className={style.menuIcon} />
-                        Edit Resources
-                    </span>
-                </Link>
-                <Link href="/portal/journal/review">
-                    <span className={style.navBtn}>
-                        <FiPenTool className={style.menuIcon} />
-                        Review Journal Entries
-                    </span>
-                </Link>
-                <Link href="/portal/journal/delete">
-                    <span className={style.navBtn}>
-                        <RiDeleteBin2Line className={style.menuIcon} />
-                        Delete Journal Entries
-                    </span>
-                </Link>
-                <Link href="/portal/chapters">
-                    <span className={style.navBtn}>
-                        <FiAward className={style.menuIcon} />
-                        Manage Chapters
-                    </span>
-                </Link>
+                <a className={style.navBtn} href="/portal/resources">
+                    <HiOutlineBookOpen className={style.menuIcon} />
+                    Edit Resources
+                </a>
+                <a className={style.navBtn} href="/portal/journal/review">
+                    <FiPenTool className={style.menuIcon} />
+                    Review Journal Entries
+                </a>
+                <a className={style.navBtn} href="/portal/journal/delete">
+                    <RiDeleteBin2Line className={style.menuIcon} />
+                    Delete Journal Entries
+                </a>
+                <a className={style.navBtn} href="/portal/chapters">
+                    <FiAward className={style.menuIcon} />
+                    Manage Chapters
+                </a>
+                {admin && (
+                    <a className={style.navBtn} href="/portal/addnewuser">
+                        <FaRegUser className={style.menuIcon} />
+                        Add New User
+                    </a>
+                )}
                 <div className={style.navLower}>
                     <div className={style.navLowerLinks}>
                         <div className={style.navLowerCol}>

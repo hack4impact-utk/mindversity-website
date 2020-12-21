@@ -1,20 +1,30 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import React, { useRef, FormEvent } from "react";
-import { Resource } from "utils/types";
+import { Chapter, Resource, User } from "utils/types";
 import { getResources } from "requests/Resource";
 import Navigation from "components/Portal/Navigation";
 import Router from "next/router";
 import urls from "utils/urls";
+import { RiUserReceivedLine } from "react-icons/ri";
+import { getChapters } from "server/actions/Chapter";
 
 interface Props {
     resource: Resource;
+    chapters: Chapter[];
+    admin: boolean;
 }
 
-const EditResourcePage: NextPage<Props> = ({ resource }) => {
+const EditResourcePage: NextPage<Props> = ({ resource, chapters, admin }) => {
     const nameEle = useRef<HTMLInputElement>(null);
     const cateEle = useRef<HTMLSelectElement>(null);
     const linkEle = useRef<HTMLInputElement>(null);
+    const chapterEle = useRef<HTMLSelectElement>(null);
+
+    const cleanName = (name: string | undefined) => {
+        if (name == undefined) return;
+        return name.replace(/_/g, " ");
+    };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -44,7 +54,7 @@ const EditResourcePage: NextPage<Props> = ({ resource }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation />
+            <Navigation admin={admin} />
 
             <div className="bodyContent">
                 <h1>Edit Resource</h1>
@@ -59,6 +69,17 @@ const EditResourcePage: NextPage<Props> = ({ resource }) => {
                             defaultValue={resource.name}
                             required
                         />
+                        <label htmlFor="chapter">Chapter</label>
+                        <select ref={chapterEle} name="chapter" id="chapterChoice">
+                            {admin && <option value={"national"}>National</option>}
+                            {chapters.map((chap, i) => {
+                                return (
+                                    <option key={i} value={chap.name}>
+                                        {cleanName(chap.name)}
+                                    </option>
+                                );
+                            })}
+                        </select>
                         <label htmlFor="category">Category</label>
                         <select
                             ref={cateEle}
@@ -190,6 +211,10 @@ export async function getServerSideProps(context: NextPageContext) {
         },
     });
 
+    const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (respJSON.payload as User) || undefined;
+    const usersChapter = user?.role || undefined;
+
     if (resp.status === 401 && !context.req) {
         void Router.replace(`${urls.pages.portal.login}`);
         return { props: {} };
@@ -206,11 +231,22 @@ export async function getServerSideProps(context: NextPageContext) {
     const resourceQuery: Resource = { _id: context.query.id as string };
     const resource: Resource[] = (await getResources(resourceQuery)) as Resource[];
 
+    let chapters: Chapter[] = [];
+
+    if (usersChapter == "admin" || usersChapter == "national") chapters = await getChapters({});
+    else if (usersChapter != undefined) chapters = await getChapters({ name: usersChapter });
+
     if (resource.length === 0) {
         void Router.replace(`${urls.pages.portal.dashboard}`);
     }
 
-    return { props: { resource: JSON.parse(JSON.stringify(resource[0])) as Resource[] } };
+    return {
+        props: {
+            resource: JSON.parse(JSON.stringify(resource[0])) as Resource[],
+            chapters: JSON.parse(JSON.stringify(chapters)) as Chapter[],
+            admin: usersChapter == "admin" || usersChapter == "national",
+        },
+    };
 }
 
 export default EditResourcePage;

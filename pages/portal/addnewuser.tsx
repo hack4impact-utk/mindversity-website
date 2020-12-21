@@ -1,21 +1,20 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import React, { useRef, FormEvent } from "react";
-import { Chapter, Resource, User } from "utils/types";
 import Navigation from "components/Portal/Navigation";
-import Router from "next/router";
 import urls from "utils/urls";
+import Router from "next/router";
+import { Chapter, User } from "utils/types";
+import { FormEvent, useRef, useState } from "react";
 import { getChapters } from "server/actions/Chapter";
 
 interface Props {
     chapters: Chapter[];
-    admin: boolean;
 }
 
-const CreateResourcePage: NextPage<Props> = ({ chapters, admin }) => {
-    const nameEle = useRef<HTMLInputElement>(null);
-    const cateEle = useRef<HTMLSelectElement>(null);
-    const linkEle = useRef<HTMLInputElement>(null);
+const NewUser: NextPage<Props> = ({ chapters }) => {
+    const [validEmail, setValidEmail] = useState(true);
+    const emailEle = useRef<HTMLInputElement>(null);
+    const passwordEle = useRef<HTMLInputElement>(null);
     const chapterEle = useRef<HTMLSelectElement>(null);
 
     const cleanName = (name: string | undefined) => {
@@ -23,29 +22,35 @@ const CreateResourcePage: NextPage<Props> = ({ chapters, admin }) => {
         return name.replace(/_/g, " ");
     };
 
+    const emailIsValid = (email: string) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        let currentChap: string;
-        if (chapters.length == 1) currentChap = chapters[0].name as string;
-        else currentChap = chapterEle.current?.value as string;
+        if (!emailIsValid(emailEle.current?.value as string)) {
+            setValidEmail(false);
+            return;
+        }
 
-        const newResource: Resource = {
-            name: nameEle.current?.value,
-            category: cateEle.current?.value,
-            link: linkEle.current?.value,
-            chapter: currentChap,
+        setValidEmail(true);
+
+        const chagedResource: User = {
+            email: emailEle.current?.value,
+            password: passwordEle.current?.value,
+            role: chapterEle.current?.value,
         };
 
-        const response = await fetch(`${urls.baseUrl}${urls.api.resource.add}`, {
+        const response = await fetch(`${urls.baseUrl}${urls.api.admin.signup}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(newResource),
+            body: JSON.stringify(chagedResource),
         });
 
-        void Router.push("/portal/resources");
+        void Router.push("/portal/dashboard");
     };
 
     return (
@@ -55,17 +60,18 @@ const CreateResourcePage: NextPage<Props> = ({ chapters, admin }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation admin={admin} />
+            <Navigation admin={true} />
 
             <div className="bodyContent">
-                <h1>Create Resource</h1>
                 <div className="formContainer">
                     <form onSubmit={handleSubmit} method="post">
-                        <label htmlFor="name">Resource Name</label>
-                        <input ref={nameEle} type="text" name="name" placeholder="Resource Name" required />
+                        <label htmlFor="email">Email</label>
+                        {validEmail || <p className="invalidEmailText">Invalid Email Address</p>}
+                        <input ref={emailEle} type="text" name="email" placeholder="Email" />
+                        <label htmlFor="password">Password</label>
+                        <input ref={passwordEle} type="text" name="password" placeholder="password" />
                         <label htmlFor="chapter">Chapter</label>
                         <select ref={chapterEle} name="chapter" id="chapterChoice">
-                            {admin && <option value={"national"}>National</option>}
                             {chapters.map((chap, i) => {
                                 return (
                                     <option key={i} value={chap.name}>
@@ -74,15 +80,8 @@ const CreateResourcePage: NextPage<Props> = ({ chapters, admin }) => {
                                 );
                             })}
                         </select>
-                        <label htmlFor="category">Category</label>
-                        <select ref={cateEle} name="category" id="categoryChoice">
-                            <option value="national">National</option>
-                            <option value="mindversity">Mindversity</option>
-                            <option value="help">Help</option>
-                        </select>
-                        <label htmlFor="linkornumber">Link or Phone Number</label>
-                        <input ref={linkEle} type="text" name="link" placeholder="Link or Phone Number" />
-                        <input type="submit" value="Create" className="submitInput" />
+
+                        <input type="submit" value="Add" className="submitInput" />
                     </form>
                 </div>
             </div>
@@ -147,6 +146,14 @@ const CreateResourcePage: NextPage<Props> = ({ chapters, admin }) => {
                     font-size: 16px;
                 }
 
+                .invalidEmailText {
+                    margin-top: 10px;
+                    margin-bottom: 5px;
+                    font-size: 14px;
+                    text-align: left;
+                    color: #714b92;
+                }
+
                 .submitInput {
                     height: auto;
                     width: auto;
@@ -194,16 +201,16 @@ export async function getServerSideProps(context: NextPageContext) {
         },
     });
 
-    const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
-    const user = (respJSON.payload as User) || undefined;
-    const usersChapter = user?.role || undefined;
-
     if (resp.status === 401 && !context.req) {
         void Router.replace(`${urls.pages.portal.login}`);
         return { props: {} };
     }
 
-    if (resp.status === 401 && context.req) {
+    const jsonRes = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (jsonRes.payload as User) || null;
+    const chapter = user?.role || null;
+
+    if ((resp.status === 401 && context.req) || (chapter != "admin" && chapter != "national")) {
         context.res?.writeHead(302, {
             Location: `${urls.baseUrl}`,
         });
@@ -211,17 +218,9 @@ export async function getServerSideProps(context: NextPageContext) {
         return { props: {} };
     }
 
-    let chapters: Chapter[] = [];
+    const chapters = await getChapters({});
 
-    if (usersChapter == "admin" || usersChapter == "national") chapters = await getChapters({});
-    else if (usersChapter != undefined) chapters = await getChapters({ name: usersChapter });
-
-    return {
-        props: {
-            chapters: JSON.parse(JSON.stringify(chapters)) as Chapter[],
-            admin: usersChapter == "admin" || usersChapter == "national",
-        },
-    };
+    return { props: { chapters: JSON.parse(JSON.stringify(chapters)) as Chapter[] } };
 }
 
-export default CreateResourcePage;
+export default NewUser;

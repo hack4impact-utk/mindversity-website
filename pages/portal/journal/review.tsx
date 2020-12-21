@@ -3,15 +3,15 @@ import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
 import urls from "utils/urls";
 import JournalEntryComponent from "components/Portal/JournalEntry";
-
-import { JournalEntry } from "utils/types";
+import { JournalEntry, User } from "utils/types";
 import { useState } from "react";
 import Router from "next/router";
 interface Props {
     entries: JournalEntry[];
+    admin: boolean;
 }
 
-const AdminJournalReview: NextPage<Props> = ({ entries }) => {
+const AdminJournalReview: NextPage<Props> = ({ entries, admin }) => {
     const [isRejecting, setIsRejecting] = useState(false); //Displays the warning modal
     const [warningDismissed, setWarningDismissed] = useState(false); //Used inside the warning modal to determine whether or not it should pop up again.
     const [currentRejectingID, setRejectingID] = useState(""); //The entry IDs are stored on the buttons of each entry, and since the modal is not attached to any particular entry, it has no way of getting an entry's ID. To get the entry ID, when the Reject button is initially clicked, the ID of that particular entry is stored here so it can be used within the modal.
@@ -109,7 +109,7 @@ const AdminJournalReview: NextPage<Props> = ({ entries }) => {
                 </div>
             )}
 
-            <Navigation />
+            <Navigation admin={admin} />
 
             <form className="content">
                 {responseStatus === 200 && (
@@ -279,7 +279,16 @@ export async function getServerSideProps(context: NextPageContext) {
     const json = (await response.json()) as { success: boolean; payload: JournalEntry[] };
     const entries: JournalEntry[] = json.payload;
 
-    return { props: { entries: JSON.parse(JSON.stringify(entries)) as JournalEntry[] } };
+    const loginrespjson = (await resp.json()) as { success: boolean; payload: JournalEntry[] };
+    const user = (loginrespjson.payload as User) || null;
+    const usersChapter = user?.role || null;
+
+    return {
+        props: {
+            entries: JSON.parse(JSON.stringify(entries)) as JournalEntry[],
+            admin: usersChapter == "admin" || usersChapter == "national",
+        },
+    };
 }
 
 export default AdminJournalReview;

@@ -1,7 +1,7 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { getChapters } from "server/actions/Chapter";
-import { Chapter } from "utils/types";
+import { Chapter, User } from "utils/types";
 import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 import ChapterCard from "components/Portal/ChapterCard";
@@ -9,9 +9,10 @@ import Router from "next/router";
 
 interface Props {
     chapter: Chapter[];
+    admin: boolean;
 }
 
-const Chapters: NextPage<Props> = ({ chapter }) => {
+const Chapters: NextPage<Props> = ({ chapter, admin }) => {
     return (
         <div className="container">
             <Head>
@@ -19,15 +20,17 @@ const Chapters: NextPage<Props> = ({ chapter }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation />
+            <Navigation admin={admin} />
 
             <div className="bodyContent">
                 <h1>Edit Chapters</h1>
-                <div className="newChapterBtnParent">
-                    <a href="chapters/create" className="newChapterBtn">
-                        New Chapter
-                    </a>
-                </div>
+                {admin && (
+                    <div className="newChapterBtnParent">
+                        <a href="chapters/create" className="newChapterBtn">
+                            New Chapter
+                        </a>
+                    </div>
+                )}
                 <div className="chaptersContainer">
                     {
                         //Display all of the chapters from the database
@@ -142,11 +145,23 @@ export async function getServerSideProps(context: NextPageContext) {
     }
 
     //Query to get all of the chapters
-    const chapterQuery: Chapter = new Object();
+    let chapterQuery: Chapter = new Object();
+    const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (respJSON.payload as User) || null;
+    const usersChapter = user?.role || null;
+
+    if (usersChapter == "admin" || usersChapter == "national") chapterQuery = {};
+    else if (usersChapter != null) chapterQuery = { name: usersChapter };
+
     const chapters: Chapter[] = await getChapters(chapterQuery);
 
     //Return an array of the chapters
-    return { props: { chapter: JSON.parse(JSON.stringify(chapters)) as Chapter[] } };
+    return {
+        props: {
+            chapter: JSON.parse(JSON.stringify(chapters)) as Chapter[],
+            admin: usersChapter == "admin" || usersChapter == "national",
+        },
+    };
 }
 
 export default Chapters;

@@ -3,15 +3,16 @@ import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
 import urls from "utils/urls";
 import JournalEntryComponent from "components/Portal/JournalEntry";
-import { JournalEntry, ApiResponse } from "utils/types";
+import { JournalEntry, User, ApiResponse } from "utils/types";
 import { useState } from "react";
 import Router from "next/router";
 
 interface Props {
     entries: JournalEntry[];
+    admin: boolean;
 }
 
-const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
+const AdminJournalDelete: NextPage<Props> = ({ entries, admin }) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [responseStatus, setResponseStatus] = useState(0);
     const [warningDismissed, setWarningDismissed] = useState(false);
@@ -56,7 +57,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
             <Head>
                 <title>Delete Journal Entries | Mindversity Website</title>
             </Head>
-            <Navigation />
+            <Navigation admin={admin} />
             {isDeleting && (
                 <div className="rejectModal">
                     <div className="modalBody">
@@ -263,7 +264,16 @@ export async function getServerSideProps(context: NextPageContext) {
     const json = (await response.json()) as { success: boolean; payload: JournalEntry[] };
     const entries: JournalEntry[] = json.payload;
 
-    return { props: { entries: JSON.parse(JSON.stringify(entries)) as JournalEntry[] } };
+    const loginrespjson = (await resp.json()) as { success: boolean; payload: JournalEntry[] };
+    const user = (loginrespjson.payload as User) || null;
+    const usersChapter = user?.role || null;
+
+    return {
+        props: {
+            entries: JSON.parse(JSON.stringify(entries)) as JournalEntry[],
+            admin: usersChapter == "admin" || usersChapter == "national",
+        },
+    };
 }
 
 

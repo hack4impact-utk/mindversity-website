@@ -1,7 +1,7 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { getResources } from "server/actions/Resource";
-import { Resource } from "utils/types";
+import { Resource, User } from "utils/types";
 import { ObjectID } from "mongodb";
 import Navigation from "components/Portal/Navigation";
 import ResourceCardComp from "components/Portal/ResourceCard";
@@ -11,9 +11,10 @@ import Router from "next/router";
 
 interface Props {
     resource: Resource[];
+    admin: boolean;
 }
 
-const Resources: NextPage<Props> = ({ resource }) => {
+const Resources: NextPage<Props> = ({ resource, admin }) => {
     const [resourcesList, setResourceList] = useState(resource);
 
     const handleDelete = async (id: ObjectID | undefined) => {
@@ -40,7 +41,7 @@ const Resources: NextPage<Props> = ({ resource }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation />
+            <Navigation admin={admin} />
 
             <div className="bodyContent">
                 <h1>Edit Resources</h1>
@@ -158,11 +159,23 @@ export async function getServerSideProps(context: NextPageContext) {
         return { props: {} };
     }
 
-    const resources: Resource[] = await getResources({});
+    const jsonRes = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (jsonRes.payload as User) || null;
+    const chapter = user?.role || null;
+
+    let resources: Resource[] = [];
+
+    if (chapter == "admin" || chapter == "national") resources = await getResources({});
+    else if (chapter != null) resources = await getResources({ chapter: chapter });
 
     console.log(resources);
 
-    return { props: { resource: JSON.parse(JSON.stringify(resources)) as Resource[] } };
+    return {
+        props: {
+            resource: JSON.parse(JSON.stringify(resources)) as Resource[],
+            admin: chapter == "admin" || chapter == "national",
+        },
+    };
 }
 
 export default Resources;
