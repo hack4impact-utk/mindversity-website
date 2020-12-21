@@ -21,9 +21,11 @@ const Officers: NextPage<Props> = ({officer}) => {
         e.preventDefault();
         const submitButton = e.target as HTMLButtonElement;
         if(submitButton.name === "delete"){ //Delete the officer
+            //Find the officers object with a metching id
             const officerToDelete = officer.filter(officer => officer._id?.toString() === deletingID);
-            if(officerToDelete.length == 1){
+            if(officerToDelete.length == 1){ 
                 const officerDelete = await deleteOfficer(officerToDelete[0]);
+                location.reload(); //Reload the page to refresh the officers
             }
             else{
                 //TODO: Possible error message telling the user that the officer is not found
@@ -33,10 +35,6 @@ const Officers: NextPage<Props> = ({officer}) => {
             setIsDeleting(true);
             setDeletingID(submitButton.value);
         }
-    }
-
-    const dismissWarning = (e:React.SyntheticEvent) => {
-
     }
 
     return (
@@ -53,8 +51,6 @@ const Officers: NextPage<Props> = ({officer}) => {
                     <div className="modalBody">
                         <h1>Are you sure?</h1>
                         <p>Continuing with this action will delete the officer permanently.</p>
-                        <input type='checkbox' onClick={dismissWarning}/>
-                        <span>Do not show this message again.</span>
                         <div className="actionButtonContainer">
                             <button type="submit" name="delete" className="actionButton actionButtonPrimary" onClick={handleDeleteAction}>Delete</button>
                             <button className="actionButton actionButtonSecondary" onClick={() => {setIsDeleting(false); setDeletingID("")}}>Close</button>
@@ -71,9 +67,9 @@ const Officers: NextPage<Props> = ({officer}) => {
                 <div className="chaptersContainer">
                     { //Display all of the officers from the database
                         officer && (
-                            officer.map(officer => {
+                            officer.map((officer, i) => {
                                 return(
-                                    <OfficerCard officer={officer} handleDelete={handleDeleteAction}/>
+                                    <OfficerCard key={i} officer={officer} handleDelete={handleDeleteAction}/>
                                 )
                             })
                         )
@@ -185,7 +181,11 @@ const Officers: NextPage<Props> = ({officer}) => {
                 @media screen and (min-width: 1000px){  
                     .rejectModal{
                         width:100%;
-                        position:absolute;
+                        position:fixed;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
                         display:flex;
                         flex-direction:column;
                         justify-content:center;
@@ -194,16 +194,21 @@ const Officers: NextPage<Props> = ({officer}) => {
                         background:rgba(0,0,0,0.2);
                         z-index:2;
                     }
+
                     .modalBody{
                         margin-left:430px;
                         margin-right: 60px;
                     }
                 }
 
-                @media screen and (max-width: 999px){
+                @media screen and (max-width: 1000px){
                     .rejectModal{
                         width:100%;
-                        position:absolute;
+                        position:fixed;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
                         display:flex;
                         flex-direction:column;
                         justify-content:center;
@@ -212,10 +217,17 @@ const Officers: NextPage<Props> = ({officer}) => {
                         background:rgba(0,0,0,0.2);
                         z-index:2;
                     }
+
+                    .modalBody{
+                        max-width: 90vw;
+                        height: auto;
+                    }
+
                     .contentHeader{
                         text-align:center;
                     }
                 }
+
             `}</style>
 
             <style jsx global>{`
