@@ -3,8 +3,10 @@ import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
 import urls from "utils/urls";
 import JournalEntryComponent from "components/Portal/JournalEntry";
-import { JournalEntry, ApiResponse } from "utils/types";
+
+import { JournalEntry } from "utils/types";
 import { useState } from "react";
+import Router from "next/router";
 interface Props {
     entries: JournalEntry[];
 }
@@ -82,6 +84,7 @@ const AdminJournalReview: NextPage<Props> = ({ entries }) => {
                             type="checkbox"
                             onClick={toggleWarningDismissed}
                         />
+
                         <span>Do not show this message again.</span>
                         <div className="actionButtonContainer">
                             <button
@@ -235,9 +238,8 @@ const AdminJournalReview: NextPage<Props> = ({ entries }) => {
                 body {
                     padding: 0;
                     margin: 0;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-                        Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+                        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
                 }
                 * {
                     box-sizing: border-box;
@@ -246,19 +248,38 @@ const AdminJournalReview: NextPage<Props> = ({ entries }) => {
         </main>
     );
 };
-AdminJournalReview.getInitialProps = async (context: NextPageContext) => {
+
+export async function getServerSideProps(context: NextPageContext) {
+    const cookie = context.req?.headers.cookie;
+
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
+        headers: {
+            cookie: cookie!,
+        },
+    });
+
+    if (resp.status === 401 && !context.req) {
+        void Router.replace(`${urls.pages.portal.login}`);
+        return { props: {} };
+    }
+
+    if (resp.status === 401 && context.req) {
+        context.res?.writeHead(302, {
+            Location: `${urls.baseUrl}`,
+        });
+        context.res?.end();
+        return { props: {} };
+    }
+
     //Load the journal entries that haven't been reviewed.
-    const url = `${
-        urls.baseUrl as string
-    }/api/journal/getByReviewStatus?reviewed=false`;
+    const url = `${urls.baseUrl}/api/journal/getByReviewStatus?reviewed=false`;
     const response = await fetch(url, {
         method: "GET",
     });
-    const data: ApiResponse = (await response.json()) as ApiResponse;
-    const entries: JournalEntry[] = data.payload as JournalEntry[];
-    return {
-        entries,
-    };
-};
+    const json = (await response.json()) as { success: boolean; payload: JournalEntry[] };
+    const entries: JournalEntry[] = json.payload;
+
+    return { props: { entries: JSON.parse(JSON.stringify(entries)) as JournalEntry[] } };
+}
 
 export default AdminJournalReview;

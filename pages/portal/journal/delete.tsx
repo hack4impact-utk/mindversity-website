@@ -1,10 +1,11 @@
-import { NextPage } from "next";
+import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import Navigation from "components/Portal/Navigation";
 import urls from "utils/urls";
 import JournalEntryComponent from "components/Portal/JournalEntry";
 import { JournalEntry, ApiResponse } from "utils/types";
 import { useState } from "react";
+import Router from "next/router";
 
 interface Props {
     entries: JournalEntry[];
@@ -28,6 +29,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                         method: "DELETE",
                     }
                 );
+
                 setResponseStatus(response.status);
             } else {
                 setIsDeleting(true);
@@ -44,6 +46,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
         }
     };
 
+
     const toggleWarningDismissed = () => {
         setWarningDismissed(true);
     };
@@ -58,6 +61,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                 <div className="rejectModal">
                     <div className="modalBody">
                         <h1>Are you sure?</h1>
+
                         <p>
                             Continuing with this action will delete the entry
                             permanently.
@@ -170,6 +174,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                         display: flex;
                         flex-direction: column;
                         height: 100vh;
+
                     }
                     .rejectModal {
                         width: 100%;
@@ -194,6 +199,7 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
                         display: flex;
                         flex-direction: column;
                         height: 100vh;
+
                     }
                     .rejectModal {
                         width: 100%;
@@ -226,18 +232,39 @@ const AdminJournalDelete: NextPage<Props> = ({ entries }) => {
         </main>
     );
 };
-AdminJournalDelete.getInitialProps = async () => {
-    //Load the journal entries that have already been reviewed.
-    const url = `${urls.baseUrl as string}/api/journal/getByReviewStatus?reviewed=true`;
+
+export async function getServerSideProps(context: NextPageContext) {
+    const cookie = context.req?.headers.cookie;
+
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
+        headers: {
+            cookie: cookie!,
+        },
+    });
+
+    if (resp.status === 401 && !context.req) {
+        void Router.replace(`${urls.pages.portal.login}`);
+        return { props: {} };
+    }
+
+    if (resp.status === 401 && context.req) {
+        context.res?.writeHead(302, {
+            Location: `${urls.baseUrl}`,
+        });
+        context.res?.end();
+        return { props: {} };
+    }
+
+    //Load the journal entries that haven't been reviewed.
+    const url = `${urls.baseUrl}/api/journal/getByReviewStatus?reviewed=true`;
     const response = await fetch(url, {
         method: "GET",
     });
-    const data: ApiResponse = (await response.json()) as ApiResponse;
-    const entries: JournalEntry[] = data.payload as JournalEntry[];
+    const json = (await response.json()) as { success: boolean; payload: JournalEntry[] };
+    const entries: JournalEntry[] = json.payload;
 
-    return {
-        entries,
-    };
-};
+    return { props: { entries: JSON.parse(JSON.stringify(entries)) as JournalEntry[] } };
+}
+
 
 export default AdminJournalDelete;

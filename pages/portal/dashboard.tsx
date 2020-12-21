@@ -25,7 +25,7 @@ const Dashboard: NextPage = () => {
                     <a className="dashChip" href="resources">
                         Edit Resources
                     </a>
-                    <a className="dashChip" href="journal">
+                    <a className="dashChip" href="journal/delete">
                         Update Journal
                     </a>
                 </div>
@@ -92,9 +92,8 @@ const Dashboard: NextPage = () => {
                 body {
                     padding: 0;
                     margin: 0;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-                        Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+                        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
                 }
                 * {
                     box-sizing: border-box;
@@ -104,34 +103,29 @@ const Dashboard: NextPage = () => {
     );
 };
 
+export async function getServerSideProps(context: NextPageContext) {
+    const cookie = context.req?.headers.cookie;
 
-Dashboard.getInitialProps = async (context: NextPageContext) => {
-    const cookie = context.req?.headers.cookie
-
-    //Since this is client side only absolute URLs are supported
-    //TODO: need to change url off of localhost in production
-    const resp = await fetch("http://localhost:3000/api/admin/validateLogin", {
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
         headers: {
-            cookie: cookie!
-        }
-    })
+            cookie: cookie!,
+        },
+    });
 
-    if(resp.status === 401 && !context.req) {
-        Router.replace('/portal/login')
-        return {}
+    if (resp.status === 401 && !context.req) {
+        void Router.replace(`${urls.pages.portal.login}`);
+        return { props: {} };
     }
 
-    if(resp.status === 401 && context.req)
-    {
+    if (resp.status === 401 && context.req) {
         context.res?.writeHead(302, {
-            //TODO: same here
-            Location: "http://localhost:3000/"
-        })
-        context.res?.end()
-        return {}
+            Location: `${urls.baseUrl}`,
+        });
+        context.res?.end();
+        return { props: {} };
     }
 
-    return {}
+    return { props: {} };
 }
 
 export default Dashboard;

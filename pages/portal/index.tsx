@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import Router from "next/router";
 import Header from "components/Header";
@@ -7,36 +7,35 @@ import { useState, useRef, FormEvent } from "react";
 import urls from "utils/urls";
 
 const Home: NextPage = () => {
+    const userEmail = useRef<HTMLInputElement>(null);
+    const userPassword = useRef<HTMLInputElement>(null);
 
-    let userEmail = useRef<HTMLInputElement>(null)
-    let userPassword = useRef<HTMLInputElement>(null)
+    const [failedLogin, setFailed] = useState(false);
 
-    let [failedLogin, setFailed] = useState(false)
+    const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-    let handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        
         const response = await fetch(`${urls.baseUrl}${urls.api.admin.login}`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 email: userEmail.current?.value,
-                password: userPassword.current?.value
-            })
-        })
+                password: userPassword.current?.value,
+            }),
+        });
 
-        const responseJson = await response.json()
+        const responseJson = (await response.json()) as { success: boolean; payload: never };
 
-        if(responseJson?.success){
-            Router.push('/portal/dashboard')
+        if (responseJson?.success) {
+            void Router.push("/portal/dashboard");
         } else {
-            setFailed(true)
+            setFailed(true);
         }
 
-        console.log(responseJson)
-    }
+        console.log(responseJson);
+    };
 
     return (
         <div className="container">
@@ -71,22 +70,11 @@ const Home: NextPage = () => {
                                 ref={userPassword}
                             />
                             <p className="passwordResetText">
-                                Forgot your password?{" "}
-                                <a href="/portal/password-reset">click here</a>.
+                                Forgot your password? <a href="/portal/password-reset">click here</a>.
                             </p>
-                            {
-                                failedLogin && (
-                                    <p className="invalidPasswordText">
-                                    Invalid Email or Password 
-                                    </p>
-                                )
-                            }
+                            {failedLogin && <p className="invalidPasswordText">Invalid Email or Password</p>}
                             <div className="submitInputParent">
-                                <input
-                                    type="submit"
-                                    className="submitInput"
-                                    value="Log In"
-                                />
+                                <input type="submit" className="submitInput" value="Log In" />
                             </div>
                         </form>
                     </div>
@@ -121,7 +109,7 @@ const Home: NextPage = () => {
                     margin-bottom: 5px;
                     padding-left: 80px;
                     font-size: 14px;
-                    color: #714b92; 
+                    color: #714b92;
                 }
 
                 .passwordResetText {
@@ -222,9 +210,8 @@ const Home: NextPage = () => {
                 body {
                     padding: 0;
                     margin: 0;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-                        Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+                        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
                 }
 
                 * {
@@ -234,5 +221,25 @@ const Home: NextPage = () => {
         </div>
     );
 };
+
+export async function getServerSideProps(context: NextPageContext) {
+    const cookie = context.req?.headers.cookie;
+
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
+        headers: {
+            cookie: cookie!,
+        },
+    });
+
+    if (resp.status === 200 && context.req) {
+        context.res?.writeHead(302, {
+            Location: `${urls.baseUrl}${urls.pages.portal.dashboard}`,
+        });
+        context.res?.end();
+        return { props: {} };
+    }
+
+    return { props: {} };
+}
 
 export default Home;

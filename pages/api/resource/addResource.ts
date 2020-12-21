@@ -17,6 +17,7 @@ export default auth("admin", async function handler(req: NextApiRequest, res: Ne
         res.status(400).json({
             success: false,
             message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
+
         });
     }
 });
