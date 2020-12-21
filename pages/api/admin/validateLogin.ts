@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "utils/types";
 import { verify } from "jsonwebtoken";
+import auth from "server/actions/Authenticate";
+import errors from "utils/errors";
 
 // This is really only used to validiate when someone is logged in
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
@@ -23,12 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
         });
     } catch (error) {
-        const err = error as Error;
-        console.error(err);
+        console.error(error instanceof Error && error);
         res.setHeader("Set-Cookie", "auth=; Max-Age=0; SameSite=Lax; Path=/");
         res.status(401).json({
             success: false,
-            message: err.message,
+            message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
         });
     }
 }
