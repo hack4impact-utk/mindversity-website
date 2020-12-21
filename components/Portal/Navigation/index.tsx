@@ -5,7 +5,20 @@ import style from "./navigation.module.scss"; //Import the main stylesheet
 import { AiOutlineMenu } from "react-icons/ai";
 import { HiOutlineBookOpen } from "react-icons/hi";
 import { FiPenTool, FiAward } from "react-icons/fi";
-import {RiDeleteBin2Line} from "react-icons/ri";
+import { RiDeleteBin2Line } from "react-icons/ri";
+import Router from "next/router";
+import urls from "utils/urls";
+
+const handleSignout = async () => {
+    await fetch(`${urls.baseUrl}${urls.api.admin.signout}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    void Router.push("/");
+};
+
 const Navigation: React.FC = () => {
     const [open, setOpen] = useState(false); //Control the state of the mobile navigation menu
 
@@ -50,9 +63,15 @@ const Navigation: React.FC = () => {
                             </a>
                         </div>
                     </div>
+                    <div className={style.navLowerLinks}>
+                        <div className={style.navLowerCol}>
+                            <button className={style.signoutBtn} onClick={handleSignout}>
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
                     <div className={style.navLowerText}>
-                        A Global Effort to Better BIPOC Student Mental Health
-                        Care.
+                        A Global Effort to Better BIPOC Student Mental Health Care.
                     </div>
                 </div>
             </div>
@@ -61,10 +80,7 @@ const Navigation: React.FC = () => {
                 className={open ? style["overlayOpen"] : style["overlayClosed"]}
                 onClick={() => setOpen(!open)}
             ></div>
-            <button
-                className={style.hamburgerMenu}
-                onClick={() => setOpen(!open)}
-            >
+            <button className={style.hamburgerMenu} onClick={() => setOpen(!open)}>
                 <AiOutlineMenu />
             </button>
         </div>

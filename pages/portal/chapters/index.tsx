@@ -1,16 +1,17 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { getChapters } from "requests/Chapter";
-import { Chapter } from 'utils/types';
-
+import { getChapters } from "server/actions/Chapter";
+import { Chapter } from "utils/types";
+import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 import ChapterCard from "components/Portal/ChapterCard";
+import Router from "next/router";
 
 interface Props {
     chapter: Chapter[];
 }
 
-const Chapters: NextPage<Props> = ({chapter}) => {
+const Chapters: NextPage<Props> = ({ chapter }) => {
     return (
         <div className="container">
             <Head>
@@ -23,29 +24,29 @@ const Chapters: NextPage<Props> = ({chapter}) => {
             <div className="bodyContent">
                 <h1>Edit Chapters</h1>
                 <div className="newChapterBtnParent">
-                    <a href="chapters/create" className="newChapterBtn">New Chapter</a>
+                    <a href="chapters/create" className="newChapterBtn">
+                        New Chapter
+                    </a>
                 </div>
                 <div className="chaptersContainer">
-                    { //Display all of the chapters from the database
-                        chapter && (
-                        chapter.map(chap => {
-                            return(
-                                <ChapterCard chap={chap}/>
-                            )
-                        })
-                        )
+                    {
+                        //Display all of the chapters from the database
+                        chapter &&
+                            chapter.map((chap, i) => {
+                                return <ChapterCard key={i} chap={chap} />;
+                            })
                     }
                 </div>
             </div>
 
             <style jsx>{`
-                .container{
+                .container {
                     padding-top: 50px;
                     text-align: left;
                 }
 
-                @media screen and (min-width: 1000px){
-                    .bodyContent{
+                @media screen and (min-width: 1000px) {
+                    .bodyContent {
                         width: auto;
                         height: auto;
                         position: relative;
@@ -54,7 +55,7 @@ const Chapters: NextPage<Props> = ({chapter}) => {
                     }
                 }
 
-                h1{
+                h1 {
                     color: black;
                     padding: 0px 40px;
                 }
@@ -91,7 +92,7 @@ const Chapters: NextPage<Props> = ({chapter}) => {
                     background-color: #b59ccc;
                 }
 
-                .chaptersContainer{
+                .chaptersContainer {
                     width: 100%;
                     height: auto;
                     position: relative;
@@ -106,9 +107,8 @@ const Chapters: NextPage<Props> = ({chapter}) => {
                 body {
                     padding: 0;
                     margin: 0;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-                        Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+                        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
                 }
                 * {
                     box-sizing: border-box;
@@ -119,14 +119,34 @@ const Chapters: NextPage<Props> = ({chapter}) => {
 };
 
 //Get all of the chapters
-Chapters.getInitialProps = async ( context: NextPageContext ) => {
-    //Query to get all of the chapters
-    let chapterQuery: Chapter = new Object;
-    var chapters: Chapter[] = await getChapters(chapterQuery);
-    //Return an array of the chapters
-    return {
-        chapter: chapters,
+export async function getServerSideProps(context: NextPageContext) {
+    const cookie = context.req?.headers.cookie;
+
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
+        headers: {
+            cookie: cookie!,
+        },
+    });
+
+    if (resp.status === 401 && !context.req) {
+        void Router.replace(`${urls.pages.portal.login}`);
+        return { props: {} };
     }
+
+    if (resp.status === 401 && context.req) {
+        context.res?.writeHead(302, {
+            Location: `${urls.baseUrl}`,
+        });
+        context.res?.end();
+        return { props: {} };
+    }
+
+    //Query to get all of the chapters
+    const chapterQuery: Chapter = new Object();
+    const chapters: Chapter[] = await getChapters(chapterQuery);
+
+    //Return an array of the chapters
+    return { props: { chapter: JSON.parse(JSON.stringify(chapters)) as Chapter[] } };
 }
 
 export default Chapters;
