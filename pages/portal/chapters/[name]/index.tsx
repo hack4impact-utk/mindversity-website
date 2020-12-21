@@ -1,7 +1,9 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { getChapters, updateChapter } from "requests/Chapter";
-import { Chapter } from 'utils/types';
+import { Chapter, User } from 'utils/types';
+import Router from "next/router";
+import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 
 const handleSubmit = async (e:any) => {
@@ -13,10 +15,11 @@ const handleSubmit = async (e:any) => {
 };
 
 interface Props{
-    chapter: Chapter,
+    chapter: Chapter;
+    admin: boolean;
 }
 
-const Chapters: NextPage<Props> = ({chapter}) => {
+const Chapters: NextPage<Props> = ({chapter, admin}) => {
 
     var cleanName = chapter.name?.replace(/_/g, " ");
 
@@ -27,7 +30,7 @@ const Chapters: NextPage<Props> = ({chapter}) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation />
+            <Navigation admin={admin}/>
 
             <div className="bodyContent">
                 <h1>Edit {cleanName}</h1>
@@ -175,8 +178,40 @@ const Chapters: NextPage<Props> = ({chapter}) => {
     );
 };
 
-//Get the existing chapter information
-Chapters.getInitialProps = async(context: NextPageContext) => {
+export async function getServerSideProps(context: NextPageContext) {
+    const cookie = context.req?.headers.cookie;
+
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
+        headers: {
+            cookie: cookie!,
+        },
+    });
+
+    const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (respJSON.payload as User) || null;
+    const usersChapter = user?.role || null;
+
+    if (resp.status === 401 && !context.req) {
+        void Router.replace(`${urls.pages.portal.login}`);
+        return { props: {} };
+    }
+
+    if (resp.status === 401 && context.req) {
+        context.res?.writeHead(302, {
+            Location: `${urls.baseUrl}`,
+        });
+        context.res?.end();
+        return { props: {} };
+    }
+
+    if (usersChapter != context.query.name && usersChapter != "admin" && usersChapter != "national") {
+        context.res?.writeHead(302, {
+            Location: `${urls.baseUrl}`,
+        });
+        context.res?.end();
+        return { props: {} };
+    }
+
     let chapterQuery: Chapter = new Object;
     chapterQuery.name = context.query.name as string;
 
@@ -187,14 +222,13 @@ Chapters.getInitialProps = async(context: NextPageContext) => {
     if(chapterInfo.length == 1){
         chapter = chapterInfo[0];
     }
-    else{
-        //TODO: route back to the list of chapters
-    }
 
-    return{
-        chapter: chapter
-    }
-    
+    return { 
+        props: { 
+            chapter: chapter,
+            admin: usersChapter == "admin" || usersChapter == "national" 
+        },
+    };
 }
 
 export default Chapters;

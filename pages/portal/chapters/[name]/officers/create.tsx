@@ -1,8 +1,9 @@
-import { NextPage } from "next";
+import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { Router } from "next/router";
 import { addOfficer } from "requests/Officer";
 import { Officer } from 'utils/types';
+import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 
 const handleSubmit = async (e:any) => {
@@ -143,5 +144,34 @@ const CreateOfficer: NextPage = () => {
         </div>
     );
 };
+
+export async function getServerSideProps(context: NextPageContext) {
+    const cookie = context.req?.headers.cookie;
+
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
+        headers: {
+            cookie: cookie!,
+        },
+    });
+
+    const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (respJSON.payload as User) || null;
+    const usersChapter = user?.role || null;
+
+    if (resp.status === 401 && !context.req) {
+        void Router.replace(`${urls.pages.portal.login}`);
+        return { props: {} };
+    }
+
+    if ((resp.status === 401 && context.req) || (usersChapter != "admin" && usersChapter != "national")) {
+        context.res?.writeHead(302, {
+            Location: `${urls.baseUrl}`,
+        });
+        context.res?.end();
+        return { props: {} };
+    }
+
+    return { props: { admin: usersChapter == "admin" || usersChapter == "national" } };
+}
 
 export default CreateOfficer;

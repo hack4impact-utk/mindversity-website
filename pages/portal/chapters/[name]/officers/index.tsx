@@ -3,9 +3,10 @@ import Head from "next/head";
 import { getOfficers, deleteOfficer } from "requests/Officer";
 import { Officer } from 'utils/types';
 import { useState } from "react";
+import { Router } from "next/router";
+import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 import OfficerCard from "components/Portal/OfficerCard";
-
 
 interface Props {
     officer: Officer[];
@@ -246,16 +247,43 @@ const Officers: NextPage<Props> = ({officer}) => {
     );
 };
 
-//Get all of the chapters
-Officers.getInitialProps = async ( context: NextPageContext ) => {
-    //Query to get all of the officers
+export async function getServerSideProps(context: NextPageContext) {
+    const cookie = context.req?.headers.cookie;
+
+    const resp = await fetch(`${urls.baseUrl}${urls.api.admin.validateLogin}`, {
+        headers: {
+            cookie: cookie!,
+        },
+    });
+
+    const respJSON = (await resp.json()) as { success: boolean; payload: unknown };
+    const user = (respJSON.payload as User) || null;
+    const usersChapter = user?.role || null;
+
+    if (resp.status === 401 && !context.req) {
+        void Router.replace(`${urls.pages.portal.login}`);
+        return { props: {} };
+    }
+
+    if ((resp.status === 401 && context.req) || (usersChapter != "admin" && usersChapter != "national")) {
+        context.res?.writeHead(302, {
+            Location: `${urls.baseUrl}`,
+        });
+        context.res?.end();
+        return { props: {} };
+    }
+
     let officerQuery: Officer = new Object;
     officerQuery.chapter = context.query.name as string;
     var officers: Officer[] = await getOfficers(officerQuery);
-    //Return the officers
-    return {
-        officer: officers,
-    }
+    
+    return { 
+        props: {
+            officer: officers,
+            admin: usersChapter == "admin" || usersChapter == "national",
+        },
+    };
 }
+
 
 export default Officers;
