@@ -7,6 +7,11 @@ import dynamic from "next/dynamic";
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 import { Delta, Sources } from "quill";
 import urls from "utils/urls";
+<<<<<<< HEAD
+=======
+import errors from "utils/errors";
+const ReactQuill = dynamic(import('react-quill'), { ssr: false});
+>>>>>>> File size checks and modified 404
 
 interface IFormValues {
     title?: string | undefined;
@@ -30,9 +35,19 @@ const CreateJournalEntry: React.FC = () => {
         if(target != null) {
             if(target.name == "image" && target.files != null) {
                 if (target.files[0].size >= urls.CONTENTFUL_IMAGE_LIMIT) {
+<<<<<<< HEAD
                     setFileTooLarge(true);      
                     setTimeout(() => {setFileTooLarge(false)}, 2000);
+=======
+                    // clear past uploaded image and show error 
+                    setImageURL("");
+                    setValues(values => ({...values}));
+                    setFileTooLarge(true);
+>>>>>>> File size checks and modified 404
                     return;
+                }
+                else {
+                    setFileTooLarge(false);      
                 }
                 setValues(values => ({...values, [target.name]: target.files?.item(0)}));
                 handleImageURL(target.files[0]);
@@ -76,6 +91,7 @@ const CreateJournalEntry: React.FC = () => {
     const handleSubmit = async (e: React.SyntheticEvent) => {
         //There's no way to put a required tag on the quill editor, so we just check to make sure there's input in it before submitting.
         e.preventDefault();
+<<<<<<< HEAD
         if (!values.body) {
             setValues({ ...values, ["error"]: true });
         }
@@ -103,6 +119,35 @@ const CreateJournalEntry: React.FC = () => {
             <div className={styles["wrapper"]}>
                 <Link href="/journal">
                     <span className={styles["breadcrumb"]}>
+=======
+        if(!values.body){
+            setValues({...values, ["error"]: true});
+            return;
+        }
+        if (fileTooLarge) return;
+
+        // done error checking, send form to backend
+        const fd = new FormData();
+        let key:string;
+        for(key in values){
+            fd.append(key, values[key]);
+        }
+        const response = await fetch('/api/journal/create', {
+            method: "POST",
+            body: fd,
+        });
+        const data:JSON = await response.json();
+        console.log(data);
+    }
+
+
+
+    return(
+        <section className={styles['container']}>
+            <div className={styles['wrapper']}>
+                <Link href='/journal'>
+                    <a className={styles['breadcrumb']}>
+>>>>>>> File size checks and modified 404
                         <FaArrowLeft />
                         <span> Back to all posts</span>
                     </span>
@@ -119,13 +164,16 @@ const CreateJournalEntry: React.FC = () => {
                         <div className={styles["icon-container"]}>
                             <BiImageAdd className={styles["image-icon"]} />
                         </div>
+<<<<<<< HEAD
                         <input type="file" name="image" className={styles['image-select']} onChange={handleData} required/>
                         {/* <div className={`alert alert-success ${this.state.showingAlert ? 'alert-shown' : 'alert-hidden'}`}> */}
+=======
+                        <input type="file" name="image" className={styles['image-select']} onChange={handleChange} required/>
+>>>>>>> File size checks and modified 404
                         <div>
-                            <a className={styles['icon-container']}> 
-                                <strong>Error!</strong> 
-                                File size is too large, it must be below 20MB.
-                            </a>
+                            {fileTooLarge && (
+                            <span className={styles['error']}> {errors.IMAGE_TOO_LARGE} </span>
+                            )}
                         </div>
                     </div>
                     <div className={styles["text-container"]}>

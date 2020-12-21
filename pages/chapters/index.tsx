@@ -15,7 +15,6 @@ interface Props {
 }
 
 const ChapterPage: NextPage<Props> = ({chapter}) => {
-  console.log(chapter);
   return(
     <div>
 
