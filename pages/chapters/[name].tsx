@@ -173,6 +173,10 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
                         color: #707070;
                         width: 80%;
                     }
+
+                    .topContentBox-child {
+                        flex: 1;
+                    }
                 }
 
                 @media screen and (max-width: 770px) {
@@ -180,6 +184,10 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
                         font-size: 20px;
                         color: #707070;
                         width: 100%;
+                    }
+
+                    .topContentBox-child {
+                        flex: 1 1 auto;
                     }
                 }
 
@@ -193,10 +201,8 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
 
                 .topContentBox {
                     display: flex;
-                }
-
-                .topContentBox-child {
-                    flex: 1;
+                    flex-direction: row;
+                    flex-wrap: wrap;
                 }
 
                 .resourceTextStyle {
@@ -247,7 +253,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     const officerQuery: Officer = new Object();
     officerQuery.chapter = chapter.name;
 
-    const officers: Officer[] = (await getOfficers(officerQuery)) as Officer[];
+    const officers: Officer[] = await getOfficers(officerQuery);
     if (!(officers.length > 0)) {
         // TODO route to an error page
         //throw new Error(errors.GENERIC_ERROR);
