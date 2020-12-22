@@ -1,6 +1,7 @@
 .resourceCard{
     height: auto;
     width: 100%;
+    max-width: 100%;
     position: relative;
     display: flex;
     background-color: white;
@@ -12,8 +13,11 @@
 .resourceCardText{
     width: auto;
     height: auto;
+    max-width: calc(100% - 300px);
     position: relative;
     display: inline-block;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
     flex: 1;
 }
 

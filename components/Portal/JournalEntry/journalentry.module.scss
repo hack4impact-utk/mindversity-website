@@ -1,62 +1,73 @@
 $color: #8C69AA;
 .entry{
-    display:flex;
-    flex-direction:row;
-    border-bottom: 1px solid black;
+    height: auto;
     width: 100%;
+    position: relative;
+    display: flex;
+    background-color: white;
+    transition: 0.5s ease;
+    border-bottom: 1px solid black;
+    padding: 40px 0px;
 }
 .entryBody{
-    width: 60%;
-    min-height: 150px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+    width: auto;
+    height: auto;
+    position: relative;
+    display: inline-block;
+    flex: 1;
 }
 .title{
-    font-size: 2rem;
-    color: $color;
-    margin-bottom:0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #8C69AA;
     text-decoration: none;
 }
 .description{
-    color: #2B2B2C;
-    font-size: 1.2rem;
+    font-size: 16px;
+    margin-top: 0;
 }
 
 .actionButtonContainer{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    width:40%;
+    width: auto;
+    height: auto;
+    position: relative;
+    display: inline-block;
+    text-align: right;
+    flex: auto;
 }
 
 .actionButton{
-    width: 230px;
-    height: 50px;
+    height: auto;
+    width: auto;
+    padding: 10px 40px;
+    position: relative;
+    display: inline-block;
+    border: none;
+    font-size: 16px;
+    margin-top: 20px;
+    outline: none;
     border-radius: 6px;
-    font-size: 1.2rem;
-    border: 1px solid $color;
-    cursor:pointer;
-    transition:0.5s ease;
-    align-self: flex-end;
-    margin: 10px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.5s ease;
     &.actionButtonPrimary {
         background: $color;
         color: white;
         &:hover{
-            filter:brightness(1.2);
+            background-color: #b59ccc;
         }
     }
     &.actionButtonSecondary{
         background: white;
         color: $color;
+        margin-left: 30px;
+        border: 1px solid $color;
         &:hover{
-            filter:brightness(0.8);
+            background-color: #d0bfe0;
         }
     }
     &:hover{
-        transform: translateY(-2px);
+        cursor: pointer;
     }
 }
 
