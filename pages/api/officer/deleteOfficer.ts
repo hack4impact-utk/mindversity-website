@@ -9,7 +9,6 @@ export default async function handler(
 ): Promise<void> {
     try {
         const officerInfo: Officer = req.body as Officer;
-
         await deleteOfficer(officerInfo);
         res.status(200).json({
             success: true,
