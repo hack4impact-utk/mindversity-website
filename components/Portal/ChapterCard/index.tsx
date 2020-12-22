@@ -23,9 +23,8 @@ const ChapterComp: React.FC<Props> = ({ chap }) => {
                 </div>
             </div>
             <div className={style.chapterCardBtn}>
-                <Link href={`/portal/journal/chapters/${chap.name as string}`}>
-                    <span className={style.editChapterBtn}>Edit</span>
-                </Link>
+                <a className={style.editChapterBtn} href={"chapters/" + chap.name}>Edit Chapter</a>
+                <a className={style.editChapterBtn} href={"chapters/" + chap.name + "/officers"}>Edit Officers</a>
             </div>
         </div>
     );

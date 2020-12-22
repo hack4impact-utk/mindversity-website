@@ -1,25 +1,25 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { addChapter } from "requests/Chapter";
-import { Chapter, User } from "utils/types";
+import { Router } from "next/router";
+import { addOfficer } from "requests/Officer";
+import { Officer } from 'utils/types';
 import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
-import Router from "next/router";
-import { FormEvent } from "react";
 
-interface Props {
-    admin: boolean;
-}
-
-const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+const handleSubmit = async (e:any) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    var chapter: Chapter = await addChapter(formData);
-    //After submitting the form send the user to the list of chapters
-    window.location.href = "/portal/chapters";
+    const formData = new FormData(e.target);
+    var officer: Officer = await addOfficer(formData);
+    //Return the user to the list of officers
+    window.location.href = "../officers";
 };
 
-const Chapters: NextPage<Props> = ({ admin }) => {
+const CreateOfficer: NextPage = () => {
+
+    //Get the chapter that is associated with this officer
+    const router = useRouter();
+    var chapterName = router.query.name;
+
     return (
         <div className="container">
             <Head>
@@ -27,44 +27,35 @@ const Chapters: NextPage<Props> = ({ admin }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation admin={admin} />
+            <Navigation />
 
             <div className="bodyContent">
-                <h1>New Chapter</h1>
+                <h1>New Officer</h1>
                 <div className="formContainer">
                     <form onSubmit={handleSubmit} method="post">
-                        <label htmlFor="name">Chapter Name</label>
-                        <input type="text" name="name" placeholder="Chapter Name" required />
-                        <label htmlFor="region">Region</label>
-                        <select name="region" id="">
-                            <option value="northeast">Northeast</option>
-                            <option value="south">South</option>
-                            <option value="west">West</option>
-                            <option value="midwest">Midwest</option>
-                        </select>
-                        <label htmlFor="city">City</label>
-                        <input type="text" name="city" placeholder="City" />
-                        <label htmlFor="state">State</label>
-                        <input type="text" name="state" placeholder="State" />
-                        <label htmlFor="description">Description</label>
-                        <textarea name="description" placeholder="Description"></textarea>
-                        <label htmlFor="campus">Campus Picture</label>
-                        <input type="file" name="campus"/>
-                        <label htmlFor="logo">Logo</label>
-                        <input type="file" name="logo"/>
+                        <label htmlFor="name">Name</label>
+                        <input type="text" name="name" placeholder="Name" required/>
+                        <label htmlFor="role">Position</label>
+                        <input type="text" name="role" placeholder="Position" required/>
+                        <label htmlFor="bio">Bio</label>
+                        <textarea name="bio" placeholder="Bio" required></textarea>
+                        <label htmlFor="campus">Picture</label>
+                        <input type="file" name="picture" required/>
+                        {/* Hidden input type will store the chapter name from the url */}
+                        <input type="hidden" name="chapter" value={chapterName}/>
                         <input type="submit" value="Create" className="submitInput"/>
                     </form>
                 </div>
             </div>
 
             <style jsx>{`
-                .container {
+                .container{
                     padding-top: 50px;
                     text-align: left;
                 }
 
-                @media screen and (min-width: 1000px) {
-                    .bodyContent {
+                @media screen and (min-width: 1000px){
+                    .bodyContent{
                         width: auto;
                         height: auto;
                         position: relative;
@@ -73,12 +64,12 @@ const Chapters: NextPage<Props> = ({ admin }) => {
                     }
                 }
 
-                h1 {
+                h1{
                     color: black;
                     padding: 0px 40px;
                 }
 
-                .formContainer {
+                .formContainer{
                     width: 100%;
                     height: auto;
                     position: relative;
@@ -87,10 +78,7 @@ const Chapters: NextPage<Props> = ({ admin }) => {
                     text-align: center;
                 }
 
-                input[type="text"],
-                input[type="file"],
-                select,
-                textarea {
+                input[type=text], input[type=file], select, textarea {
                     height: auto;
                     width: 100%;
                     padding: 10px 15px;
@@ -105,12 +93,12 @@ const Chapters: NextPage<Props> = ({ admin }) => {
                     font-family: inherit;
                 }
 
-                textarea {
+                textarea{
                     min-height: 150px;
                     resize: vertical;
                 }
 
-                label {
+                label{
                     display: block;
                     margin-bottom: 5px;
                     padding-left: 5px;
@@ -145,8 +133,9 @@ const Chapters: NextPage<Props> = ({ admin }) => {
                 body {
                     padding: 0;
                     margin: 0;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-                        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
+                        Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+                        Helvetica Neue, sans-serif;
                 }
                 * {
                     box-sizing: border-box;
@@ -185,4 +174,4 @@ export async function getServerSideProps(context: NextPageContext) {
     return { props: { admin: usersChapter == "admin" || usersChapter == "national" } };
 }
 
-export default Chapters;
+export default CreateOfficer;
