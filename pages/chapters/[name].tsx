@@ -5,10 +5,12 @@ import { getChapters } from "server/actions/Chapter";
 import { getOfficers } from "server/actions/Officer";
 import { getResources } from "server/actions/Resource";
 import { Chapter, Officer, Resource } from "utils/types";
-import { GetStaticPropsContext, NextPage, NextPageContext } from "next";
+import { GetStaticPropsContext, NextPage } from "next";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import errors from "utils/errors";
 import Head from "next/head";
+import config from "config";
+import { useRouter } from "next/router";
 
 // When routing here we have a chapter name we can get from the url name
 // We can get that param with useRouter(), but its also given in the context
@@ -20,6 +22,15 @@ interface Props {
 }
 
 const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
+    const router = useRouter();
+    if (router.isFallback) {
+        return <div>Loading...</div>;
+    }
+
+    if (!chapter) {
+        return <div>No Chapter</div>;
+    }
+
     //Replace any underscores in the chapter name with spaces
     const cleanName = chapter.name?.replace(/_/g, " ");
     //Make the first letter of the region name capital
@@ -237,38 +248,44 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
 // This function cant be in child component, so we query the data and
 // then pass it to the component. It's ran server-side
 export async function getStaticProps(context: GetStaticPropsContext) {
-    // query by the chapter's name
-    const chapterQuery: Chapter = new Object();
-    chapterQuery.name = context.params?.name as string;
+    try {
+        // query by the chapter's name
+        const chapterQuery: Chapter = new Object();
+        chapterQuery.name = context.params?.name as string;
 
-    let chapter: Chapter = new Object();
-    const chapters: Chapter[] = await getChapters(chapterQuery);
-    if (chapters.length === 1) {
-        chapter = chapters[0];
-    } else {
-        // TODO route to an error page
-        throw new Error(errors.GENERIC_ERROR);
+        let chapter: Chapter = new Object();
+        const chapters: Chapter[] = await getChapters(chapterQuery);
+        if (chapters.length === 1) {
+            chapter = chapters[0];
+        } else {
+            // TODO route to an error page
+            throw new Error(errors.GENERIC_ERROR);
+        }
+
+        const officerQuery: Officer = new Object();
+        officerQuery.chapter = chapter.name;
+
+        const officers: Officer[] = await getOfficers(officerQuery);
+        if (!(officers.length > 0)) {
+            // TODO route to an error page
+            //throw new Error(errors.GENERIC_ERROR);
+        }
+
+        const resources = await getResources({ chapter: chapterQuery.name });
+
+        return {
+            props: {
+                chapter: JSON.parse(JSON.stringify(chapter)) as Chapter,
+                officers: JSON.parse(JSON.stringify(officers)) as Officer[],
+                resources: JSON.parse(JSON.stringify(resources)) as Resource[],
+            },
+            revalidate: config.revalidate.chapter,
+        };
+    } catch (error) {
+        return {
+            props: {},
+        };
     }
-
-    const officerQuery: Officer = new Object();
-    officerQuery.chapter = chapter.name;
-
-    const officers: Officer[] = await getOfficers(officerQuery);
-    if (!(officers.length > 0)) {
-        // TODO route to an error page
-        //throw new Error(errors.GENERIC_ERROR);
-    }
-
-    const resources = await getResources({ chapter: chapterQuery.name });
-
-    return {
-        props: {
-            chapter: JSON.parse(JSON.stringify(chapter)) as Chapter,
-            officers: JSON.parse(JSON.stringify(officers)) as Officer[],
-            resources: JSON.parse(JSON.stringify(resources)) as Resource[],
-        },
-        revalidate: 15,
-    };
 }
 
 export async function getStaticPaths() {
@@ -278,7 +295,7 @@ export async function getStaticPaths() {
         params: { name: chapter.name },
     }));
 
-    return { paths, fallback: false };
+    return { paths, fallback: true };
 }
 
 export default ChapterPage;

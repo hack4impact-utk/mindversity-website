@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext, GetStaticPropsContext } from "next";
+import { NextPage, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
@@ -6,11 +6,10 @@ import Header from "components/Header";
 import SelectBtn from "components/Journal/SelectBtn";
 import BlogPostThumbnail from "components/Journal/BlogPostThumbnail";
 import Footer from "components/Footer";
-
-import { getEntriesByType } from "requests/Journal";
-import { JournalEntry, ContentfulImage } from "utils/types";
-import { useEffect, useState } from "react";
+import { JournalEntry } from "utils/types";
+import { useState } from "react";
 import { getJournalEntryByType } from "server/actions/Contentful";
+import config from "config";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -252,7 +251,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         props: {
             journalEntries: data,
         },
-        revalidate: 15,
+        revalidate: config.revalidate.journal,
     };
 }
 

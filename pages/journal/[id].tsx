@@ -4,10 +4,11 @@ import BlogPostThumbnail from "components/Journal/BlogPostThumbnail";
 
 import { JournalEntry } from "utils/types";
 
-import { GetStaticPropsContext, NextPage, NextPageContext } from "next";
+import { GetStaticPropsContext, NextPage } from "next";
 import errors from "utils/errors";
 import Head from "next/head";
 import { getJournalEntryById, getJournalEntryByType, getJournalEntriesByReviewStatus } from "server/actions/Contentful";
+import { useRouter } from "next/router";
 
 // When routing here we have a journal id we can get from the url name
 // We can get that param with useRouter(), but its also given in the context
@@ -18,6 +19,15 @@ interface Props {
 }
 
 const JournalPostPage: NextPage<Props> = ({ post, relatedEntries }) => {
+    const router = useRouter();
+    if (router.isFallback) {
+        return <div>Loading...</div>;
+    }
+
+    if (!post) {
+        return <div>No Post</div>;
+    }
+
     return (
         <main className="container">
             <Head>
@@ -149,7 +159,6 @@ const JournalPostPage: NextPage<Props> = ({ post, relatedEntries }) => {
 export async function getStaticProps(context: GetStaticPropsContext) {
     const post: JournalEntry = await getJournalEntryById(context.params?.id as string);
     const related: JournalEntry[] = await getJournalEntryByType(post.category as string);
-    // console.log(related)
     return {
         props: {
             post: post,
@@ -166,7 +175,7 @@ export async function getStaticPaths() {
         params: { id: post.id },
     }));
 
-    return { paths, fallback: false };
+    return { paths, fallback: true };
 }
 
 export default JournalPostPage;
