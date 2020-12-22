@@ -1,9 +1,11 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { getOfficers, deleteOfficer } from "requests/Officer";
+
 import { Officer, User } from 'utils/types';
 import { useState } from "react";
 import Router from "next/router";
+
 import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 import OfficerCard from "components/Portal/OfficerCard";
@@ -14,6 +16,7 @@ interface Props {
 }
 
     const Officers: NextPage<Props> = ({officer, admin}) => {
+
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [deletingID, setDeletingID] = useState("");
@@ -51,6 +54,7 @@ interface Props {
             </Head>
 
             <Navigation admin={admin}/>
+
 
             {isDeleting && (
                 <div className="rejectModal">
