@@ -32,6 +32,9 @@ const AdminJournalDelete: NextPage<Props> = ({ entries, admin }) => {
                 );
 
                 setResponseStatus(response.status);
+                if(response.status === 200){
+                    location.reload();
+                }
             } else {
                 setIsDeleting(true);
                 setDeletingID(submitButton.value);
@@ -44,6 +47,9 @@ const AdminJournalDelete: NextPage<Props> = ({ entries, admin }) => {
                 method: "DELETE",
             });
             setResponseStatus(response.status);
+            if(response.status === 200){
+                location.reload();
+            }
         }
     };
 

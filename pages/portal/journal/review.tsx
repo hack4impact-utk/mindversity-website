@@ -30,6 +30,9 @@ const AdminJournalReview: NextPage<Props> = ({ entries, admin }) => {
                 }
             );
             setResponseStatus(response.status);
+            if(response.status === 200){
+                location.reload();
+            }
         }
 
         //Button by the approve button
