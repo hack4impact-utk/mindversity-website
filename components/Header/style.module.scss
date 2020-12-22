@@ -19,7 +19,7 @@
 
 .headerLogo{
     cursor: pointer;
-    @media (min-width: 770px){
+    @media (min-width: 800px){
         min-width: 30%;
         height: 100%;
         position: relative;
@@ -27,7 +27,7 @@
         padding-left: 20px;
         flex: 0;
     }
-    @media (max-width: 770px){
+    @media (max-width: 800px){
         min-width: 65%;
         height: 100%;
         position: relative;
