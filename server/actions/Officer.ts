@@ -34,5 +34,5 @@ export const deleteOfficer = async function (officerInfo: Officer) {
     if (officerInfo.picture?.assetID)
         await deleteAssetByID(officerInfo.picture?.assetID);
 
-    await OfficerSchema.deleteOne({_id: officerInfo._id });
+    await OfficerSchema.findOneAndDelete({_id: officerInfo._id });
 }

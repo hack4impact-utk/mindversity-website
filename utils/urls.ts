@@ -36,6 +36,7 @@ export default {
         },
         officer: {
             get: "/api/officer/getOfficers",
+            delete: "/api/officer/deleteOfficer",
         },
         resource: {
             add: "/api/resource/addResource",
