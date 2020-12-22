@@ -6,7 +6,7 @@ import { Chapter } from "utils/types";
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import errors from "utils/errors";
-import config from "config";
+import globals from "utils/globals";
 
 // When routing here we have a chapter name we can get from the url name
 // We can get that param with useRouter(), but its also given in the context
@@ -127,7 +127,7 @@ export async function getStaticProps(context: NextPageContext) {
         props: {
             chapter: JSON.parse(JSON.stringify(chapters)) as Chapter[],
         },
-        revalidate: config.revalidate.chapter,
+        revalidate: globals.revalidate.chapter,
     };
 }
 

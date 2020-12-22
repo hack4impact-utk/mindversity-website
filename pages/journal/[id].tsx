@@ -9,6 +9,7 @@ import errors from "utils/errors";
 import Head from "next/head";
 import { getJournalEntryById, getJournalEntryByType, getJournalEntriesByReviewStatus } from "server/actions/Contentful";
 import { useRouter } from "next/router";
+import globals from "utils/globals";
 
 // When routing here we have a journal id we can get from the url name
 // We can get that param with useRouter(), but its also given in the context
@@ -164,7 +165,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
             post: post,
             relatedEntries: related.filter(entry => entry.id !== post.id),
         },
-        revalidate: 15,
+        revalidate: globals.revalidate.journal,
     };
 }
 

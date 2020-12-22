@@ -3,7 +3,7 @@ import { uploadImage } from "server/actions/Contentful";
 import { addOfficer } from "server/actions/Officer";
 import formidable from "formidable";
 import { Officer } from "utils/types";
-import urls from "utils/urls";
+import globals from "utils/globals";
 import errors from "utils/errors";
 
 //To get formidable to work, bodyParser has to be turned off.
@@ -31,7 +31,7 @@ export default function handler(
                 const officerInfo: Officer = fields;
 
             // check image size, should be less than 20 MB
-            if (files.image.size >= urls.CONTENTFUL_IMAGE_LIMIT)
+            if (files.image.size >= globals.contentfulImageLimit)
                 throw new Error(errors.IMAGE_TOO_LARGE);
 
                 // upload the officer's profile pic to contentful
