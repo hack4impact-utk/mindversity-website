@@ -84,7 +84,7 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
                 <Link href="/journal/create">
                     <span className="createBtn">Create a New Journal Entry</span>
                 </Link>
-                <select className="dropdown" value={category} onBlur={handleCategoryChange}>
+                <select className="dropdown" defaultValue={category} onChange={handleCategoryChange}>
                     <option value="">All</option>
                     <option value="resources">Resources</option>
                     <option value="creative-space"> Creative Space</option>
