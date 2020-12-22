@@ -12,10 +12,9 @@ export default {
   pages: {
     index: "/",
     login: "/login",
-    blog: (path = "[id]"): string => `/blog/${path}`,
   },
-  apis: {
-    login: new URL("/api/login", process.env.BASE_URL),
-    getChapterByName: new URL("/api/getChapterByName", process.env.BASE_URL)  
+  revalidate: {
+    journal: 1,
+    chapter: 15,
   }
 };
