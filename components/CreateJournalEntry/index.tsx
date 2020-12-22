@@ -8,7 +8,7 @@ const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 import { Delta, Sources } from "quill";
 import urls from "utils/urls";
 import errors from "utils/errors";
-import {Router, useRouter} from "next/router";
+import {useRouter} from "next/router";
 interface IFormValues {
     title?: string | undefined;
     description?: string | undefined;
