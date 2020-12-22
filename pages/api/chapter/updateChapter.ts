@@ -47,22 +47,22 @@ export default function handler(
                 const chapter: Chapter = chapters[0];
 
                 /*
-            if images on contentful exist, they need to removed while uploading the 
-            new images (deletes can happen async here):
-                - both images exist -> delete contentful, insert form image
-                - only form image exists (chapterInfo) -> insert image normally
-                - else nothing happens
-            */
-                if (files?.logo) {
-                    if (chapter.universityLogo?.assetID)
-                        await deleteAssetByID(chapter.universityLogo.assetID);
+                first check the file size to see if there is a new file upload
+                if the user wants to upload a new image and images on contentful exist, they need to removed while uploading the 
+                new images (deletes can happen async here):
+                    - both images exist -> delete contentful, insert form image
+                    - only form image exists (chapterInfo) -> insert image normally
+                    - else nothing happens
+                */
+                if (files?.logo.size > 0) {
+                    if (chapter.universityLogo?.assetID) deleteAssetByID(chapter.universityLogo.assetID);
                     chapterInfo.universityLogo = await uploadImage(files.logo);
                 }
-                if (files?.campus) {
-                    if (chapter.campusPic?.assetID)
-                        await deleteAssetByID(chapter.campusPic.assetID);
+                if (files?.campus.size > 0) {
+                    if (chapter.campusPic?.assetID) deleteAssetByID(chapter.campusPic.assetID);
                     chapterInfo.campusPic = await uploadImage(files.campus);
                 }
+
 
                 // update the chapter's data in MongoDB
                 chapterQuery = {};

@@ -23,7 +23,7 @@
     position: relative;
     display: inline-block;
     text-align: right;
-    flex: auto;
+    flex: 0;
 }
 
 .chapterCardTitle{
@@ -56,10 +56,6 @@
     color: white;
     text-decoration: none;
     transition: background 0.5s ease;
-}
-
-.editChapterBtn:nth-child(2){
-    margin-left: 30px;
 }
 
 .editChapterBtn:hover {
