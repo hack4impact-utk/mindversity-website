@@ -5,7 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { BiImageAdd } from "react-icons/bi";
 import dynamic from "next/dynamic";
 import { Delta, Sources } from "quill";
-import urls from "utils/urls";
+import globals from "utils/globals";
 import errors from "utils/errors";
 
 import {useRouter} from "next/router";
@@ -35,7 +35,7 @@ const CreateJournalEntry: React.FC = () => {
         const target = e.target as HTMLInputElement;
         if(target != null) {
             if(target.name == "image" && target.files != null) {
-                if (target.files[0].size >= urls.CONTENTFUL_IMAGE_LIMIT) {
+                if (target.files[0].size >= globals.contentfulImageLimit) {
                     // clear past uploaded image and show error 
                     setImageURL("");
                     setValues(values => ({...values}));
