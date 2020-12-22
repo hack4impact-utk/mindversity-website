@@ -16,6 +16,7 @@ interface IFormValues {
     body?: string | undefined;
     category?: string | undefined;
     error?: boolean | undefined;
+    submissionError?: boolean | undefined;
     [key: string]: string | Blob | boolean | null | undefined;
 }
 
@@ -84,7 +85,10 @@ const CreateJournalEntry: React.FC = () => {
     const handleSubmit = async (e: React.SyntheticEvent) => {
         //There's no way to put a required tag on the quill editor, so we just check to make sure there's input in it before submitting.
         e.preventDefault();
-        
+        //Clear the submission error
+        if(values.submissionError){
+            setValues({...values, ["submissionError"]: false});
+        }
         if(!values.body){
             setValues({...values, ["error"]: true});
             return;
@@ -106,13 +110,18 @@ const CreateJournalEntry: React.FC = () => {
             method: "POST",
             body: fd,
         });
-        const data:JSON = await response.json();
+        const data = await response.json() as {success: boolean, payload?: unknown, message?: string};
         if(data){
-            //Data has been retrieved and loading can stop.
+            //Data has been retrieved,  so loading can stop.
             setLoading(false);
+            if(data.success){
+                //Redirect the user back to the journals page if the request was successful.
+                router.push('/journal');
+            } else {
+                //If there's an error in submission, this value will be set and display an error.
+                setValues({...values, ["submissionError"]: true});
+            }
 
-            //Redirect the user back to the journals page.
-            router.push('/journal');
         }
         console.log(data);
     }
@@ -193,6 +202,11 @@ const CreateJournalEntry: React.FC = () => {
                     {values.error && (
                         <span className={styles["error"]}>
                             Please enter a body paragraph.
+                        </span>
+                    )}
+                    {values.submissionError && (
+                        <span className={styles["error"]}>
+                            Something went wrong. Please try again.
                         </span>
                     )}
                     <div className={styles['btnContainer']}>
