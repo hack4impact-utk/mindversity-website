@@ -3,11 +3,10 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
 import Header from "components/Header";
-import SelectBtn from "components/Journal/SelectBtn";
 import BlogPostThumbnail from "components/Journal/BlogPostThumbnail";
 import Footer from "components/Footer";
 import { JournalEntry } from "utils/types";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { getJournalEntryByType } from "server/actions/Contentful";
 import config from "config";
 
@@ -25,17 +24,45 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
     // this uses frontend resources so it may be better to
     // have this be implemented on the backend
     const [page, setPage] = useState(0);
-    const paginatedEntries: JournalEntry[][] = [];
+    const [category, setCategory] = useState("");
+
+    let tempEntries: JournalEntry[][];
+
     let tmp: JournalEntry[] = [];
+    tempEntries = [];
     for (let i = 0; i < journalEntries.length; i++) {
         if ((i + 1) % (ITEMS_PER_PAGE + 1) === 0) {
-            paginatedEntries.push(tmp);
+            tempEntries.push(tmp);
             tmp = [journalEntries[i]];
         } else {
             tmp.push(journalEntries[i]);
         }
     }
-    if (tmp.length > 0) paginatedEntries.push(tmp);
+    if (tmp.length > 0) tempEntries.push(tmp);
+
+    const [paginatedEntries, setPagedEntries] = useState<JournalEntry[][]>(tempEntries);
+    tempEntries = [];
+
+    const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        setCategory(e.currentTarget.value);
+        let list: JournalEntry[];
+        if (e.currentTarget.value == "") list = journalEntries;
+        else list = journalEntries.filter(entry => entry.category == e.currentTarget.value);
+
+        let tmp: JournalEntry[] = [];
+        tempEntries = [];
+        for (let i = 0; i < list.length; i++) {
+            if ((i + 1) % (ITEMS_PER_PAGE + 1) === 0) {
+                tempEntries.push(tmp);
+                tmp = [list[i]];
+            } else {
+                tmp.push(list[i]);
+            }
+        }
+        if (tmp.length > 0) tempEntries.push(tmp);
+
+        setPagedEntries(tempEntries);
+    };
 
     // console.log(selectedPosts)
     return (
@@ -57,7 +84,12 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
                 <Link href="/journal/create">
                     <span className="createBtn">Create a New Journal Entry</span>
                 </Link>
-                <SelectBtn />
+                <select className="dropdown" value={category} onBlur={handleCategoryChange}>
+                    <option value="">All</option>
+                    <option value="resources">Resources</option>
+                    <option value="creative-space"> Creative Space</option>
+                    <option value="vent-place">Vent Place</option>
+                </select>
             </div>
 
             <div className="thumbnailContainer">
@@ -224,6 +256,20 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
                     transform: translateY(-2px);
                 }
 
+                .dropdown {
+                    background-color: #8c69aa;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+                        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+                    border: none;
+                    padding: 10px 50px 10px 20px;
+                    font-size: 1em;
+                    border-radius: 15px;
+                    font-weight: bold;
+                    line-height: inherit;
+                    outline: none;
+                    color: white;
+                }
+
                 @media only screen and (max-width: 999px) {
                     .btnRow {
                         display: flex;
@@ -246,7 +292,7 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
 };
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-    const data = await getJournalEntryByType(context.params?.category as string);
+    const data = await getJournalEntryByType("");
     return {
         props: {
             journalEntries: data,
