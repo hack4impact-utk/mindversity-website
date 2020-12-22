@@ -4,6 +4,8 @@ import { addChapter } from "server/actions/Chapter";
 import formidable from "formidable";
 import { Chapter } from "utils/types";
 import errors from "utils/errors";
+import globals from "utils/globals";
+
 // To get formidable to work, bodyParser has to be turned off.
 // Otherwise, the parse request will never end.
 export const config = {
@@ -28,6 +30,10 @@ export default function handler(
                 //Fields is used for everything other than files, so all this data can be passed in directly to the chapter type.
                 const chapterInfo: Chapter = fields;
 
+                // check image sizes, both should be less than 20 MB
+                if (files.campus.size >= globals.contentfulImageLimit || files.logo.size >= globals.contentfulImageLimit)
+                    throw new Error(errors.IMAGE_TOO_LARGE);
+                                
                 //If the files for the campus pic and logo exist, upload them to Contentful
                 if(files.campus.size > 0){
                     chapterInfo.campusPic = await uploadImage(files.campus);

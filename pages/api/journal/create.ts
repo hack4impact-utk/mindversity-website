@@ -3,7 +3,7 @@ import formidable from "formidable";
 import { uploadImage, createJournalEntry } from "server/actions/Contentful";
 import { JournalEntry } from "utils/types";
 import errors from "utils/errors";
-import urls from "utils/urls";
+import globals from "utils/globals";
 
 //To get formidable to work, bodyParser has to be turned off. Otherwise, the parse request will never end.
 export const config = {
@@ -28,9 +28,8 @@ export default function handler(
                 const journalEntry: JournalEntry = fields;
 
                 // check image size, should be less than 20 MB
-                if (files.image.size >= urls.CONTENTFUL_IMAGE_LIMIT)
+                if (files.image.size >= globals.contentfulImageLimit)
                     throw new Error(errors.IMAGE_TOO_LARGE);
-
                     
                 //In Contentful, Entries store links to Assets (in this case, our Journal Entry images),
                 //so we get the asset ID and url for the JournalEntry's image

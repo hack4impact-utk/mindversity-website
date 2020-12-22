@@ -8,7 +8,7 @@ import Footer from "components/Footer";
 import { JournalEntry } from "utils/types";
 import { ChangeEvent, useState } from "react";
 import { getJournalEntryByType } from "server/actions/Contentful";
-import config from "config";
+import globals from "utils/globals";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -297,7 +297,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         props: {
             journalEntries: data,
         },
-        revalidate: config.revalidate.journal,
+        revalidate: globals.revalidate.journal,
     };
 }
 

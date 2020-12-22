@@ -9,7 +9,7 @@ import { GetStaticPropsContext, NextPage } from "next";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import errors from "utils/errors";
 import Head from "next/head";
-import config from "config";
+import globals from "utils/globals";
 import { useRouter } from "next/router";
 
 // When routing here we have a chapter name we can get from the url name
@@ -279,7 +279,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
                 officers: JSON.parse(JSON.stringify(officers)) as Officer[],
                 resources: JSON.parse(JSON.stringify(resources)) as Resource[],
             },
-            revalidate: config.revalidate.chapter,
+            revalidate: globals.revalidate.chapter,
         };
     } catch (error) {
         return {
