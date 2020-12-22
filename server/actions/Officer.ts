@@ -36,6 +36,4 @@ export const deleteOfficer = async function (officerInfo: Officer) {
         await deleteAssetByID(officerInfo.picture?.assetID);
 
     await OfficerSchema.findOneAndDelete({_id: officerInfo._id });
-    const offtemp = await OfficerSchema.findOne({_id: officerInfo._id }).lean();
-    console.log(offtemp);
 }
