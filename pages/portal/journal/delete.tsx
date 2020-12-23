@@ -126,6 +126,10 @@ const AdminJournalDelete: NextPage<Props> = ({ entries, admin }) => {
                     })}
             </form>
             <style jsx>{`
+                .content{
+                    padding-top: 50px;
+                }
+                
                 .actionButton {
                     width: 230px;
                     height: 50px;
