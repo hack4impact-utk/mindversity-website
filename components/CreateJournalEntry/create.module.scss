@@ -126,3 +126,23 @@ $dark-purple: #503E8C;
     width:50%;
     color: #540901;
 }
+
+.btnContainer{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content: center;
+}
+.loader{
+    border: 7px solid #eaeaea;
+    border-top: 8px solid #503E8C;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 20px;
+    animation: rotateLoader 1s linear infinite;
+}
+@keyframes rotateLoader{
+    0%{ transform: rotate(0deg);}
+    100% {transform: rotate(360deg)};
+}

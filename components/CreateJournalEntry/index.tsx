@@ -7,6 +7,8 @@ import dynamic from "next/dynamic";
 import { Delta, Sources } from "quill";
 import urls from "utils/urls";
 import errors from "utils/errors";
+
+import {useRouter} from "next/router";
 const ReactQuill = dynamic(import('react-quill'), { ssr: false});
 
 interface IFormValues {
@@ -16,6 +18,7 @@ interface IFormValues {
     body?: string | undefined;
     category?: string | undefined;
     error?: boolean | undefined;
+    submissionError?: boolean | undefined;
     [key: string]: string | Blob | boolean | null | undefined;
 }
 
@@ -23,6 +26,8 @@ const CreateJournalEntry: React.FC = () => {
     const [values, setValues] = useState({} as IFormValues); //Used to store the various values that will be sent to the backend.
     const [imageURL, setImageURL] = useState("");
     const [fileTooLarge, setFileTooLarge] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     //Idea from: https://upmostly.com/tutorials/form-validation-using-custom-react-hooks
     const handleData = (e: React.SyntheticEvent) => {
@@ -77,6 +82,11 @@ const CreateJournalEntry: React.FC = () => {
     const handleSubmit = async (e: React.SyntheticEvent) => {
         //There's no way to put a required tag on the quill editor, so we just check to make sure there's input in it before submitting.
         e.preventDefault();
+        //Clear the submission error
+        if(values.submissionError){
+            setValues({...values, ["submissionError"]: false});
+        }
+
         if(!values.body){
             setValues({...values, ["error"]: true});
             return;
@@ -86,8 +96,11 @@ const CreateJournalEntry: React.FC = () => {
         // done error checking, send form to backend
         const fd = new FormData();
         let key:string;
+        setLoading(true);
         for(key in values){
+
             if (typeof values[key] === "string") {
+
                 fd.append(key, values[key] as string);
             } else {
                 fd.append(key, values[key] as Blob);
@@ -97,7 +110,19 @@ const CreateJournalEntry: React.FC = () => {
             method: "POST",
             body: fd,
         });
-        const data:JSON = await response.json();
+        const data = await response.json() as {success: boolean, payload?: unknown, message?: string};
+        if(data){
+            //Data has been retrieved,  so loading can stop.
+            setLoading(false);
+            if(data.success){
+                //Redirect the user back to the journals page if the request was successful.
+                router.push('/journal');
+            } else {
+                //If there's an error in submission, this value will be set and display an error.
+                setValues({...values, ["submissionError"]: true});
+            }
+
+        }
         console.log(data);
     }
 
@@ -163,10 +188,25 @@ const CreateJournalEntry: React.FC = () => {
                             </select>
                         </div>
                     </div>
-                    {values.error && <span className={styles["error"]}>Please enter a body paragraph.</span>}
-                    <button type="submit" className={styles["submit"]}>
-                        Publish
-                    </button>
+                    {values.error && (
+                        <span className={styles["error"]}>
+                            Please enter a body paragraph.
+                        </span>
+                    )}
+                    {values.submissionError && (
+                        <span className={styles["error"]}>
+                            Something went wrong. Please try again.
+                        </span>
+                    )}
+                    <div className={styles['btnContainer']}>
+                        <button type="submit" className={styles["submit"]}>
+                            Publish
+                        </button>
+                        {loading && (
+                            <div className={styles["loader"]}></div>
+                        )}
+                    </div>
+
                 </form>
             </div>
         </section>
