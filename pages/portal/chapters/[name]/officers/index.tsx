@@ -1,18 +1,22 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import { getOfficers, deleteOfficer } from "requests/Officer";
-import { Officer } from 'utils/types';
+
+import { Officer, User } from 'utils/types';
 import { useState } from "react";
-import { Router } from "next/router";
+import Router from "next/router";
+
 import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 import OfficerCard from "components/Portal/OfficerCard";
 
 interface Props {
     officer: Officer[];
+    admin: boolean;
 }
 
-const Officers: NextPage<Props> = ({officer}) => {
+    const Officers: NextPage<Props> = ({officer, admin}) => {
+
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [deletingID, setDeletingID] = useState("");
@@ -23,12 +27,17 @@ const Officers: NextPage<Props> = ({officer}) => {
         if(submitButton.name === "delete"){ //Delete the officer
             //Find the officers object with a metching id
             const officerToDelete = officer.filter(officer => officer._id?.toString() === deletingID);
-            if(officerToDelete.length == 1){ 
-                const officerDelete = await deleteOfficer(officerToDelete[0]);
+            if(officerToDelete.length == 1){
+                const officerDelete = await fetch(`${urls.baseUrl}${urls.api.officer.delete}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        _id: officerToDelete[0]._id,
+                    }),
+                });
                 location.reload(); //Reload the page to refresh the officers
-            }
-            else{
-                //TODO: Possible error message telling the user that the officer is not found
             }
         }
         else{ //Open the delete confirm modal
@@ -44,7 +53,8 @@ const Officers: NextPage<Props> = ({officer}) => {
                 <link rel="icon" href="/favicon.ico" />-
             </Head>
 
-            <Navigation />
+            <Navigation admin={admin}/>
+
 
             {isDeleting && (
                 <div className="rejectModal">
@@ -261,7 +271,7 @@ export async function getServerSideProps(context: NextPageContext) {
     const usersChapter = user?.role || null;
 
     if (resp.status === 401 && !context.req) {
-        void Router.replace(`${urls.pages.portal.login}`);
+        void Router.push(`${urls.pages.portal.login}`);
         return { props: {} };
     }
 

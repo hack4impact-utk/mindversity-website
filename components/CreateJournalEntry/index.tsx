@@ -4,11 +4,13 @@ import styles from "./create.module.scss";
 import { FaArrowLeft } from "react-icons/fa";
 import { BiImageAdd } from "react-icons/bi";
 import dynamic from "next/dynamic";
-const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 import { Delta, Sources } from "quill";
 import urls from "utils/urls";
 import errors from "utils/errors";
+
 import {useRouter} from "next/router";
+const ReactQuill = dynamic(import('react-quill'), { ssr: false});
+
 interface IFormValues {
     title?: string | undefined;
     description?: string | undefined;
@@ -66,12 +68,7 @@ const CreateJournalEntry: React.FC = () => {
             fr.readAsDataURL(image);
         }
     };
-    const handleChange = (
-        content: string,
-        delta: Delta,
-        source: Sources,
-        editor: any
-    ) => {
+    const handleChange = (content: string, delta: Delta, source: Sources, editor: any) => {
         //If the editor is empty, the only thing in it is a newline character. We don't want to send just newlines to the backend, so we do this.
         if (editor.getText() != "\n") {
             if (values.body) {
@@ -89,6 +86,7 @@ const CreateJournalEntry: React.FC = () => {
         if(values.submissionError){
             setValues({...values, ["submissionError"]: false});
         }
+
         if(!values.body){
             setValues({...values, ["error"]: true});
             return;
@@ -100,7 +98,9 @@ const CreateJournalEntry: React.FC = () => {
         let key:string;
         setLoading(true);
         for(key in values){
-            if(typeof(values[key]) === "string"){
+
+            if (typeof values[key] === "string") {
+
                 fd.append(key, values[key] as string);
             } else {
                 fd.append(key, values[key] as Blob);
@@ -132,19 +132,15 @@ const CreateJournalEntry: React.FC = () => {
         <section className={styles['container']}>
             <div className={styles['wrapper']}>
                 <Link href='/journal'>
-                    <span className={styles['breadcrumb']}>
+                    <a className={styles['breadcrumb']}>
                         <FaArrowLeft />
                         <span> Back to all posts</span>
-                    </span>
+                    </a>
                 </Link>
                 <form className={styles["create-form"]} onSubmit={handleSubmit}>
                     <div
                         className={styles["image-container"]}
-                        style={
-                            imageURL
-                                ? { background: `url(${imageURL})` }
-                                : { background: "#EAE0F1" }
-                        }
+                        style={imageURL ? { background: `url(${imageURL})` } : { background: "#EAE0F1" }}
                     >
                         <div className={styles["icon-container"]}>
                             <BiImageAdd className={styles["image-icon"]} />
@@ -184,15 +180,8 @@ const CreateJournalEntry: React.FC = () => {
                         />
                         <div className={styles["select-container"]}>
                             <span>Publish to: </span>
-                            <select
-                                name="category"
-                                className={styles["category"]}
-                                onChange={handleData}
-                                required
-                            >
-                                <option value="">
-                                    Please select a category
-                                </option>
+                            <select name="category" className={styles["category"]} onChange={handleData} required>
+                                <option value="">Please select a category</option>
                                 <option value="vent-place">Vent Place</option>
                                 <option value="creative-space">Creative Space</option>
                                 <option value="resources">Resources</option>
@@ -217,6 +206,7 @@ const CreateJournalEntry: React.FC = () => {
                             <div className={styles["loader"]}></div>
                         )}
                     </div>
+
                 </form>
             </div>
         </section>

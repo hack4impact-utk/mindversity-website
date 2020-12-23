@@ -1,8 +1,8 @@
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { Router } from "next/router";
+import Router, { useRouter } from "next/router";
 import { addOfficer } from "requests/Officer";
-import { Officer } from 'utils/types';
+import { Officer, User } from 'utils/types';
 import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 
@@ -14,7 +14,11 @@ const handleSubmit = async (e:any) => {
     window.location.href = "../officers";
 };
 
-const CreateOfficer: NextPage = () => {
+interface Props{
+    admin: boolean;
+}
+
+const CreateOfficer: NextPage<Props> = ({admin}) => {
 
     //Get the chapter that is associated with this officer
     const router = useRouter();
@@ -27,7 +31,7 @@ const CreateOfficer: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Navigation />
+            <Navigation admin={admin}/>
 
             <div className="bodyContent">
                 <h1>New Officer</h1>

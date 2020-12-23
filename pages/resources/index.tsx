@@ -139,6 +139,7 @@ const Resources: NextPage<Props> = ({ resources }) => {
                     display: block;
                     text-align: center;
                     background: rgb(234, 224, 241);
+                    margin: 0;
                     background: linear-gradient(90deg, rgba(234, 224, 241, 1) 0%, rgba(181, 156, 204, 1) 100%);
                 }
                 .textContainer {
@@ -150,7 +151,8 @@ const Resources: NextPage<Props> = ({ resources }) => {
                 .textContainer > h1 {
                     color: #503e8c;
                     font-size: 41px;
-                    padding: 0px 20px;
+                    padding: 0px 0px 20px 0px;
+                    margin: 0;
                 }
                 .textContainer > p {
                     margin-top: 0px;
@@ -201,6 +203,7 @@ const Resources: NextPage<Props> = ({ resources }) => {
                     background-color: #8c69aa;
                     color: #ffffff;
                     border-radius: 15px;
+                    border: none;
                     text-decoration: none;
                     transition: background-color 0.5s;
                 }

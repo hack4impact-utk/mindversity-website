@@ -30,9 +30,10 @@ export const addOfficer = async function (officerInfo: Officer) {
  * @param officerInfo Officer object that contains the fields to filter and delete by.
  */
 export const deleteOfficer = async function (officerInfo: Officer) {
+    console.log(officerInfo._id);
     await mongoDB();
     if (officerInfo.picture?.assetID)
         await deleteAssetByID(officerInfo.picture?.assetID);
 
-    await OfficerSchema.deleteOne({_id: officerInfo._id });
+    await OfficerSchema.findOneAndDelete({_id: officerInfo._id });
 }
