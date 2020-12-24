@@ -33,7 +33,7 @@ const JournalPostPage: NextPage<Props> = ({ post, relatedEntries }) => {
         <main className="container">
             <Head>
                 <title> {post.title} | Journal | MindVersity - A peer mental health network.</title>
-                <meta name="description" content={`${post.description ? post.description : "A journal entry at MindVersity."}`}></meta>
+                <meta name="description" content={`${post.description ? post.description.substring(0,147).concat("...") : "A journal entry at MindVersity."}`}></meta>
             </Head>
             <Header />
             <div className="blogContainer">
