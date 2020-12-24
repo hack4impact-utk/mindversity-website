@@ -9,6 +9,7 @@ import OfficerCarouselComp from "components/OfficerCarousel"
 import { Officer, Chapter } from "utils/types";
 import { getOfficers } from "server/actions/Officer";
 import { getChapters } from "server/actions/Chapter";
+import globals from "utils/globals";
 
 interface Props {
   officers: Officer[],
@@ -103,7 +104,8 @@ export async function getStaticProps() {
     props: {
       officers: JSON.parse(JSON.stringify(officers)),
       chapters: JSON.parse(JSON.stringify(chapters)),
-    }
+    },
+    revalidate: globals.revalidate.journal,
   }
 }
 

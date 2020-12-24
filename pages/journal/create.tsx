@@ -3,6 +3,7 @@ import Head from "next/head";
 import Footer from "components/Footer";
 import Header from "components/Header";
 import CreateJournalEntry from "components/CreateJournalEntry";
+
 const Create: NextPage = () => {
     return (
         <main>

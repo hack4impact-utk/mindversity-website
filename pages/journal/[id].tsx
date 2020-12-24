@@ -1,9 +1,7 @@
 import Header from "components/Header";
 import Footer from "components/Footer";
 import BlogPostThumbnail from "components/Journal/BlogPostThumbnail";
-
 import { JournalEntry } from "utils/types";
-
 import { GetStaticPropsContext, NextPage } from "next";
 import errors from "utils/errors";
 import Head from "next/head";
