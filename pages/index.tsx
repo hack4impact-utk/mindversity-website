@@ -32,7 +32,8 @@ const Home: NextPage<Props> = ({officers,chapters}) => {
   return (
     <div className="container">
       <Head>
-        <title>MindVersity | A peer mental health network.</title>
+        <title>MindVersity - A peer mental health network.</title>
+        <meta name='description' content="Mindversity is a peer mental health network that strives to bridge the gaps between access to mental health resources and students of color worldwide." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

@@ -8,8 +8,9 @@ const Home: NextPage = () => {
   return (
     <div className="container">
       <Head>
-        <title>FAQs | MindVersity | A peer mental health network.</title>
+        <title>Frequently Asked Questions | MindVersity - A peer mental health network.</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Learn more about MindVersity and its organization, including how to start a chapter at your school."/>
       </Head>
       <main>
         <Header />

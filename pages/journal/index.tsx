@@ -78,7 +78,8 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
     return (
         <main className="container">
             <Head>
-                <title>Journal | MindVersity</title>
+                <title>Journal | MindVersity - A peer mental health network.</title>
+                <meta name="description" content="Hear the voices of students of color worldwide in the MindVersity Journal." />
             </Head>
             <Header />
 

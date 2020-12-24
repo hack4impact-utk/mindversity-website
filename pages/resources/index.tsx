@@ -76,7 +76,8 @@ const Resources: NextPage<Props> = ({ resources }) => {
     return (
         <main className="container">
             <Head>
-                <title>Resources | MindVersity</title>
+                <title>Resources | MindVersity - A peer mental health network</title>
+                <meta name="description" content="MindVersity offers a list of mental health resources available for everyone to use."/>
             </Head>
 
             <Header />

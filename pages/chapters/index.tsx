@@ -28,7 +28,8 @@ const ChapterPage: NextPage<Props> = ({ chapter }) => {
     return (
         <div>
             <Head>
-                <title>Chapters | MindVersity | A peer mental health network.</title>
+                <title>Chapters | MindVersity - A peer mental health network.</title>
+                <meta name="description" content="Discover all of the existing chapters at MindVersity."/>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
