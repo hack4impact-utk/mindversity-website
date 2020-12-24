@@ -5,17 +5,26 @@ import { getChapters } from "server/actions/Chapter";
 import { Chapter } from "utils/types";
 import { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import errors from "utils/errors";
 import globals from "utils/globals";
+import { useRouter } from "next/router";
+import Custom404 from "pages/404";
+import Loading from 'components/Loading';
 
-// When routing here we have a chapter name we can get from the url name
-// We can get that param with useRouter(), but its also given in the context
 
 interface Props {
     chapter: Chapter[];
 }
 
 const ChapterPage: NextPage<Props> = ({ chapter }) => {
+    const router = useRouter();
+    if (router.isFallback) {
+        return <Loading />;
+    }
+
+    if (!chapter) {
+        return <Custom404 />;
+    }
+
     return (
         <div>
             <Head>
@@ -119,16 +128,23 @@ const ChapterPage: NextPage<Props> = ({ chapter }) => {
 
 //Get all of the chapters
 export async function getStaticProps(context: NextPageContext) {
-    //Query to get all of the chapters
-    const chapterQuery: Chapter = new Object();
-    const chapters: Chapter[] = await getChapters(chapterQuery);
-    //Return an array of the chapters
-    return {
-        props: {
-            chapter: JSON.parse(JSON.stringify(chapters)) as Chapter[],
-        },
-        revalidate: globals.revalidate.chapter,
-    };
+    try {
+        //Query to get all of the chapters
+        const chapterQuery: Chapter = new Object();
+        const chapters: Chapter[] = await getChapters(chapterQuery);
+        //Return an array of the chapters
+        return {
+            props: {
+                chapter: JSON.parse(JSON.stringify(chapters)) as Chapter[],
+            },
+            revalidate: globals.revalidate.chapter,
+        };
+    } catch (error) {
+        return {
+            props: {},
+            revalidate: globals.revalidate.chapter,
+        };
+    }
 }
 
 export default ChapterPage;

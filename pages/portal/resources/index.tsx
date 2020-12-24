@@ -168,8 +168,6 @@ export async function getServerSideProps(context: NextPageContext) {
     if (chapter == "admin" || chapter == "national") resources = await getResources({});
     else if (chapter != null) resources = await getResources({ chapter: chapter });
 
-    console.log(resources);
-
     return {
         props: {
             resource: JSON.parse(JSON.stringify(resources)) as Resource[],

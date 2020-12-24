@@ -10,6 +10,9 @@ import { Officer, Chapter } from "utils/types";
 import { getOfficers } from "server/actions/Officer";
 import { getChapters } from "server/actions/Chapter";
 import globals from "utils/globals";
+import Custom404 from "pages/404";
+import Loading from 'components/Loading';
+import { useRouter } from "next/router";
 
 interface Props {
   officers: Officer[],
@@ -17,6 +20,14 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({officers,chapters}) => {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <Loading />;
+  }
+
+  if (!officers || !chapters) {
+    return <Custom404 />;
+  }
 
   return (
     <div className="container">
@@ -93,19 +104,26 @@ const Home: NextPage<Props> = ({officers,chapters}) => {
 };
 
 export async function getStaticProps() {
-  let officerQuery: Officer = {chapter: 'national'}
-  let officers: Officer[] = await getOfficers(officerQuery)
+  try {
+    let officerQuery: Officer = {chapter: 'national'}
+    let officers: Officer[] = await getOfficers(officerQuery)
 
-  // Get all chapters. Filter by region in component once user's location is retrieved.
-  // Navigator is undefined in async getStaticProps(), so must do it in component.
-  let chapters: Chapter[] = await getChapters({})
+    // Get all chapters. Filter by region in component once user's location is retrieved.
+    // Navigator is undefined in async getStaticProps(), so must do it in component.
+    let chapters: Chapter[] = await getChapters({})
 
-  return {
-    props: {
-      officers: JSON.parse(JSON.stringify(officers)),
-      chapters: JSON.parse(JSON.stringify(chapters)),
-    },
-    revalidate: globals.revalidate.home,
+    return {
+      props: {
+        officers: JSON.parse(JSON.stringify(officers)),
+        chapters: JSON.parse(JSON.stringify(chapters)),
+      },
+      revalidate: globals.revalidate.home,
+    }
+  } catch (error) {
+    return {
+      props: {},
+      revalidate: globals.revalidate.home,
+    }
   }
 }
 
