@@ -9,6 +9,8 @@ import { JournalEntry } from "utils/types";
 import { ChangeEvent, useState } from "react";
 import { getJournalEntryByType } from "server/actions/Contentful";
 import globals from "utils/globals";
+import Custom404 from "pages/404";
+import Loading from 'components/Loading';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -64,7 +66,15 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
         setPagedEntries(tempEntries);
     };
 
-    // console.log(selectedPosts)
+
+    if (router.isFallback) {
+        return <Loading />;
+    }
+
+    if (!journalEntries) {
+        return <Custom404 />;
+    }
+
     return (
         <main className="container">
             <Head>
@@ -292,13 +302,20 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
 };
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-    const data = await getJournalEntryByType("");
-    return {
-        props: {
-            journalEntries: data,
-        },
-        revalidate: globals.revalidate.journal,
-    };
+    try{
+        const data = await getJournalEntryByType("");
+        return {
+            props: {
+                journalEntries: data,
+            },
+            revalidate: globals.revalidate.journal,
+        };
+    } catch (error) {
+        return {
+            props: {},
+            revalidate: globals.revalidate.journal,
+        };
+    }
 }
 
 export default JournalPage;

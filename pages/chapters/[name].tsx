@@ -286,6 +286,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     } catch (error) {
         return {
             props: {},
+            revalidate: globals.revalidate.chapter,
         };
     }
 }
