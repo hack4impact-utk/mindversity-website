@@ -5,6 +5,7 @@ import Header from "components/Header";
 import Footer from "components/Footer";
 import { Resource } from "utils/types";
 import { getResources } from "server/actions/Resource";
+import globals from "utils/globals";
 
 interface Props {
     resources: Resource[];
@@ -241,6 +242,7 @@ export async function getStaticProps() {
         props: {
             resources: JSON.parse(JSON.stringify(resources)) as Resource[],
         },
+        revalidate: globals.revalidate.resources,
     };
 }
 
