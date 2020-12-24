@@ -105,7 +105,7 @@ export async function getStaticProps() {
       officers: JSON.parse(JSON.stringify(officers)),
       chapters: JSON.parse(JSON.stringify(chapters)),
     },
-    revalidate: globals.revalidate.journal,
+    revalidate: globals.revalidate.home,
   }
 }
 
