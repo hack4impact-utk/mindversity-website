@@ -28,5 +28,4 @@ export interface User {
 
 export interface UserDocument extends User, Document {}
 
-export default (models.User as Model<UserDocument, Record<string, unknown>>) ||
-    model<UserDocument>("User", UserSchema);
+export default (models.User as Model<UserDocument, Record<string, unknown>>) || model<UserDocument>("User", UserSchema);

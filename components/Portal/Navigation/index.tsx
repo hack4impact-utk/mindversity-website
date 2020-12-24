@@ -60,21 +60,15 @@ const Navigation: React.FC<Props> = ({ admin }) => {
                     <div className={style.navLowerLinks}>
                         <div className={style.navLowerCol}>
                             <Link href="/journal">
-                                <span className={style.navLowerBtn}>
-                                    Journal
-                                </span>
+                                <span className={style.navLowerBtn}>Journal</span>
                             </Link>
                             <Link href="/chapters">
-                                <span className={style.navLowerBtn}>
-                                    Chapters
-                                </span>
+                                <span className={style.navLowerBtn}>Chapters</span>
                             </Link>
                         </div>
                         <div className={style.navLowerCol}>
                             <Link href="/resources">
-                                <span className={style.navLowerBtn}>
-                                    Resources
-                                </span>
+                                <span className={style.navLowerBtn}>Resources</span>
                             </Link>
                             <Link href="/faq">
                                 <span className={style.navLowerBtn}>FAQ</span>

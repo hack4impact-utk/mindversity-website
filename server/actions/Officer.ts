@@ -10,11 +10,11 @@ import { deleteAssetByID } from "./Contentful";
  */
 export const getOfficers = async function (officerInfo: Officer) {
     await mongoDB();
-    if(!officerInfo) officerInfo = {};
+    if (!officerInfo) officerInfo = {};
 
     const officers: Officer[] = await OfficerSchema.find(officerInfo);
     return officers;
-}
+};
 
 /**
  * Insert a single officer into the collection
@@ -23,7 +23,7 @@ export const getOfficers = async function (officerInfo: Officer) {
 export const addOfficer = async function (officerInfo: Officer) {
     await mongoDB();
     await OfficerSchema.create(officerInfo);
-}
+};
 
 /**
  * Delete a single officer from the collection.
@@ -32,8 +32,7 @@ export const addOfficer = async function (officerInfo: Officer) {
 export const deleteOfficer = async function (officerInfo: Officer) {
     console.log(officerInfo._id);
     await mongoDB();
-    if (officerInfo.picture?.assetID)
-        await deleteAssetByID(officerInfo.picture?.assetID);
+    if (officerInfo.picture?.assetID) await deleteAssetByID(officerInfo.picture?.assetID);
 
-    await OfficerSchema.findOneAndDelete({_id: officerInfo._id });
-}
+    await OfficerSchema.findOneAndDelete({ _id: officerInfo._id });
+};

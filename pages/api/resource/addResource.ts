@@ -17,7 +17,6 @@ export default auth("any", async function handler(req: NextApiRequest, res: Next
         res.status(400).json({
             success: false,
             message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
-
         });
     }
 });

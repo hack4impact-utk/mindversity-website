@@ -54,8 +54,8 @@ export interface JournalEntry {
     reviewed?: boolean;
 }
 
-export interface ApiResponse{
-    success: boolean,
-    message?: string,
-    payload?: unknown, //Unknown since there are several different types that the payload could be.
+export interface ApiResponse {
+    success: boolean;
+    message?: string;
+    payload?: unknown; //Unknown since there are several different types that the payload could be.
 }

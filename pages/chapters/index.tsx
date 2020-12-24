@@ -8,8 +8,7 @@ import Head from "next/head";
 import globals from "utils/globals";
 import { useRouter } from "next/router";
 import Custom404 from "pages/404";
-import Loading from 'components/Loading';
-
+import Loading from "components/Loading";
 
 interface Props {
     chapter: Chapter[];
@@ -29,7 +28,7 @@ const ChapterPage: NextPage<Props> = ({ chapter }) => {
         <div>
             <Head>
                 <title>Chapters | MindVersity - A peer mental health network.</title>
-                <meta name="description" content="Discover all of the existing chapters at MindVersity."/>
+                <meta name="description" content="Discover all of the existing chapters at MindVersity." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 

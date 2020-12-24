@@ -41,9 +41,8 @@ const Home: NextPage = () => {
                     <div className="loginContainer">
                         <h1>Password Reset</h1>
                         <p>
-                            Enter the email address associated with your
-                            MindVersity account. We will send you an email with
-                            password reset instructions.
+                            Enter the email address associated with your MindVersity account. We will send you an email
+                            with password reset instructions.
                         </p>
                         <form onSubmit={onSubmission} action="" method="post">
                             <input
@@ -55,15 +54,10 @@ const Home: NextPage = () => {
                                 onChange={onChangeData}
                             />
                             <p className="passwordResetText">
-                                Click <a href="/portal">here</a> to return to
-                                log in.
+                                Click <a href="/portal">here</a> to return to log in.
                             </p>
                             <div className="submitInputParent">
-                                <input
-                                    type="submit"
-                                    className="submitInput"
-                                    value="Reset Password"
-                                />
+                                <input type="submit" className="submitInput" value="Reset Password" />
                             </div>
                         </form>
                     </div>
@@ -191,9 +185,8 @@ const Home: NextPage = () => {
                 body {
                     padding: 0;
                     margin: 0;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-                        Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+                        Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
                 }
 
                 * {
