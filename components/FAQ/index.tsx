@@ -11,17 +11,13 @@ const FAQ: React.FC<Props> = ({ question, children }) => {
     return (
         <section>
             <button
-                className={`${styles["accordion"]} ${
-                    collapsed ? "" : styles["active"]
-                }`}
+                className={`${styles["accordion"]} ${collapsed ? "" : styles["active"]}`}
                 onClick={() => setCollapsed(!collapsed)}
             >
                 {question}
             </button>
 
-            <div
-                className={collapsed ? styles["collapsed"] : styles["visible"]}
-            >
+            <div className={collapsed ? styles["collapsed"] : styles["visible"]}>
                 <p>{children}</p>
             </div>
 

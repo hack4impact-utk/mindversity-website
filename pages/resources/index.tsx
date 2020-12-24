@@ -7,7 +7,7 @@ import { Resource } from "utils/types";
 import { getResources } from "server/actions/Resource";
 import globals from "utils/globals";
 import Custom404 from "pages/404";
-import Loading from 'components/Loading';
+import Loading from "components/Loading";
 import { useRouter } from "next/router";
 
 interface Props {
@@ -68,16 +68,19 @@ const Resources: NextPage<Props> = ({ resources }) => {
     if (router.isFallback) {
         return <Loading />;
     }
-    
+
     if (!resources) {
         return <Custom404 />;
     }
-    
+
     return (
         <main className="container">
             <Head>
                 <title>Resources | MindVersity - A peer mental health network</title>
-                <meta name="description" content="MindVersity offers a list of mental health resources available for everyone to use."/>
+                <meta
+                    name="description"
+                    content="MindVersity offers a list of mental health resources available for everyone to use."
+                />
             </Head>
 
             <Header />
@@ -258,7 +261,7 @@ export async function getStaticProps() {
             },
             revalidate: globals.revalidate.resources,
         };
-    } catch(error) {
+    } catch (error) {
         return {
             props: {},
             revalidate: globals.revalidate.resources,

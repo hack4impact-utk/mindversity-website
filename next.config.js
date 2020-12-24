@@ -4,16 +4,16 @@ const dotEnv = require("dotenv");
 const prod = process.env.NODE_ENV === "production";
 
 if (!prod) {
-  dotEnv.config();
+    dotEnv.config();
 }
 
 module.exports = withImages({
-  env: {
-    MONGO_DB: process.env.MONGODB,
-  },
-  build: {
     env: {
-      MONGO_DB: process.env.MONGODB,
+        MONGO_DB: process.env.MONGODB,
     },
-  },
+    build: {
+        env: {
+            MONGO_DB: process.env.MONGODB,
+        },
+    },
 });

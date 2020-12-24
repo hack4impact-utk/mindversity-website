@@ -7,9 +7,7 @@ const Footer: React.FC = () => {
             <div className={styles.wrapper}>
                 <div className={styles.row}>
                     <div className={styles.column}>
-                        <p className={styles.centeredTitle}>
-                            We&apos;d Love To Hear From You
-                        </p>
+                        <p className={styles.centeredTitle}>We&apos;d Love To Hear From You</p>
                         <Link href="/">
                             <span className={styles.link}>Contact Us</span>
                         </Link>

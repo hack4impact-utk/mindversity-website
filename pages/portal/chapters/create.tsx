@@ -14,7 +14,7 @@ interface Props {
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    var chapter: Chapter = await addChapter(formData);
+    const chapter: Chapter = await addChapter(formData);
     //After submitting the form send the user to the list of chapters
     window.location.href = "/portal/chapters";
 };
@@ -49,10 +49,10 @@ const Chapters: NextPage<Props> = ({ admin }) => {
                         <label htmlFor="description">Description</label>
                         <textarea name="description" placeholder="Description"></textarea>
                         <label htmlFor="campus">Campus Picture</label>
-                        <input type="file" name="campus"/>
+                        <input type="file" name="campus" />
                         <label htmlFor="logo">Logo</label>
-                        <input type="file" name="logo"/>
-                        <input type="submit" value="Create" className="submitInput"/>
+                        <input type="file" name="logo" />
+                        <input type="submit" value="Create" className="submitInput" />
                     </form>
                 </div>
             </div>

@@ -40,11 +40,7 @@ const JournalEntryComponent: React.FC<Props> = ({ entry, mode, handleEntryApprov
                             name="approve"
                             type="submit"
                             className={`${styles["actionButtonPrimary"]} ${styles["actionButton"]}`}
-
-                            onClick={(e: React.SyntheticEvent) =>
-                                handleEntryApproval(e)
-                            }
-
+                            onClick={(e: React.SyntheticEvent) => handleEntryApproval(e)}
                             value={entry.id}
                         >
                             Approve
@@ -53,11 +49,7 @@ const JournalEntryComponent: React.FC<Props> = ({ entry, mode, handleEntryApprov
                             name="rejecting"
                             type="submit"
                             className={`${styles["actionButtonSecondary"]} ${styles["actionButton"]}`}
-
-                            onClick={(e: React.SyntheticEvent) =>
-                                handleEntryApproval(e)
-                            }
-
+                            onClick={(e: React.SyntheticEvent) => handleEntryApproval(e)}
                             value={entry.id}
                         >
                             Reject

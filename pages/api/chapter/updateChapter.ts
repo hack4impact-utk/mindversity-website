@@ -12,41 +12,31 @@ export const config = {
     },
 };
 
-export default function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-): void {
+export default function handler(req: NextApiRequest, res: NextApiResponse): void {
     try {
         const form = new formidable.IncomingForm();
-        form.parse(
-            req,
-            async (
-                err: string,
-                fields: formidable.Fields,
-                files: formidable.Files
-            ) => {
-                // convert formdata into a chapter object
-                const chapterInfo: Chapter = fields;
-                if (!chapterInfo || !chapterInfo.name)
-                    res.status(500).json({
-                        success: false,
-                        message: "Invalid form!",
-                    });
+        form.parse(req, async (err: string, fields: formidable.Fields, files: formidable.Files) => {
+            // convert formdata into a chapter object
+            const chapterInfo: Chapter = fields;
+            if (!chapterInfo || !chapterInfo.name)
+                res.status(500).json({
+                    success: false,
+                    message: "Invalid form!",
+                });
 
-                // replace all whitespaces with underscores
-                chapterInfo.name = chapterInfo?.name?.replace(/ /g, "_");
+            // replace all whitespaces with underscores
+            chapterInfo.name = chapterInfo?.name?.replace(/ /g, "_");
 
-                // find existing chapter by name since _id isn't in the form
-                let chapterQuery: Chapter = {};
-                chapterQuery.name = chapterInfo.name;
-                const chapters: Chapter[] = await getChapters(chapterQuery);
+            // find existing chapter by name since _id isn't in the form
+            let chapterQuery: Chapter = {};
+            chapterQuery.name = chapterInfo.name;
+            const chapters: Chapter[] = await getChapters(chapterQuery);
 
-                if (chapters.length != 1)
-                    throw new Error("Chapter with the given name not found!");
+            if (chapters.length != 1) throw new Error("Chapter with the given name not found!");
 
-                const chapter: Chapter = chapters[0];
+            const chapter: Chapter = chapters[0];
 
-                /*
+            /*
                 first check the file size to see if there is a new file upload
                 if the user wants to upload a new image and images on contentful exist, they need to removed while uploading the 
                 new images (deletes can happen async here):
@@ -54,33 +44,29 @@ export default function handler(
                     - only form image exists (chapterInfo) -> insert image normally
                     - else nothing happens
                 */
-                if (files?.logo.size > 0) {
-                    if (chapter.universityLogo?.assetID) deleteAssetByID(chapter.universityLogo.assetID);
-                    chapterInfo.universityLogo = await uploadImage(files.logo);
-                }
-                if (files?.campus.size > 0) {
-                    if (chapter.campusPic?.assetID) deleteAssetByID(chapter.campusPic.assetID);
-                    chapterInfo.campusPic = await uploadImage(files.campus);
-                }
-
-
-                // update the chapter's data in MongoDB
-                chapterQuery = {};
-                chapterQuery._id = chapter._id;
-                await updateChapter(chapterQuery, chapterInfo);
-                res.status(200).json({
-                    success: true,
-                    payload: {},
-                });
+            if (files?.logo.size > 0) {
+                if (chapter.universityLogo?.assetID) deleteAssetByID(chapter.universityLogo.assetID);
+                chapterInfo.universityLogo = await uploadImage(files.logo);
             }
-        );
+            if (files?.campus.size > 0) {
+                if (chapter.campusPic?.assetID) deleteAssetByID(chapter.campusPic.assetID);
+                chapterInfo.campusPic = await uploadImage(files.campus);
+            }
+
+            // update the chapter's data in MongoDB
+            chapterQuery = {};
+            chapterQuery._id = chapter._id;
+            await updateChapter(chapterQuery, chapterInfo);
+            res.status(200).json({
+                success: true,
+                payload: {},
+            });
+        });
     } catch (error) {
         console.error(error instanceof Error && error);
         res.status(400).json({
             success: false,
-            message:
-                (error instanceof Error && error.message) ||
-                errors.GENERIC_ERROR,
+            message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
         });
     }
 }

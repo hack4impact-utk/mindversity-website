@@ -9,7 +9,10 @@ const Create: NextPage = () => {
         <main>
             <Head>
                 <title>Create A New Journal Entry | MindVersity - A peer mental health network.</title>
-                <meta name="description" content="Let your message be heard by anonymously creating a journal entry in one of three categories." />
+                <meta
+                    name="description"
+                    content="Let your message be heard by anonymously creating a journal entry in one of three categories."
+                />
             </Head>
             <link rel="stylesheet" href="//cdn.quilljs.com/1.2.6/quill.snow.css" />
             <Header />

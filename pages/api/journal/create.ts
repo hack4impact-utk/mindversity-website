@@ -12,42 +12,29 @@ export const config = {
     },
 };
 
-export default function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-): void {
+export default function handler(req: NextApiRequest, res: NextApiResponse): void {
     try {
         const form = new formidable.IncomingForm();
-        form.parse(
-            req,
-            async (
-                err: string,
-                fields: formidable.Fields,
-                files: formidable.Files
-            ) => {
-                const journalEntry: JournalEntry = fields;
+        form.parse(req, async (err: string, fields: formidable.Fields, files: formidable.Files) => {
+            const journalEntry: JournalEntry = fields;
 
-                // check image size, should be less than 20 MB
-                if (files.image.size >= globals.contentfulImageLimit)
-                    throw new Error(errors.IMAGE_TOO_LARGE);
-                    
-                //In Contentful, Entries store links to Assets (in this case, our Journal Entry images),
-                //so we get the asset ID and url for the JournalEntry's image
-                journalEntry.image = await uploadImage(files.image);
-                await createJournalEntry(journalEntry);
-                res.status(200).json({
-                    success: true,
-                    payload: {},
-                });
-            }
-        );
+            // check image size, should be less than 20 MB
+            if (files.image.size >= globals.contentfulImageLimit) throw new Error(errors.IMAGE_TOO_LARGE);
+
+            //In Contentful, Entries store links to Assets (in this case, our Journal Entry images),
+            //so we get the asset ID and url for the JournalEntry's image
+            journalEntry.image = await uploadImage(files.image);
+            await createJournalEntry(journalEntry);
+            res.status(200).json({
+                success: true,
+                payload: {},
+            });
+        });
     } catch (error) {
         console.error(error instanceof Error && error);
         res.status(400).json({
             success: false,
-            message:
-                (error instanceof Error && error.message) ||
-                errors.GENERIC_ERROR,
+            message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
         });
     }
 }
