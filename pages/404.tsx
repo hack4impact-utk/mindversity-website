@@ -2,11 +2,11 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
-const FourOhFour: NextPage = () => {
+const Custom404: NextPage = () => {
   return (
     <div className="container">
       <Head>
-        <title>Page not found | Mindversity</title>
+        <title>Page Not Found | Mindversity</title>
       </Head>
       
       <Link href="/">
@@ -61,4 +61,4 @@ const FourOhFour: NextPage = () => {
   );
 };
 
-export default FourOhFour;
+export default Custom404;

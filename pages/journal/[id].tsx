@@ -8,6 +8,8 @@ import Head from "next/head";
 import { getJournalEntryById, getJournalEntryByType, getJournalEntriesByReviewStatus } from "server/actions/Contentful";
 import { useRouter } from "next/router";
 import globals from "utils/globals";
+import Custom404 from "pages/404";
+import Loading from 'components/Loading';
 
 // When routing here we have a journal id we can get from the url name
 // We can get that param with useRouter(), but its also given in the context
@@ -20,11 +22,11 @@ interface Props {
 const JournalPostPage: NextPage<Props> = ({ post, relatedEntries }) => {
     const router = useRouter();
     if (router.isFallback) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     if (!post) {
-        return <div>No Post</div>;
+        return <Custom404 />;
     }
 
     return (
@@ -156,15 +158,22 @@ const JournalPostPage: NextPage<Props> = ({ post, relatedEntries }) => {
 };
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-    const post: JournalEntry = await getJournalEntryById(context.params?.id as string);
-    const related: JournalEntry[] = await getJournalEntryByType(post.category as string);
-    return {
-        props: {
-            post: post,
-            relatedEntries: related.filter(entry => entry.id !== post.id),
-        },
-        revalidate: globals.revalidate.journal,
-    };
+    try {
+        const post: JournalEntry = await getJournalEntryById(context.params?.id as string);
+        const related: JournalEntry[] = await getJournalEntryByType(post.category as string);
+        return {
+            props: {
+                post: post,
+                relatedEntries: related.filter(entry => entry.id !== post.id),
+            },
+            revalidate: globals.revalidate.journal,
+        };
+    } catch (error) {
+        return {
+            props: {},
+            revalidate: globals.revalidate.journal,
+        };
+    }
 }
 
 export async function getStaticPaths() {
