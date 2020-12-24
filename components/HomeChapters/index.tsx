@@ -15,7 +15,7 @@ const HomeChapters: React.FC<Props> = ({ chapters }) => {
     React.useEffect(() => {
         if (navigator) {
             navigator.geolocation.getCurrentPosition(
-                (pos: Position) => {
+                (pos: GeolocationPosition) => {
                     const [lat, long] = [
                         pos.coords.latitude,
                         pos.coords.longitude,

@@ -297,7 +297,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         props: {
             journalEntries: data,
         },
-        revalidate: globals.revalidate.home,
+        revalidate: globals.revalidate.journal,
     };
 }
 

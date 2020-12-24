@@ -1,6 +1,6 @@
 export default {
   revalidate: {
-    home: 10,
+    home: 43200,
     journal: 10,
     chapter: 15,
     resources: 60
