@@ -1,0 +1,43 @@
+.parentContainer{
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: block;
+    padding: 40px 60px;
+    text-align: center;
+}
+
+.title{
+    position: relative;
+    display: block;
+    text-align: left;
+    font-size: 38px;
+    color: black;
+}
+
+.cardWrapper{
+    width: auto;
+    height: auto;
+    position: relative;
+    display: block;
+    margin: 60px 0px;
+}
+
+.exploreBtn{
+    height: auto;
+    width: auto;
+    position: relative;
+    display: inline-block;
+    background-color: #8C69AA;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 15px;
+    font-size: 20px;
+    text-decoration: none;
+    transition: 0.5s ease;
+}
+
+.exploreBtn:hover{
+    cursor: pointer;
+    background-color: #503E8C;
+}

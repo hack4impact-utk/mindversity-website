@@ -66,6 +66,7 @@ const Home: NextPage<Props> = ({officers,chapters}) => {
           text-align: left;
           font-size: 38px;
           color: black;
+          margin-bottom: 80px;
         }
         
         .bodySection{
@@ -83,7 +84,6 @@ const Home: NextPage<Props> = ({officers,chapters}) => {
           display: block;
           padding: 60px;
         }
-
       `}</style>
 
       <style jsx global>{`

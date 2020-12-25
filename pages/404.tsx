@@ -51,6 +51,7 @@ const Custom404: NextPage = () => {
           color:white;
           cursor:pointer;
           transition: 0.3s ease;
+          border: none;
         }
         .ret-home-button:hover{
           filter:brightness(1.2);
