@@ -1,8 +1,9 @@
 import fetch from "isomorphic-unfetch";
 import { Chapter } from "utils/types";
+import urls from "utils/urls";
 
 export const getChapters = (chapter: Chapter) =>
-    fetch("http://localhost:3000/api/chapter/getChapters", {
+    fetch(`${urls.baseUrl}${urls.api.chapter.get}`, {
         method: "POST",
         mode: "same-origin",
         headers: {
@@ -22,7 +23,7 @@ export const getChapters = (chapter: Chapter) =>
         });
 
 export const addChapter = (chapterFormData: FormData) =>
-    fetch("http://localhost:3000/api/chapter/addChapter", {
+    fetch(`${urls.baseUrl}${urls.api.chapter.add}`, {
         method: "POST",
         mode: "same-origin",
         body: chapterFormData,
@@ -39,7 +40,7 @@ export const addChapter = (chapterFormData: FormData) =>
         });
 
 export const updateChapter = (chapterFormData: FormData) =>
-    fetch("http://localhost:3000/api/chapter/updateChapter", {
+    fetch(`${urls.baseUrl}${urls.api.chapter.update}`, {
         method: "PUT",
         mode: "same-origin",
         body: chapterFormData,

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./footer.module.scss";
 import Link from "next/link";
+
 const Footer: React.FC = () => {
     return (
         <div className={styles.container}>
@@ -27,7 +28,6 @@ const Footer: React.FC = () => {
                             <span className={styles.link}>FAQ</span>
                         </Link>
                     </div>
-                    {/*TODO: Possibly remove this column*/}
                     <div className={styles.column}>
                         <p className={styles.title}>Get Involved</p>
                         <span>
@@ -39,6 +39,23 @@ const Footer: React.FC = () => {
                             </a>
                             <a className={styles.link} href="/">
                                 Contact Us
+                            </a>
+                        </span>
+                    </div>
+                    <div className={styles.column}>
+                        <p className={styles.title}>Social Media</p>
+                        <span>
+                            <a className={styles.link} href="/">
+                                Facebook
+                            </a>
+                            <a className={styles.link} href="/">
+                                Instagram
+                            </a>
+                            <a className={styles.link} href="/">
+                                Twitter
+                            </a>
+                            <a className={styles.link} href="/">
+                                Spotify
                             </a>
                         </span>
                     </div>
