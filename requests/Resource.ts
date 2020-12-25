@@ -1,8 +1,9 @@
 import fetch from "isomorphic-unfetch";
 import { Resource } from "utils/types";
+import urls from "utils/urls";
 
 export const getResources = async (resource: Resource) =>
-    fetch("http://localhost:3000/api/resource/getResource", {
+    fetch(`${urls.baseUrl}${urls.api.resource.get}`, {
         method: "POST",
         mode: "same-origin",
         headers: {
@@ -22,7 +23,7 @@ export const getResources = async (resource: Resource) =>
         });
 
 export const addResources = async (resource: Resource) => {
-    fetch("http://localhost:3000/api/resource/addResource", {
+    fetch(`${urls.baseUrl}${urls.api.resource.add}`, {
         method: "POST",
         mode: "same-origin",
         headers: {
@@ -42,7 +43,7 @@ export const addResources = async (resource: Resource) => {
         });
 };
 export const deleteResources = async (resource: Resource) => {
-    fetch("http://localhost:3000/api/resource/deleteResource", {
+    fetch(`${urls.baseUrl}${urls.api.resource.delete}`, {
         method: "POST",
         mode: "same-origin",
         headers: {
@@ -63,7 +64,7 @@ export const deleteResources = async (resource: Resource) => {
 };
 
 export const updateResources = async (resource: Resource) => {
-    fetch("http://localhost:3000/api/resource/updateResource", {
+    fetch(`${urls.baseUrl}${urls.api.resource.update}`, {
         method: "POST",
         mode: "same-origin",
         headers: {

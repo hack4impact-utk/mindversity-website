@@ -126,7 +126,7 @@ export async function sendForgotPasswordEmail(email: string): Promise<void> {
         from: "mvpassreset@gmail.com",
         to: email,
         subject: "MindVersity Admin Password Reset",
-        text: `Click this link to reset your MindVeristy Admin password:\n${baseURL}/${urls.pages.portal.newPassword}?email=${email}&key=${randomHash}`,
+        text: `Click this link to reset your MindVeristy Admin password:\n${baseURL}${urls.pages.portal.newPassword}?email=${email}&key=${randomHash}`,
     };
 
     void transporter.sendMail(mailOptions);

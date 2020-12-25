@@ -12,8 +12,8 @@ export default {
         portal: {
             login: "/portal",
             dashboard: "/portal/dashboard",
-            passwordReset: "portal/password-reset",
-            newPassword: "portal/new-password",
+            passwordReset: "/portal/password-reset",
+            newPassword: "/portal/new-password",
         },
     },
     api: {
@@ -25,15 +25,13 @@ export default {
             validateLogin: "/api/admin/validateLogin",
             signout: "/api/admin/signout",
         },
-        blog: {
-            get: "/api/blog/getBlog",
-        },
         chapter: {
             add: "/api/chapter/addChapter",
-            get: "/api/chapter/getChapter",
+            get: "/api/chapter/getChapters",
             update: "/api/chapter/updateChapter",
         },
         officer: {
+            add: "/api/officer/addOfficer",
             get: "/api/officer/getOfficers",
             delete: "/api/officer/deleteOfficer",
         },
@@ -43,5 +41,10 @@ export default {
             update: "/api/resource/updateResource",
             delete: "/api/resource/deleteResource",
         },
+        journal: {
+            getByType: "/api/journal/getByType",
+            getById: "/api/journal/getById",
+            getByReviewStatus: "/api/journal/getByReviewStatus",
+        }, 
     },
 };

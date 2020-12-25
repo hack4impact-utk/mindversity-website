@@ -1,8 +1,9 @@
 import fetch from "isomorphic-unfetch";
 import { Officer } from "utils/types";
+import urls from "utils/urls";
 
 export const getOfficers = (officer: Officer) =>
-    fetch("http://localhost:3000/api/officer/getOfficers", {
+    fetch(`${urls.baseUrl}${urls.api.officer.get}`, {
         method: "POST",
         mode: "same-origin",
         headers: {
@@ -22,7 +23,7 @@ export const getOfficers = (officer: Officer) =>
         });
 
 export const addOfficer = (form: FormData) =>
-    fetch("http://localhost:3000/api/officer/addOfficer", {
+    fetch(`${urls.baseUrl}${urls.api.officer.add}`, {
         method: "POST",
         mode: "same-origin",
         body: form,
@@ -39,7 +40,7 @@ export const addOfficer = (form: FormData) =>
         });
 
 export const deleteOfficer = (officer: Officer) =>
-    fetch("http://localhost:3000/api/officer/deleteOfficer", {
+    fetch(`${urls.baseUrl}${urls.api.officer.delete}`, {
         method: "POST",
         mode: "same-origin",
         body: JSON.stringify(officer),
