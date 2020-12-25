@@ -1,0 +1,68 @@
+.chapterCard{
+    height: auto;
+    width: 100%;
+    position: relative;
+    display: flex;
+    background-color: white;
+    transition: 0.5s ease;
+    border-bottom: 1px solid black;
+    padding: 40px 0px;
+}
+
+.chapterCardText{
+    width: auto;
+    height: auto;
+    position: relative;
+    display: inline-block;
+    flex: 1;
+}
+
+.chapterCardBtn{
+    width: auto;
+    height: auto;
+    position: relative;
+    display: inline-block;
+    text-align: right;
+    flex: auto;
+}
+
+.chapterCardTitle{
+    height: auto;
+    text-align: left;
+}
+
+.chapterName{
+    font-size: 24px;
+    font-weight: bold;
+    color: #8C69AA;
+}
+
+.chapterLocation{
+    font-size: 16px;
+}
+
+.editChapterBtn {
+    height: auto;
+    width: auto;
+    padding: 10px 40px;
+    position: relative;
+    display: inline-block;
+    border: none;
+    font-size: 16px;
+    margin-top: 20px;
+    outline: none;
+    border-radius: 6px;
+    background-color: #8c69aa;
+    color: white;
+    text-decoration: none;
+    transition: background 0.5s ease;
+}
+
+.editChapterBtn:nth-child(2){
+    margin-left: 30px;
+}
+
+.editChapterBtn:hover {
+    cursor: pointer;
+    background-color: #b59ccc;
+}

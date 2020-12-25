@@ -5,6 +5,7 @@ import { Chapter, User } from "utils/types";
 import urls from "utils/urls";
 import Navigation from "components/Portal/Navigation";
 import ChapterCard from "components/Portal/ChapterCard";
+import NationalChapterCard from "components/Portal/NationalChapterCard";
 import Router from "next/router";
 
 interface Props {
@@ -32,6 +33,7 @@ const Chapters: NextPage<Props> = ({ chapter, admin }) => {
                     </div>
                 )}
                 <div className="chaptersContainer">
+                    {admin && <NationalChapterCard />}
                     {
                         //Display all of the chapters from the database
                         chapter &&
