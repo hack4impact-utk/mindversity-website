@@ -28,6 +28,7 @@ const Footer: React.FC = () => {
                             <span className={styles.link}>FAQ</span>
                         </Link>
                     </div>
+                    {/*TODO: Possibly remove this column or change hrefs*/}
                     <div className={styles.column}>
                         <p className={styles.title}>Get Involved</p>
                         <span>
@@ -45,18 +46,18 @@ const Footer: React.FC = () => {
                     <div className={styles.column}>
                         <p className={styles.title}>Social Media</p>
                         <span>
-                            <a className={styles.link} href="/">
-                                Facebook
-                            </a>
-                            <a className={styles.link} href="/">
-                                Instagram
-                            </a>
-                            <a className={styles.link} href="/">
-                                Twitter
-                            </a>
-                            <a className={styles.link} href="/">
-                                Spotify
-                            </a>
+                            <Link href="https://www.facebook.com/MindVersed/">
+                                <a target="_blank" className={styles.link}>Facebook</a>
+                            </Link>
+                            <Link href="https://www.instagram.com/mindversityorg/">
+                                <a target="_blank" className={styles.link}>Instagram</a>
+                            </Link>
+                            <Link href="https://twitter.com/MindVersity/media">
+                                <a target="_blank" className={styles.link}>Twitter</a>
+                            </Link>
+                            <Link href="https://open.spotify.com/show/1VDhTv2Y0K180XMf9NY23W?si=HhIdhDlHRU2ZOiiH4WFF9Q">
+                                <a target="_blank" className={styles.link}>Spotify</a>
+                            </Link>
                         </span>
                     </div>
                 </div>
