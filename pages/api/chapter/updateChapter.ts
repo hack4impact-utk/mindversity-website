@@ -4,6 +4,7 @@ import { Chapter } from "utils/types";
 import { deleteAssetByID, uploadImage } from "server/actions/Contentful";
 import formidable from "formidable";
 import errors from "utils/errors";
+import auth from "server/actions/Authenticate";
 // To get formidable to work, bodyParser has to be turned off.
 // Otherwise, the parse request will never end.
 export const config = {
@@ -12,7 +13,7 @@ export const config = {
     },
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse): void {
+export default auth("any", function handler(req: NextApiRequest, res: NextApiResponse): void {
     try {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err: string, fields: formidable.Fields, files: formidable.Files) => {
@@ -45,11 +46,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): void
                     - else nothing happens
                 */
             if (files?.logo.size > 0) {
-                if (chapter.universityLogo?.assetID) deleteAssetByID(chapter.universityLogo.assetID);
+                if (chapter.universityLogo?.assetID) await deleteAssetByID(chapter.universityLogo.assetID);
                 chapterInfo.universityLogo = await uploadImage(files.logo);
             }
             if (files?.campus.size > 0) {
-                if (chapter.campusPic?.assetID) deleteAssetByID(chapter.campusPic.assetID);
+                if (chapter.campusPic?.assetID) await deleteAssetByID(chapter.campusPic.assetID);
                 chapterInfo.campusPic = await uploadImage(files.campus);
             }
 
@@ -69,4 +70,4 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): void
             message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
         });
     }
-}
+});

@@ -1,8 +1,9 @@
 import { NextApiResponse, NextApiRequest } from "next";
 import { deleteJournalEntryById } from "server/actions/Contentful";
 import errors from "utils/errors";
+import auth from "server/actions/Authenticate";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default auth("any", async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
         if (req.method == "DELETE") {
             if (!req.query.id) throw new Error("Bad request.");
@@ -20,4 +21,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
         });
     }
-}
+});
