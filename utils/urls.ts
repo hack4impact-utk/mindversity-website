@@ -45,6 +45,6 @@ export default {
             getByType: "/api/journal/getByType",
             getById: "/api/journal/getById",
             getByReviewStatus: "/api/journal/getByReviewStatus",
-        }, 
+        },
     },
 };

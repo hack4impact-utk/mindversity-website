@@ -47,16 +47,24 @@ const Footer: React.FC = () => {
                         <p className={styles.title}>Social Media</p>
                         <span>
                             <Link href="https://www.facebook.com/MindVersed/">
-                                <a target="_blank" className={styles.link}>Facebook</a>
+                                <a target="_blank" className={styles.link}>
+                                    Facebook
+                                </a>
                             </Link>
                             <Link href="https://www.instagram.com/mindversityorg/">
-                                <a target="_blank" className={styles.link}>Instagram</a>
+                                <a target="_blank" className={styles.link}>
+                                    Instagram
+                                </a>
                             </Link>
                             <Link href="https://twitter.com/MindVersity/media">
-                                <a target="_blank" className={styles.link}>Twitter</a>
+                                <a target="_blank" className={styles.link}>
+                                    Twitter
+                                </a>
                             </Link>
                             <Link href="https://open.spotify.com/show/1VDhTv2Y0K180XMf9NY23W?si=HhIdhDlHRU2ZOiiH4WFF9Q">
-                                <a target="_blank" className={styles.link}>Spotify</a>
+                                <a target="_blank" className={styles.link}>
+                                    Spotify
+                                </a>
                             </Link>
                         </span>
                     </div>
