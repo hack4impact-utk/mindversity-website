@@ -25,10 +25,7 @@ const Header: React.FC = () => {
                         <span>MindVersity Admin Portal</span>
                     </div>
                     <div className={style.headerNav}>
-                        <div
-                            className={style.navWrapper}
-                            style={{ width: mobileWidth }}
-                        >
+                        <div className={style.navWrapper} style={{ width: mobileWidth }}>
                             <a className={style.navBtn} href="/chapters">
                                 Chapters
                             </a>

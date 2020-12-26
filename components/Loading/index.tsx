@@ -5,11 +5,7 @@ import styles from "./style.module.scss";
 const Loader: React.FC = () => {
     const circles = [...Array(4)].map((_, index) => <div key={index} className={styles.circle} />);
 
-    return (
-      <div className={styles.loader}>
-        {circles}
-      </div>
-    )
-}
+    return <div className={styles.loader}>{circles}</div>;
+};
 
 export default Loader;

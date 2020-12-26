@@ -8,8 +8,8 @@ import { Delta, Sources } from "quill";
 import globals from "utils/globals";
 import errors from "utils/errors";
 
-import {useRouter} from "next/router";
-const ReactQuill = dynamic(import('react-quill'), { ssr: false});
+import { useRouter } from "next/router";
+const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 interface IFormValues {
     title?: string | undefined;
@@ -33,19 +33,18 @@ const CreateJournalEntry: React.FC = () => {
     const handleData = (e: React.SyntheticEvent) => {
         e.persist();
         const target = e.target as HTMLInputElement;
-        if(target != null) {
-            if(target.name == "image" && target.files != null) {
+        if (target != null) {
+            if (target.name == "image" && target.files != null) {
                 if (target.files[0].size >= globals.contentfulImageLimit) {
-                    // clear past uploaded image and show error 
+                    // clear past uploaded image and show error
                     setImageURL("");
-                    setValues(values => ({...values}));
+                    setValues(values => ({ ...values }));
                     setFileTooLarge(true);
                     return;
+                } else {
+                    setFileTooLarge(false);
                 }
-                else {
-                    setFileTooLarge(false);      
-                }
-                setValues(values => ({...values, [target.name]: target.files?.item(0)}));
+                setValues(values => ({ ...values, [target.name]: target.files?.item(0) }));
                 handleImageURL(target.files[0]);
             } else {
                 setValues(values => ({
@@ -83,56 +82,51 @@ const CreateJournalEntry: React.FC = () => {
         //There's no way to put a required tag on the quill editor, so we just check to make sure there's input in it before submitting.
         e.preventDefault();
         //Clear the submission error
-        if(values.submissionError){
-            setValues({...values, ["submissionError"]: false});
+        if (values.submissionError) {
+            setValues({ ...values, ["submissionError"]: false });
         }
 
-        if(!values.body){
-            setValues({...values, ["error"]: true});
+        if (!values.body) {
+            setValues({ ...values, ["error"]: true });
             return;
         }
         if (fileTooLarge) return;
 
         // done error checking, send form to backend
         const fd = new FormData();
-        let key:string;
+        let key: string;
         setLoading(true);
-        for(key in values){
-
+        for (key in values) {
             if (typeof values[key] === "string") {
-
                 fd.append(key, values[key] as string);
             } else {
                 fd.append(key, values[key] as Blob);
             }
         }
-        const response = await fetch('/api/journal/create', {
+        const response = await fetch("/api/journal/create", {
             method: "POST",
             body: fd,
         });
-        const data = await response.json() as {success: boolean, payload?: unknown, message?: string};
-        if(data){
+        const data = (await response.json()) as { success: boolean; payload?: unknown; message?: string };
+        if (data) {
             //Data has been retrieved,  so loading can stop.
             setLoading(false);
-            if(data.success){
+            if (data.success) {
                 //Redirect the user back to the journals page if the request was successful.
-                router.push('/journal');
+                router.push("/journal");
             } else {
                 //If there's an error in submission, this value will be set and display an error.
-                setValues({...values, ["submissionError"]: true});
+                setValues({ ...values, ["submissionError"]: true });
             }
-
         }
         console.log(data);
-    }
+    };
 
-
-
-    return(
-        <section className={styles['container']}>
-            <div className={styles['wrapper']}>
-                <Link href='/journal'>
-                    <a className={styles['breadcrumb']}>
+    return (
+        <section className={styles["container"]}>
+            <div className={styles["wrapper"]}>
+                <Link href="/journal">
+                    <a className={styles["breadcrumb"]}>
                         <FaArrowLeft />
                         <span> Back to all posts</span>
                     </a>
@@ -145,12 +139,14 @@ const CreateJournalEntry: React.FC = () => {
                         <div className={styles["icon-container"]}>
                             <BiImageAdd className={styles["image-icon"]} />
                         </div>
-                        <input type="file" name="image" className={styles['image-select']} onChange={handleData} required/>
-                        <div>
-                            {fileTooLarge && (
-                            <span className={styles['error']}> {errors.IMAGE_TOO_LARGE} </span>
-                            )}
-                        </div>
+                        <input
+                            type="file"
+                            name="image"
+                            className={styles["image-select"]}
+                            onChange={handleData}
+                            required
+                        />
+                        <div>{fileTooLarge && <span className={styles["error"]}> {errors.IMAGE_TOO_LARGE} </span>}</div>
                     </div>
                     <div className={styles["text-container"]}>
                         <label htmlFor="title">Title</label>
@@ -188,25 +184,16 @@ const CreateJournalEntry: React.FC = () => {
                             </select>
                         </div>
                     </div>
-                    {values.error && (
-                        <span className={styles["error"]}>
-                            Please enter a body paragraph.
-                        </span>
-                    )}
+                    {values.error && <span className={styles["error"]}>Please enter a body paragraph.</span>}
                     {values.submissionError && (
-                        <span className={styles["error"]}>
-                            Something went wrong. Please try again.
-                        </span>
+                        <span className={styles["error"]}>Something went wrong. Please try again.</span>
                     )}
-                    <div className={styles['btnContainer']}>
+                    <div className={styles["btnContainer"]}>
                         <button type="submit" className={styles["submit"]}>
                             Publish
                         </button>
-                        {loading && (
-                            <div className={styles["loader"]}></div>
-                        )}
+                        {loading && <div className={styles["loader"]}></div>}
                     </div>
-
                 </form>
             </div>
         </section>

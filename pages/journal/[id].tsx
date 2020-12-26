@@ -9,7 +9,7 @@ import { getJournalEntryById, getJournalEntryByType, getJournalEntriesByReviewSt
 import { useRouter } from "next/router";
 import globals from "utils/globals";
 import Custom404 from "pages/404";
-import Loading from 'components/Loading';
+import Loading from "components/Loading";
 
 // When routing here we have a journal id we can get from the url name
 // We can get that param with useRouter(), but its also given in the context
@@ -33,7 +33,14 @@ const JournalPostPage: NextPage<Props> = ({ post, relatedEntries }) => {
         <main className="container">
             <Head>
                 <title> {post.title} | Journal | MindVersity - A peer mental health network.</title>
-                <meta name="description" content={`${post.description ? post.description.substring(0,147).concat("...") : "A journal entry at MindVersity."}`}></meta>
+                <meta
+                    name="description"
+                    content={`${
+                        post.description
+                            ? post.description.substring(0, 147).concat("...")
+                            : "A journal entry at MindVersity."
+                    }`}
+                ></meta>
             </Head>
             <Header />
             <div className="blogContainer">

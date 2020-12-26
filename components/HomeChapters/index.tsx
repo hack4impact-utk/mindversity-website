@@ -15,15 +15,10 @@ const HomeChapters: React.FC<Props> = ({ chapters }) => {
     // If allowed, get user's coordinates to pinpoint region.
     React.useEffect(() => {
         if (navigator) {
-            navigator.geolocation.getCurrentPosition(
-                (pos: GeolocationPosition) => {
-                    const [lat, long] = [
-                        pos.coords.latitude,
-                        pos.coords.longitude,
-                    ];
-                    setRegion(getRegion(lat, long));
-                }
-            );
+            navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
+                const [lat, long] = [pos.coords.latitude, pos.coords.longitude];
+                setRegion(getRegion(lat, long));
+            });
         }
     });
 
@@ -35,10 +30,7 @@ const HomeChapters: React.FC<Props> = ({ chapters }) => {
         // Using "Fisher-Yates shuffle" for an unbiased algorithm (unlike the easier ".sort" method).
         for (let i = chaptersCopy.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [chaptersCopy[i], chaptersCopy[j]] = [
-                chaptersCopy[j],
-                chaptersCopy[i],
-            ];
+            [chaptersCopy[i], chaptersCopy[j]] = [chaptersCopy[j], chaptersCopy[i]];
         }
 
         // Since array randomized by shuffle, just select first three in array using ".slice".
@@ -65,16 +57,12 @@ const HomeChapters: React.FC<Props> = ({ chapters }) => {
     return (
         <div className={style.parentContainer}>
             <h2 className={style.title}>
-                {chapters.filter(chapter => chapter.region == region).length !=
-                0
+                {chapters.filter(chapter => chapter.region == region).length != 0
                     ? "Chapters In Your Region"
                     : "Our Chapters"}
             </h2>
             <div className={style.cardWrapper}>
-                {chapters.filter(chapter => chapter.region == region).length !=
-                0
-                    ? chaptersCards
-                    : randomChapterCards}
+                {chapters.filter(chapter => chapter.region == region).length != 0 ? chaptersCards : randomChapterCards}
             </div>
             <a href="chapters" className={style.exploreBtn}>
                 Explore All

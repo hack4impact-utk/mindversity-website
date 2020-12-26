@@ -35,7 +35,7 @@ export const updateResource = async function (resource: Resource): Promise<void>
     await mongoDB();
 
     const oldResource = { _id: resource._id };
-    await ResourceModel.findOneAndUpdate(oldResource, resource, {upsert: false});
+    await ResourceModel.findOneAndUpdate(oldResource, resource, { upsert: false });
 };
 
 /**
@@ -46,8 +46,6 @@ export const updateResource = async function (resource: Resource): Promise<void>
 export const deleteResource = async function (resource: Resource): Promise<void> {
     await mongoDB();
 
-    if (resource._id) 
-        await ResourceModel.findByIdAndDelete(resource._id);
-    else 
-        await ResourceModel.findOneAndDelete(resource);
+    if (resource._id) await ResourceModel.findByIdAndDelete(resource._id);
+    else await ResourceModel.findOneAndDelete(resource);
 };

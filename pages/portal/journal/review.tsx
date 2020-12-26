@@ -23,14 +23,11 @@ const AdminJournalReview: NextPage<Props> = ({ entries, admin }) => {
         const submitButton = e.target as HTMLButtonElement;
         if (submitButton.name === "approve") {
             //Approve the entry...
-            response = await fetch(
-                `/api/journal/review?approved=true&id=${submitButton.value}`,
-                {
-                    method: "PUT",
-                }
-            );
+            response = await fetch(`/api/journal/review?approved=true&id=${submitButton.value}`, {
+                method: "PUT",
+            });
             setResponseStatus(response.status);
-            if(response.status === 200){
+            if (response.status === 200) {
                 location.reload();
             }
         }
@@ -39,14 +36,11 @@ const AdminJournalReview: NextPage<Props> = ({ entries, admin }) => {
         if (submitButton.name === "rejecting") {
             //If the user has viewed the warning modal and selects the option to not view it again, then the next time they click the reject button, the entry will be rejected.
             if (!isRejecting && warningDismissed) {
-                response = await fetch(
-                    `/api/journal/review?approved=false&id=${submitButton.value}`,
-                    {
-                        method: "PUT",
-                    }
-                );
+                response = await fetch(`/api/journal/review?approved=false&id=${submitButton.value}`, {
+                    method: "PUT",
+                });
                 setResponseStatus(response.status);
-                if(response.status === 200){
+                if (response.status === 200) {
                     location.reload();
                 }
             } else {
@@ -59,14 +53,11 @@ const AdminJournalReview: NextPage<Props> = ({ entries, admin }) => {
         if (submitButton.name === "reject") {
             //Reject here...
             setIsRejecting(false);
-            response = await fetch(
-                `/api/journal/review?approved=false&id=${currentRejectingID}`,
-                {
-                    method: "PUT",
-                }
-            );
+            response = await fetch(`/api/journal/review?approved=false&id=${currentRejectingID}`, {
+                method: "PUT",
+            });
             setResponseStatus(response.status);
-            if(response.status === 200){
+            if (response.status === 200) {
                 location.reload();
             }
         }
@@ -85,14 +76,8 @@ const AdminJournalReview: NextPage<Props> = ({ entries, admin }) => {
                 <div className="rejectModal">
                     <div className="modalBody">
                         <h1>Are you sure?</h1>
-                        <p>
-                            Continuing with this action will delete the entry
-                            permanently.
-                        </p>
-                        <input
-                            type="checkbox"
-                            onClick={toggleWarningDismissed}
-                        />
+                        <p>Continuing with this action will delete the entry permanently.</p>
+                        <input type="checkbox" onClick={toggleWarningDismissed} />
 
                         <span>Do not show this message again.</span>
                         <div className="actionButtonContainer">
@@ -146,7 +131,7 @@ const AdminJournalReview: NextPage<Props> = ({ entries, admin }) => {
                     })}
             </form>
             <style jsx>{`
-                .content{
+                .content {
                     padding-top: 50px;
                 }
                 .actionButton {

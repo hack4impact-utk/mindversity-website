@@ -10,7 +10,7 @@ import { ChangeEvent, useState } from "react";
 import { getJournalEntryByType } from "server/actions/Contentful";
 import globals from "utils/globals";
 import Custom404 from "pages/404";
-import Loading from 'components/Loading';
+import Loading from "components/Loading";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -66,7 +66,6 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
         setPagedEntries(tempEntries);
     };
 
-
     if (router.isFallback) {
         return <Loading />;
     }
@@ -79,7 +78,10 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
         <main className="container">
             <Head>
                 <title>Journal | MindVersity - A peer mental health network.</title>
-                <meta name="description" content="Hear the voices of students of color worldwide in the MindVersity Journal." />
+                <meta
+                    name="description"
+                    content="Hear the voices of students of color worldwide in the MindVersity Journal."
+                />
             </Head>
             <Header />
 
@@ -303,7 +305,7 @@ const JournalPage: NextPage<Props> = ({ journalEntries }) => {
 };
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-    try{
+    try {
         const data = await getJournalEntryByType("");
         return {
             props: {

@@ -54,7 +54,14 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
         <div>
             <Head>
                 <title>{cleanName} Chapter | MindVersity - A peer mental health network.</title>
-                <meta name="description" content={chapter ?  `${chapter.description?.substring(0,157).concat("...")}` : "A chapter at MindVersity."}/>
+                <meta
+                    name="description"
+                    content={
+                        chapter
+                            ? `${chapter.description?.substring(0, 157).concat("...")}`
+                            : "A chapter at MindVersity."
+                    }
+                />
                 <link rel="icon" href="../favicon.ico" />
             </Head>
 

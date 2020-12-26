@@ -1,6 +1,6 @@
-import React from 'react'
-import { Officer } from 'utils/types'
-import style from './officercard.module.scss';
+import React from "react";
+import { Officer } from "utils/types";
+import style from "./officercard.module.scss";
 
 interface Props {
     officer: Officer;
@@ -17,7 +17,13 @@ const OfficerCard: React.FC<Props> = ({ officer, handleDelete }) => {
                 </div>
             </div>
             <div className={style.chapterCardBtn}>
-                <button className={style.editChapterBtn} onClick={(e:React.SyntheticEvent) => handleDelete(e)} value={String(officer._id)}>Delete</button>
+                <button
+                    className={style.editChapterBtn}
+                    onClick={(e: React.SyntheticEvent) => handleDelete(e)}
+                    value={String(officer._id)}
+                >
+                    Delete
+                </button>
             </div>
         </div>
     );

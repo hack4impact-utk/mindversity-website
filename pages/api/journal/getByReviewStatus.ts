@@ -5,10 +5,7 @@ import errors from "utils/errors";
 // This API route takes in a query from the url. By default, the route will
 // return all entries that have not been reviewed. To get reviewed entries,
 // use the following route: /api/journal/getByReviewStatus?reviewed=true
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-): Promise<void> {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
         if (req.method == "GET") {
             if (!req.query.reviewed) throw new Error("Bad request.");
@@ -27,9 +24,7 @@ export default async function handler(
         console.error(error instanceof Error && error);
         res.status(400).json({
             success: false,
-            message:
-                (error instanceof Error && error.message) ||
-                errors.GENERIC_ERROR,
+            message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
         });
     }
 }
