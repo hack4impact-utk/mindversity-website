@@ -29,11 +29,16 @@ const EditResourcePage: NextPage<Props> = ({ resource, chapters, admin }) => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        let currentChap: string;
+        if (chapters.length == 1) currentChap = chapters[0].name as string;
+        else currentChap = chapterEle.current?.value as string;
+
         const chagedResource: Resource = {
             _id: resource._id,
             name: nameEle.current?.value,
             category: cateEle.current?.value,
             link: linkEle.current?.value,
+            chapter: currentChap,
         };
 
         const response = await fetch(`${urls.baseUrl}${urls.api.resource.update}`, {
@@ -71,7 +76,7 @@ const EditResourcePage: NextPage<Props> = ({ resource, chapters, admin }) => {
                         />
                         <label htmlFor="chapter">Chapter</label>
                         <select ref={chapterEle} name="chapter" id="chapterChoice">
-                            {admin && <option value={"national"}>National</option>}
+                            {admin && <option value="national">National</option>}
                             {chapters.map((chap, i) => {
                                 return (
                                     <option key={i} value={chap.name}>
