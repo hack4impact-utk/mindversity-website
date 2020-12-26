@@ -63,15 +63,16 @@ const Home: NextPage<Props> = ({ officers, chapters }) => {
                     align-items: center;
                 }
 
-                .chapterOfficerParent h2 {
+                .chapterOfficerParent h2{
                     position: relative;
                     display: block;
                     text-align: left;
                     font-size: 38px;
                     color: black;
+                    margin-bottom: 80px;
                 }
-
-                .bodySection {
+                
+                .bodySection{
                     width: auto;
                     height: auto;
                     position: relative;
@@ -79,7 +80,7 @@ const Home: NextPage<Props> = ({ officers, chapters }) => {
                     padding: 20px 0px;
                 }
 
-                .bodyContent {
+                .bodyContent{
                     width: auto;
                     height: auto;
                     position: relative;

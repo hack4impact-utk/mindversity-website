@@ -40,14 +40,15 @@ const Custom404: NextPage = () => {
                 }
 
                 .ret-home-button {
-                    text-align: center;
-                    background: #8c69aa;
+                    text-align:center;
+                    background:#8C69AA;
                     padding: 10px 20px 10px 20px;
                     border-radius: 5px;
-                    font-weight: bold;
-                    color: white;
-                    cursor: pointer;
+                    font-weight:bold;
+                    color:white;
+                    cursor:pointer;
                     transition: 0.3s ease;
+                    border: none;
                 }
                 .ret-home-button:hover {
                     filter: brightness(1.2);

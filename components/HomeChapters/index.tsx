@@ -1,7 +1,8 @@
 import React from "react";
-import style from "./style.module.scss";
+import style from "./homechapters.module.scss";
 import { Chapter } from "utils/types";
 import { getRegion } from "utils/helpers";
+import ChapterCard from "../ChapterCard";
 
 interface Props {
     chapters: Chapter[];
@@ -36,42 +37,21 @@ const HomeChapters: React.FC<Props> = ({ chapters }) => {
         setChapters(chaptersCopy.slice(0, 3));
     }, []);
 
-    // Creates "card" elements for specified chapter.
-    // Used for both chapters in region and randomized chapters.
-    const createCard = (chapter: Chapter) => {
-        // Format chapter name to remove underscores.
-        const name = chapter.name?.replace(/_/g, " ");
-
-        // Get campus' picture if exists. If not, use default color.
-        let picURL, cardStyle;
-        if (chapter.campusPic?.url) {
-            picURL = chapter.campusPic.url;
-        } else {
-            cardStyle = { backgroundColor: "rgba(234,224,241,1.0)" };
-        }
-
-        // Chapter card elements.
-        return (
-            <a href={`chapters/${chapter.name as string}`} className={style.card} key={JSON.stringify(chapter._id)}>
-                <div className={style.cardOverlay} style={cardStyle}>
-                    <div className={style.cardText}>{name}</div>
-                </div>
-                <img src={picURL} className={style.cardImage} alt={name}></img>
-            </a>
-        );
-    };
-
     // Returns "card" element for each chapter in region.
     const chaptersCards = chapters
         .filter(chapter => chapter.region == region)
         .map(chapter => {
-            return createCard(chapter);
+            return (
+                <ChapterCard chap={chapter}/>
+            );
         });
 
     // Returns "card" element for up to three random chapters.
     // Displayed if no chapters in region or geolocation disabled.
     const randomChapterCards = randomChapters.map(chapter => {
-        return createCard(chapter);
+        return (
+            <ChapterCard chap={chapter}/>
+        );
     });
 
     return (
