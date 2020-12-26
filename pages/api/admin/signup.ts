@@ -2,8 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { createUser } from "server/actions/User";
 import errors from "utils/errors";
 import { User } from "utils/types";
+import auth from "server/actions/Authenticate";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default auth("admin", async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     try {
         const newUser = req.body as User;
         await createUser(newUser);
@@ -18,4 +19,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
         });
     }
-}
+});

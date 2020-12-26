@@ -4,7 +4,7 @@ import { Resource } from "utils/types";
 import auth from "server/actions/Authenticate";
 import errors from "utils/errors";
 
-export default auth("admin", async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default auth("any", async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         const resource = req.body as Resource;
         await updateResource(resource);

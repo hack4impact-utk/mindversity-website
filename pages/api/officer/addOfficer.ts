@@ -5,6 +5,7 @@ import formidable from "formidable";
 import { Officer } from "utils/types";
 import globals from "utils/globals";
 import errors from "utils/errors";
+import auth from "server/actions/Authenticate";
 
 //To get formidable to work, bodyParser has to be turned off.
 // Otherwise, the parse request will never end.
@@ -14,7 +15,7 @@ export const config = {
     },
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse): void {
+export default auth("any", function handler(req: NextApiRequest, res: NextApiResponse): void {
     try {
         const form = new formidable.IncomingForm();
         form.parse(req, async (err: string, fields: formidable.Fields, files: formidable.Files) => {
@@ -42,4 +43,4 @@ export default function handler(req: NextApiRequest, res: NextApiResponse): void
             message: (error instanceof Error && error.message) || errors.GENERIC_ERROR,
         });
     }
-}
+});
