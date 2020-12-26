@@ -21,8 +21,6 @@ const ResourceCardComp: React.FC<Props> = ({ reso, onDelete }) => {
                 <a className={style.editResourceBtn} href={`resources/${(reso._id as unknown) as string}`}>
                     Edit
                 </a>
-            </div>
-            <div className={style.resourceCardBtn}>
                 <button className={style.editResourceBtn} onClick={() => onDelete(reso._id)}>
                     Delete
                 </button>

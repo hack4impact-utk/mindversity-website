@@ -32,13 +32,10 @@ const Footer: React.FC = () => {
                     <div className={styles.column}>
                         <p className={styles.title}>Get Involved</p>
                         <span>
-                            <a className={styles.link} href="/">
+                            <a className={styles.link} href="https://docs.google.com/forms/d/e/1FAIpQLSdRTbqAsd5vrgBMpJK0weXgXqF4S6HGpd9zx6gDFiCYnF_8Fg/viewform">
                                 Start Chapter
                             </a>
-                            <a className={styles.link} href="/">
-                                Students
-                            </a>
-                            <a className={styles.link} href="/">
+                            <a className={styles.link} href="mailto:mindversityorg@gmail.com">
                                 Contact Us
                             </a>
                         </span>
