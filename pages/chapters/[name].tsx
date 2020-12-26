@@ -36,7 +36,16 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
     //Replace any underscores in the chapter name with spaces
     const cleanName = chapter.name?.replace(/_/g, " ");
     //Make the first letter of the region name capital
-
+    
+    //Used to make phone number resources link correctly.
+    const isPhoneNumber = (resource: string):boolean => {
+        //Check to see if the resource is a phone number
+        let regExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+        if(resource.match(regExp)){
+            return true;
+        }
+        return false;
+    };
     let heroStyle;
     if (chapter.campusPic?.url) {
         //Add the background image to the style if the url exists in the db
@@ -91,7 +100,7 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
                                 {resources.map((reso, i) => {
                                     return (
                                         <p className="resourceTextStyle" key={i}>
-                                            <a className="resourceLinkStyle" href={reso.link}>
+                                            <a className="resourceLinkStyle" href={isPhoneNumber(reso.link as string) ? `tel:${reso.link}`: reso.link}>
                                                 {reso.name}
                                             </a>
                                         </p>
