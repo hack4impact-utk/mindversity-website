@@ -23,7 +23,7 @@ export default auth("any", function handler(req: NextApiRequest, res: NextApiRes
             const officerInfo: Officer = fields;
 
             // check image size, should be less than 20 MB
-            if (files.image.size >= globals.contentfulImageLimit) throw new Error(errors.IMAGE_TOO_LARGE);
+            if (files.picture.size >= globals.contentfulImageLimit) throw new Error(errors.IMAGE_TOO_LARGE);
 
             // upload the officer's profile pic to contentful
             // keep .picture in sync with the front-end input name in the form
