@@ -59,6 +59,14 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
         };
     }
 
+    //Hide the chapter logo if it doesnt exist
+    let chapterLogoStyle;
+    if(!chapter.universityLogo?.url){
+        chapterLogoStyle = {
+            display: "none",
+        };
+    }
+
     return (
         <div>
             <Head>
@@ -85,9 +93,12 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
                         </h2>
                     </div>
                 </div>
-            </div>
+            </div>   
 
             <div className="bodyContent">
+                <div className="chapterLogo" style={chapterLogoStyle}>
+                    <img src={chapter.universityLogo?.url} alt={chapter.name + "chapter logo"}></img>
+                </div>
                 <div className="bodySection">
                     <div className="topContentBox">
                         <div className="aboutTextParent topContentBox-child">
@@ -152,6 +163,48 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
                     text-align: center;
                 }
 
+                @media screen and (min-width: 900px){
+                    .chapterLogo{
+                        width: 190px;
+                        height: 190px;
+                        position: absolute;
+                        top: -140px;
+                        right: 60px;
+                        z-index: 900;
+                        padding: 20px;
+                        background-color: white;
+                        box-shadow: 0px 5px 5px #EAE0F1;
+                        border-radius: 10px;
+                    }
+                }
+
+                @media screen and (max-width: 900px){
+                    .chapterLogo{
+                        width: auto;
+                        height: auto;
+                        max-height: 190px;
+                        position: relative;
+                        display: inline-block;
+                        margin-top: -100px;
+                        z-index: 900;
+                        padding: 20px;
+                        background-color: white;
+                        box-shadow: 0px 5px 5px #EAE0F1;
+                        border-radius: 10px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                    }
+                }
+
+                .chapterLogo img{
+                    max-width: 100%;
+                    max-height: 100%;
+                    position: relative;
+                    display: block;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+                
                 h1 {
                     position: relative;
                     display: block;
