@@ -65,7 +65,7 @@ const CreateResourcePage: NextPage<Props> = ({ chapters, admin }) => {
                         <input ref={nameEle} type="text" name="name" placeholder="Resource Name" required />
                         <label htmlFor="chapter">Chapter</label>
                         <select ref={chapterEle} name="chapter" id="chapterChoice">
-                            {admin && <option value={"national"}>National</option>}
+                            {admin && <option value="national">National</option>}
                             {chapters.map((chap, i) => {
                                 return (
                                     <option key={i} value={chap.name}>
