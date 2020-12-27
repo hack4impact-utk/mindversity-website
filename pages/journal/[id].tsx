@@ -116,6 +116,7 @@ const JournalPostPage: NextPage<Props> = ({ post, relatedEntries }) => {
                 .blogContent {
                     font-size: 18px;
                     margin: 50px 0;
+                    word-break: break-word;
                 }
 
                 .relatedContainer {
