@@ -28,9 +28,9 @@ export default auth("any", function handler(req: NextApiRequest, res: NextApiRes
             // replace all whitespaces with underscores
             chapterInfo.name = chapterInfo?.name?.replace(/ /g, "_");
 
-            // find existing chapter by name since _id isn't in the form
+            // find existing chapter by its id
             let chapterQuery: Chapter = {};
-            chapterQuery.name = chapterInfo.name;
+            chapterQuery._id = chapterInfo._id;
             const chapters: Chapter[] = await getChapters(chapterQuery);
 
             if (chapters.length != 1) throw new Error("Chapter with the given name not found!");

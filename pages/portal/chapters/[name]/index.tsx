@@ -37,6 +37,7 @@ const Chapters: NextPage<Props> = ({ chapter, admin }) => {
                     <form method="post" onSubmit={handleSubmit}>
                         <label htmlFor="name">Chapter Name</label>
                         <input type="text" name="name" placeholder="Chapter Name" defaultValue={cleanName} required />
+                        <input type="hidden" name="_id" value={chapter._id as unknown as string}/>
                         <label htmlFor="region">Region</label>
                         <select name="region" defaultValue={chapter.region}>
                             <option value="northeast">Northeast</option>
