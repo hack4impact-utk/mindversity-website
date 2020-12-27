@@ -48,11 +48,19 @@ const Resources: NextPage<Props> = ({ resources }) => {
             textDecoration: "none",
             color: "#000000",
         };
+        const isPhoneNumber = (resource: string):boolean => {
+            //Check to see if the resource is a phone number
+            let regExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+            if(resource.match(regExp)){
+                return true;
+            }
+            return false;
+        };
 
         // Links elements
         return links.map(link => (
             <p style={textStyle} key={category + (link.link as string)}>
-                <a style={linkStyle} href={link.link}>
+                <a style={linkStyle} href={isPhoneNumber(link.link as string) ? `tel:${link.link}`: link.link}>
                     {link.name}
                 </a>
             </p>
