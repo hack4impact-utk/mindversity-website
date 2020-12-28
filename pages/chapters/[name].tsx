@@ -176,13 +176,31 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
                         box-shadow: 0px 5px 5px #EAE0F1;
                         border-radius: 10px;
                     }
+
+                    .chapterLogo img{
+                        max-width: 100%;
+                        max-height: 100%;
+                        position: relative;
+                        display: block;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+
+                    h1 {
+                        position: relative;
+                        display: block;
+                        color: #503e8c;
+                        font-size: 46px;
+                        font-weight: bold;
+                        padding-bottom: 0px;
+                        margin-bottom: 0px;
+                    }
                 }
 
                 @media screen and (max-width: 900px){
                     .chapterLogo{
-                        width: auto;
-                        height: auto;
-                        max-height: 190px;
+                        width: 190px;
+                        height: 190px;
                         position: relative;
                         display: inline-block;
                         margin-top: -100px;
@@ -194,25 +212,26 @@ const ChapterPage: NextPage<Props> = ({ chapter, officers, resources }) => {
                         left: 50%;
                         transform: translateX(-50%);
                     }
-                }
-
-                .chapterLogo img{
-                    max-width: 100%;
-                    max-height: 100%;
-                    position: relative;
-                    display: block;
-                    top: 50%;
-                    transform: translateY(-50%);
-                }
                 
-                h1 {
-                    position: relative;
-                    display: block;
-                    color: #503e8c;
-                    font-size: 46px;
-                    font-weight: bold;
-                    padding-bottom: 0px;
-                    margin-bottom: 0px;
+                    .chapterLogo img{
+                        max-width: 150px;
+                        max-height: 150px;
+                        position: absolute;
+                        display: inline-block;
+                        top: 0;
+                        bottom: 0;
+                        margin: auto;
+                    }
+
+                    h1 {
+                        position: relative;
+                        display: block;
+                        color: #503e8c;
+                        font-size: 34px;
+                        font-weight: bold;
+                        padding-bottom: 0px;
+                        margin-bottom: 0px;
+                    }
                 }
 
                 .heroText h2 {
